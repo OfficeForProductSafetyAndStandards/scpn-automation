@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "latest",
+    "@cypress/webpack-preprocessor": "latest",
+    "cypress": "latest",
+    "ts-loader": "latest",
+    "webpack": "latest"
+  },
+  "scripts": {
+    "test": "cypress run --spec \"**/*.feature\"",
+    "open": "cypress open",
+    "lint:write": "prettier --write **/*.{js,ts}",
+    "lint": "prettier --check **/*.{js,ts}"
+  },
+  "devDependencies": {
+    "@cypress/xpath": "^2.0.3",
+    "typescript": "^5.1.3"
+  }
+}
