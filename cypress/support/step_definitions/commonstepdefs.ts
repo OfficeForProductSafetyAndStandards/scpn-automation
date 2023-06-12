@@ -1,10 +1,10 @@
-import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 import LoginPage from "../../pom/login.page"
 import CheckCodePage from "../../pom/checkcode.page"
 import SelectResponsiblePersonPage from "../../pom/selectresponsibleperson.page"
 
-When("the user visits the SCPN login page", function() {
+  Given("the user visits the SCPN login page", function() {
   LoginPage.goto()
   LoginPage.assertPageTitle()
   });
@@ -24,4 +24,10 @@ When("the user visits the SCPN login page", function() {
     SelectResponsiblePersonPage.assertPageTitle()
     SelectResponsiblePersonPage.selectRP()
     SelectResponsiblePersonPage.submit()
+  });
+
+  When("the user completes the first stage of a new product notification with the following details:", function (dataTable) {
+
+    return "pending";
+
   });
