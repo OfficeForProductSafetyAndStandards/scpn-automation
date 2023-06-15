@@ -11,7 +11,7 @@ class SingleOrMultiComponentPage {
     submit() {
         cy.get('button[class="govuk-button"]').last().click()
       }
-  
+
   }
   
 export default new SingleOrMultiComponentPage;

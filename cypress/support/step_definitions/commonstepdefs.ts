@@ -14,11 +14,20 @@ import singleormulticomponentPage from "../../pom/singleormulticomponent.page"
 import addproductimagePage from "../../pom/addproductimage.page"
 import productcompletedPage from "../../pom/productcompleted.page";
 
-Then("the details of the cosmetic product are successfully added to SCPN", function () {
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.gotoTaskListPage()
-  taskListPage.assertProductApplicationCompleted()
-});
+  beforeEach(function () {
+    cy.fixture('users.json').then((user) => {
+      this.user = user
+    })
+    cy.fixture('product.json').then((product) => {
+      this.product = product
+    })
+  })
+
+  Then("the details of the cosmetic product are successfully added to SCPN", function () {
+    productcompletedPage.assertSuccessfulCreation()
+    productcompletedPage.gotoTaskListPage()
+    taskListPage.assertProductApplicationCompleted(this.product.data.productname)
+  });
 
   Given("the user visits the SCPN login page", function() {
     loginPage.goto()
@@ -32,7 +41,7 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
 
   Then("the user successfully authenticates using their check code", function () {
     checkCodePage.assertPageTitle()
-    checkCodePage.fillOtpcode()
+    checkCodePage.fillOtpcode(this.user.opss.code)
     checkCodePage.submit()
   });
 
@@ -42,10 +51,10 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
     selectResponsiblePersonPage.submit()
   });
 
-
   When("the user completes the first stage of creating a new product notification with the following details:", function (dataTable: DataTable) {
     dataTable.hashes().forEach((element) => {
     responsiblePersonPage.assertPageTitle()
+    responsiblePersonPage.assertUser(this.user.opss.rp)
     responsiblePersonPage.selectCosmeticProducts()
 
     cosmeticProductsPage.assertPageTitle()
@@ -55,7 +64,7 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
     taskListPage.selectCreateProduct()
 
     productNamePage.assertPageTitle()
-    productNamePage.enterProductName(element.name)
+    productNamePage.enterProductName(this.product.data.productname)
     productNamePage.submit()
 
     internalreferencePage.assertPageTitle()
@@ -77,7 +86,6 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
     addproductimagePage.assertPageTitle()
     addproductimagePage.chooseFile()
     addproductimagePage.submit()
-  
   });
 
 });
