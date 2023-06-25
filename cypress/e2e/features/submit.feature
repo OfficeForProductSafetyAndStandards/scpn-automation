@@ -4,7 +4,7 @@ I  want to be able to submit new product specifications
 So the data can be accessed by both search and submit users to ensure they comply to the Government's Product and Safety Standards
          
   Scenario: Verify Creation of Product Specification (No nanomaterials / no multi-items - Happy Path - COSBETA-2066)
-    # authenticate responsible person
+    #authenticate responsible person
     Given the user visits the SCPN login page
     When the user logs into SCPN
     Then the user successfully authenticates using their check code

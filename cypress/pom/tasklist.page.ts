@@ -6,10 +6,11 @@ class TaskListPage {
   
     assertProductApplicationCompleted(product:string) {
       cy.get(".app-task-list__item b").should("contain", "Completed")
-      cy.get("h1").should("contain",product)
+      cy.get("h1").should("contain", product)
     }
     selectCreateProduct() {
         cy.get("a").contains("Create the product").click()
+        
     }
   
   }

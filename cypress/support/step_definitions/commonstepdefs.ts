@@ -7,21 +7,25 @@ import responsiblePersonPage from "../../pom/responsibleperson.page"
 import cosmeticProductsPage from "../../pom/cosmeticproducts.page"
 import taskListPage from "../../pom/tasklist.page"
 import productNamePage from "../../pom/productname.page"
-import internalreferencePage from "../../pom/internalreference.page"
-import childrenunderThreePage from "../../pom/childrenunderthree.page"
-import containsnanomaterialsPage from "../../pom/containsnanomaterials.page"
-import singleormulticomponentPage from "../../pom/singleormulticomponent.page"
+import internalReferencePage from "../../pom/internalreference.page"
+import childrenUnderThreePage from "../../pom/childrenunderthree.page"
+import containsNanomaterialsPage from "../../pom/containsnanomaterials.page"
+import singleorMulticomponentPage from "../../pom/singleormulticomponent.page"
 import addproductimagePage from "../../pom/addproductimage.page"
-import productcompletedPage from "../../pom/productcompleted.page";
+import productcompletedPage from "../../pom/productcompleted.page"
 
   beforeEach(function () {
     cy.fixture('users.json').then((user) => {
       this.user = user
     })
     cy.fixture('product.json').then((product) => {
+      const randomNumber = Math.floor(Math.random() * 1000)
+      product.data.productname = `TestProduct ${randomNumber}`
+      cy.writeFile('cypress/fixtures/product.json', product);
       this.product = product
     })
   })
+
 
   Then("the details of the cosmetic product are successfully added to SCPN", function () {
     productcompletedPage.assertSuccessfulCreation()
@@ -67,21 +71,21 @@ import productcompletedPage from "../../pom/productcompleted.page";
     productNamePage.enterProductName(this.product.data.productname)
     productNamePage.submit()
 
-    internalreferencePage.assertPageTitle()
-    internalreferencePage.chooseReference()
-    internalreferencePage.submit()
+    internalReferencePage.assertPageTitle()
+    internalReferencePage.chooseReference()
+    internalReferencePage.submit()
 
-    childrenunderThreePage.assertPageTitle()
-    childrenunderThreePage.chooseAge()
-    childrenunderThreePage.submit()
+    childrenUnderThreePage.assertPageTitle()
+    childrenUnderThreePage.chooseAge()
+    childrenUnderThreePage.submit()
 
-    containsnanomaterialsPage.assertPageTitle()
-    containsnanomaterialsPage.chooseNanomaterialsPresent()
-    containsnanomaterialsPage.submit()
+    containsNanomaterialsPage.assertPageTitle()
+    containsNanomaterialsPage.chooseNanomaterialsPresent()
+    containsNanomaterialsPage.submit()
 
-    singleormulticomponentPage.assertPageTitle()
-    singleormulticomponentPage.chooseComponentPresent()
-    singleormulticomponentPage.submit()
+    singleorMulticomponentPage.assertPageTitle()
+    singleorMulticomponentPage.chooseComponentPresent()
+    singleorMulticomponentPage.submit()
 
     addproductimagePage.assertPageTitle()
     addproductimagePage.chooseFile()
