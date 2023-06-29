@@ -4,13 +4,13 @@ class ContainsNanomaterialsPage {
       cy.get("h1").should("contain", "Nanomaterials")
     }
   
-    chooseNanomaterialsPresent() {
-      cy.get(".govuk-radios__item label").contains("No").click()
+    choose(answer: string) {
+      cy.get(".govuk-label").contains(answer).click()
     }
 
     submit() {
-        cy.get('button[class="govuk-button"]').last().click()
-      }
+      cy.get('button[class="govuk-button"]').last().click()
+    }
   
   }
   

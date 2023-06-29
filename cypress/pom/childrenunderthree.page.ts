@@ -4,8 +4,8 @@ class ChildrenUnderThreePage {
       cy.get("h1").should("contain", "children under 3 years old")
     }
   
-    chooseAge() {
-      cy.get(".govuk-radios__item label").contains("No").click()
+    choose(answer: string) {
+      cy.get(".govuk-label").contains(answer).click()
     }
 
     submit() {
