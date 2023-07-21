@@ -49,7 +49,7 @@ async function setupNodeEvents(
 export default defineConfig({
   e2e: {
     specPattern: "**/*.feature",
-    baseUrl: "https://cosmetics:reviewAPP@cosmetics-pr-2987-submit-web.london.cloudapps.digital",
+    baseUrl: "https://cosmetics:staging-is-protected-now@staging-submit.cosmetic-product-notifications.service.gov.uk",
     setupNodeEvents,
   },
 });

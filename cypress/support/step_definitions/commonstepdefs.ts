@@ -40,7 +40,7 @@ import acceptandsubmitPage from "../../pom/acceptandsubmit.page";
 
   When("the user uploads an ingredients csv with fixed ranges", function () {
     formulationtypePage.assertPageTitle()
-    formulationtypePage.choose('Provide ingredients and their exact concentration using a CSV file')
+    formulationtypePage.choose('Upload a CSV file for ingredients and their concentration range')
     formulationtypePage.submit()
     uploadingredientsfilePage.assertPageTitle()
     uploadingredientsfilePage.chooseFile()
@@ -112,7 +112,7 @@ import acceptandsubmitPage from "../../pom/acceptandsubmit.page";
     loginPage.submit()
   });
 
-  Then("the user successfully authenticates using their check code", function () {
+  Then("the user successfully authenticates using their verification code", function () {
     checkCodePage.assertPageTitle()
     checkCodePage.fillOtpcode(this.user.opss.code)
     checkCodePage.submit()
