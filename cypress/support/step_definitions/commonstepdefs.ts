@@ -25,6 +25,9 @@ import formulationtypePage from "../../pom/formulationtype.page";
 import uploadingredientsfilePage from "../../pom/uploadingredientsfile.page";
 import selectphoptionPage from "../../pom/selectphoption.page";
 import acceptandsubmitPage from "../../pom/acceptandsubmit.page";
+import declarationPage from "../../pom/declaration.page";
+import acceptPage from "../../pom/accept.page";
+import productPage from "../../pom/product.page";
 
   beforeEach(function () {
     cy.fixture('users.json').then((user) => {
@@ -83,7 +86,17 @@ import acceptandsubmitPage from "../../pom/acceptandsubmit.page";
   When("the user accepts and submits the product notification", function () {
     taskListPage.selectAcceptandSubmit()
     acceptandsubmitPage.assertPageTitle()
-    acceptandsubmitPage.assertProductApplicationCompleted(this.product.nonanonomultiitem.productname)
+    acceptandsubmitPage.assertProductInfo(this.product.nonanonomultiitem.productname,this.product.nonanonomultiitem.forchildrenunderthree,
+      this.product.nonanonomultiitem.numnberofitems,this.product.nonanonomultiitem.shades,this.product.nonanonomultiitem.image,this.product.nonanonomultiitem.areitemsmixed)
+    acceptandsubmitPage.assertProductDetails(this.product.nonanonomultiitem.containscmrsubstances,this.product.nonanonomultiitem.physicalform,
+        this.product.nonanonomultiitem.applicatortype)
+    acceptandsubmitPage.submit()
+    declarationPage.assertPageTitle()
+    declarationPage.submit()
+    acceptPage.assertPageTitle()
+    acceptPage.selectNotifiedProductsLink()
+    cosmeticProductsPage.assertPageTitle()
+    cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitem.productname)
   });
 
   Then("the product details section is completed successfully", function () {
@@ -92,8 +105,7 @@ import acceptandsubmitPage from "../../pom/acceptandsubmit.page";
   });
 
   Then("the product notification is successfully created", function () {
-    
-
+    productPage.assertPageTitle(this.product.nonanonomultiitem.productname)
   });
 
   Then("the details of the cosmetic product are successfully added to SCPN", function () {
