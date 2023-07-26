@@ -135,8 +135,7 @@ import productPage from "../../pom/product.page";
     selectResponsiblePersonPage.submit()
   });
 
-  When("the user completes the first stage of creating a new product notification with the following details:", function (dataTable: DataTable) {
-    dataTable.hashes().forEach((element) => {
+  When("the user completes the first stage of creating a new product notification", function () {
     responsiblePersonPage.assertPageTitle()
     responsiblePersonPage.assertUser(this.user.opss.rp)
     responsiblePersonPage.selectCosmeticProducts()
@@ -170,6 +169,5 @@ import productPage from "../../pom/product.page";
     addproductimagePage.assertPageTitle()
     addproductimagePage.chooseFile()
     addproductimagePage.submit()
-  });
 
 });
