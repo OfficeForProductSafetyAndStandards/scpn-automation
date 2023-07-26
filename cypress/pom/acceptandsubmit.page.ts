@@ -12,12 +12,16 @@ class AcceptAndSubmitPage {
       cy.get(".govuk-summary-list__row").contains("Are the items mixed").get(".govuk-summary-list__value").should("contain", mixed)
     }
 
-    assertProductDetails(containscmrsustance:string, physicalform:string, applicatortype:string) {
+    assertProductDetails(categoryofproduct:string,productsubcategory:string,productsubsubcategory:string,containscmrsustance:string, physicalform:string, applicatortype:string) {
+      cy.get(".govuk-summary-list__row").contains("Category of product").get(".govuk-summary-list__value").should("contain", categoryofproduct)
+      cy.get(".govuk-summary-list__row").contains(categoryofproduct).get(".govuk-summary-list__value").should("contain", productsubcategory)
+      cy.get(".govuk-summary-list__row").contains(productsubcategory).get(".govuk-summary-list__value").should("contain", productsubsubcategory)
       cy.get(".govuk-summary-list__row").contains("Contains CMR substances").get(".govuk-summary-list__value").should("contain", containscmrsustance)
       cy.get(".govuk-summary-list__row").contains("Physical form").get(".govuk-summary-list__value").should("contain", physicalform)
       cy.get(".govuk-summary-list__row").contains("Applicator type").get(".govuk-summary-list__value").should("contain", applicatortype)
     }
 
+    
     submit() {
         cy.get('.govuk-button').last().click()
     }

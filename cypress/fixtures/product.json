@@ -1,15 +1,15 @@
 {
   "nonanonomultiitem": {
-    "productname": "TestProduct 770",
+    "productname": "TestProduct 718",
     "forchildrenunderthree": "No",
     "numnberofitems": "1",
     "shades": "None",
     "areitemsmixed": "No",
     "containscmrsubstances": "No",
     "nanomaterials": "None",
-    "categoryofproduct": "Skin products",
-    "categoryofskinproduct": "Skin care products",
-    "categoryofskincareproduct": "Face mask",
+    "categoryofproduct": "Skin product",
+    "productsubcategory": "Skin care product",
+    "productsubsubcategory": "Face mask",
     "physicalform": "Liquid",
     "specialapplicator": "Yes",
     "applicatortype": "Encapsulated"

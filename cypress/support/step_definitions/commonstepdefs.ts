@@ -75,10 +75,10 @@ import productPage from "../../pom/product.page";
     productRootcategoryPage.choose(this.product.nonanonomultiitem.categoryofproduct)
     productRootcategoryPage.submit()
     productsubcategoryPage.assertPageTitle()
-    productsubcategoryPage.choose(this.product.nonanonomultiitem.categoryofskinproduct)
+    productsubcategoryPage.choose(this.product.nonanonomultiitem.productsubcategory)
     productsubcategoryPage.submit()
     ProductSubSubCategoryPage.assertPageTitle()
-    ProductSubSubCategoryPage.choose(this.product.nonanonomultiitem.categoryofskincareproduct)
+    ProductSubSubCategoryPage.choose(this.product.nonanonomultiitem.productsubsubcategory)
     ProductSubSubCategoryPage.submit()
     
   });
@@ -88,8 +88,7 @@ import productPage from "../../pom/product.page";
     acceptandsubmitPage.assertPageTitle()
     acceptandsubmitPage.assertProductInfo(this.product.nonanonomultiitem.productname,this.product.nonanonomultiitem.forchildrenunderthree,
       this.product.nonanonomultiitem.numnberofitems,this.product.nonanonomultiitem.shades,this.product.nonanonomultiitem.image,this.product.nonanonomultiitem.areitemsmixed)
-    acceptandsubmitPage.assertProductDetails(this.product.nonanonomultiitem.containscmrsubstances,this.product.nonanonomultiitem.physicalform,
-        this.product.nonanonomultiitem.applicatortype)
+    acceptandsubmitPage.assertProductDetails(this.product.nonanonomultiitem.categoryofproduct,this.product.nonanonomultiitem.productsubcategory,this.product.nonanonomultiitem.productsubsubcategory,this.product.nonanonomultiitem.containscmrsubstances,this.product.nonanonomultiitem.physicalform,this.product.nonanonomultiitem.applicatortype)
     acceptandsubmitPage.submit()
     declarationPage.assertPageTitle()
     declarationPage.submit()
