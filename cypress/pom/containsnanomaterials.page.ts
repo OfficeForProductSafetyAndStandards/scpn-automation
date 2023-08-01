@@ -5,10 +5,12 @@ class ContainsNanomaterialsPage {
     }
   
     choose(answer: string) {
-      cy.get(".govuk-label").contains(answer).click()
-    }
-
-    submit() {
+      if (answer==="Yes"){
+        cy.get(".govuk-label").contains(answer).click()
+        cy.get("#nanomaterials_count").clear().type("1")
+      } else {
+        cy.get(".govuk-label").contains(answer).click()
+      }
       cy.get('button[class="govuk-button"]').last().click()
     }
   

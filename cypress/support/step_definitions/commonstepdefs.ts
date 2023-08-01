@@ -44,42 +44,32 @@ import productPage from "../../pom/product.page";
   When("the user uploads an ingredients csv with fixed ranges", function () {
     formulationtypePage.assertPageTitle()
     formulationtypePage.choose('Upload a CSV file for ingredients and their concentration range')
-    formulationtypePage.submit()
     uploadingredientsfilePage.assertPageTitle()
     uploadingredientsfilePage.chooseFile()
     uploadingredientsfilePage.submit()
     uploadingredientsfilePage.submit()
     selectphoptionPage.assertPageTitle()
     selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
-    selectphoptionPage.submit()
   });
 
   When("the user creates the product details with no CMR substances", function () {
     taskListPage.selectProductDetails()
     numberofshadesPage.assertPageTitle()
     numberofshadesPage.choose('No')
-    numberofshadesPage.submit()
     addphysicalformPage.assertPageTitle()
     addphysicalformPage.choose(this.product.nonanonomultiitem.physicalform)
-    addphysicalformPage.submit()
     specialapplicatorPage.assertPageTitle()
     specialapplicatorPage.choose('pressurised container')
-    specialapplicatorPage.submit()
     specialapplicatortypePage.assertPageTitle()
     specialapplicatortypePage.choose(this.product.nonanonomultiitem.applicatortype)
-    specialapplicatortypePage.submit()
     containscmrsPage.assertPageTitle()
     containscmrsPage.choose(this.product.nonanonomultiitem.containscmrsubstances)
-    containscmrsPage.submit()
     productRootcategoryPage.assertPageTitle()
     productRootcategoryPage.choose(this.product.nonanonomultiitem.categoryofproduct)
-    productRootcategoryPage.submit()
     productsubcategoryPage.assertPageTitle()
     productsubcategoryPage.choose(this.product.nonanonomultiitem.productsubcategory)
-    productsubcategoryPage.submit()
     ProductSubSubCategoryPage.assertPageTitle()
     ProductSubSubCategoryPage.choose(this.product.nonanonomultiitem.productsubsubcategory)
-    ProductSubSubCategoryPage.submit()
     
   });
 
@@ -126,7 +116,6 @@ import productPage from "../../pom/product.page";
   Then("the user successfully authenticates using their verification code", function () {
     checkCodePage.assertPageTitle()
     checkCodePage.fillOtpcode(this.user.opss.code)
-    checkCodePage.submit()
   });
 
   When("the user selects the responsible person", function () {
@@ -156,18 +145,46 @@ import productPage from "../../pom/product.page";
 
     childrenUnderThreePage.assertPageTitle()
     childrenUnderThreePage.choose(this.product.nonanonomultiitem.forchildrenunderthree)
-    childrenUnderThreePage.submit()
 
     containsNanomaterialsPage.assertPageTitle()
     containsNanomaterialsPage.choose('No')
-    containsNanomaterialsPage.submit()
 
     singleorMulticomponentPage.assertPageTitle()
     singleorMulticomponentPage.choose('No')
-    singleorMulticomponentPage.submit()
 
     addproductimagePage.assertPageTitle()
     addproductimagePage.chooseFile()
-    addproductimagePage.submit()
 
+});
+
+When("the user completes the first stage of creating a new product notification with nanomaterials and multi-itmes", function () {
+    responsiblePersonPage.assertPageTitle()
+    responsiblePersonPage.assertUser(this.user.opss.rp)
+    responsiblePersonPage.selectCosmeticProducts()
+
+    cosmeticProductsPage.assertPageTitle()
+    cosmeticProductsPage.selectCreateNewProduct()
+
+    taskListPage.assertPageTitle()
+    taskListPage.selectCreateProduct()
+
+    productNamePage.assertPageTitle()
+    productNamePage.enterProductName(this.product.nonanonomultiitem.productname)
+    productNamePage.submit()
+
+    internalReferencePage.assertPageTitle()
+    internalReferencePage.choose('No')
+    internalReferencePage.submit()
+
+    childrenUnderThreePage.assertPageTitle()
+    childrenUnderThreePage.choose(this.product.nonanonomultiitem.forchildrenunderthree)
+
+    containsNanomaterialsPage.assertPageTitle()
+    containsNanomaterialsPage.choose('Yes')
+
+    singleorMulticomponentPage.assertPageTitle()
+    singleorMulticomponentPage.choose('Yes')
+
+    addproductimagePage.assertPageTitle()
+    addproductimagePage.chooseFile()
 });

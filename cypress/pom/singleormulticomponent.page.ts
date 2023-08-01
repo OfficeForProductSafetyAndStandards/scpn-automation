@@ -5,10 +5,12 @@ class SingleOrMultiComponentPage {
     }
 
     choose(answer: string) {
-      cy.get(".govuk-label").contains(answer).click()
-    }
-
-    submit() {
+      if (answer === "Yes"){
+        cy.get(".govuk-label").contains(answer).click()
+        cy.get("#components_count").clear().type("2")
+      } else {
+        cy.get(".govuk-label").contains(answer).click()
+      }
       cy.get('button[class="govuk-button"]').last().click()
     }
 

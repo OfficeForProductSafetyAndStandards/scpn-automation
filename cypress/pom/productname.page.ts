@@ -5,7 +5,7 @@ class ProductNamePage {
     }
   
     enterProductName(name: string) {
-            cy.get("#notification_product_name").type(name)
+      cy.get("#notification_product_name").type(name)
     }
 
     submit() {
