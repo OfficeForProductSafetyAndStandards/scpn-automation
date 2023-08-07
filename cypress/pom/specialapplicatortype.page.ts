@@ -5,8 +5,8 @@ class SpecialApplicatorType {
     }
   
     choose(answer: string) {
-        cy.get(".govuk-label").contains(answer).click()
-        cy.get('button[class="govuk-button"]').last().click()
+      cy.get(".govuk-label").contains(answer).click()
+      cy.get('button[class="govuk-button"]').last().click()
     }
   
 }
