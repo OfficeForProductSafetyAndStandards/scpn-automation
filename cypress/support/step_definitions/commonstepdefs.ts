@@ -37,6 +37,10 @@ import multiitemmixedPage from "../../pom/multiitemmixed.page";
 import multiitemcompletionPage from "../../pom/multiitemcompletion.page";
 import tasklistPage from "../../pom/tasklist.page";
 import itemnamePage from "../../pom/itemname.page";
+import selectnanomaterialPage from "../../pom/selectnanomaterial.page";
+import exposureconditionPage from "../../pom/exposurecondition.page";
+import exposureroutesPage from "../../pom/exposureroutes.page";
+import ingredientexactconcentrationPage from "../../pom/ingredientexactconcentration.page";
 
 
 beforeEach(function () {
@@ -45,10 +49,13 @@ beforeEach(function () {
   })
   cy.fixture('product.json').then((product) => {
     const randomNumber = Math.floor(Math.random() * 1000)
+    const randomNumber2 = Math.floor(Math.random() * 1000)
     product.nonanonomultiitemnocmr.productname = `TestProduct ${randomNumber}`
     product.nanonmaterialmultiitemnocmr.productname = `TestProduct ${randomNumber}`
     product.nanonmaterialmultiitemnocmr.itemname1 = `Item Name ${randomNumber}`
-    product.nanonmaterialmultiitemnocmr.itemname2 = `Item Name ${randomNumber}`
+    product.nanonmaterialmultiitemnocmr.itemname2 = `Item Name ${randomNumber2}`
+    product.nanonmaterialmultiitemnocmr.ingredientname1 = `First Ingredient ${randomNumber}`
+    product.nanonmaterialmultiitemnocmr.ingredientname1 = `Second Ingredient ${randomNumber2}`
     cy.writeFile('cypress/fixtures/product.json', product);
     this.product = product
   })
@@ -91,7 +98,8 @@ When("the user accepts and submits the product notification", function () {
   acceptandsubmitPage.assertPageTitle()
   acceptandsubmitPage.assertProductInfo(this.product.nonanonomultiitemnocmr.productname, this.product.nonanonomultiitemnocmr.forchildrenunderthree,
     this.product.nonanonomultiitemnocmr.numnberofitems, this.product.nonanonomultiitemnocmr.shades, this.product.nonanonomultiitemnocmr.image, this.product.nonanonomultiitemnocmr.areitemsmixed)
-  acceptandsubmitPage.assertProductDetails(this.product.nonanonomultiitemnocmr.categoryofproduct, this.product.nonanonomultiitemnocmr.productsubcategory, this.product.nonanonomultiitemnocmr.productsubsubcategory, this.product.nonanonomultiitem.containscmrsubstances, this.product.nonanonomultiitem.physicalform, this.product.nonanonomultiitem.applicatortype)
+  acceptandsubmitPage.assertProductDetails(this.product.nonanonomultiitemnocmr.categoryofproduct, this.product.nonanonomultiitemnocmr.productsubcategory, this.product.nonanonomultiitemnocmr.productsubsubcategory,
+    this.product.nonanonomultiitemnocmr.containscmrsubstances, this.product.nonanonomultiitemnocmr.physicalform, this.product.nonanonomultiitemnocmr.applicatortype)
   acceptandsubmitPage.submit()
   declarationPage.assertPageTitle()
   declarationPage.submit()
@@ -232,14 +240,83 @@ Then("the multi-items section is completed successfully", function () {
   taskListPage.assertMultiItemApplicationCompleted()
 });
 
-When("the user enters the item information with no CMR substances", function () {
+When("the user enters the item information with no CMR substances and ingredient information with exact concentration", function () {
   tasklistPage.selectFirstItem()
   itemnamePage.assertPageTitle()
   itemnamePage.enterItemName(this.product.nanonmaterialmultiitemnocmr.itemname1)
   itemnamePage.submit()
+  selectnanomaterialPage.assertPageTitle()
+  selectnanomaterialPage.choose(this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial)
+  exposureconditionPage.assertPageTitle()
+  exposureconditionPage.choose(this.product.nanonmaterialmultiitemnocmr.exposurecondition)
+  exposureroutesPage.assertPageTitle()
+  exposureroutesPage.choose(this.product.nanonmaterialmultiitemnocmr.exposureroutes)
+  numberofshadesPage.assertPageTitle()
+  numberofshadesPage.choose('No')
+  addphysicalformPage.assertPageTitle()
+  addphysicalformPage.choose(this.product.nanonmaterialmultiitemnocmr.itemphysicalform)
+  specialapplicatorPage.assertPageTitle()
+  specialapplicatorPage.choose('pressurised container')
+  specialapplicatortypePage.assertPageTitle()
+  specialapplicatortypePage.choose(this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
+  containscmrsPage.assertPageTitle()
+  containscmrsPage.choose(this.product.nanonmaterialmultiitemnocmr.itemcontainscmrsubstances)
+  productRootcategoryPage.assertPageTitle()
+  productRootcategoryPage.choose(this.product.nanonmaterialmultiitemnocmr.itemcategoryofproduct)
+  productsubcategoryPage.assertPageTitle()
+  productsubcategoryPage.choose(this.product.nanonmaterialmultiitemnocmr.itemproductsubcategory)
+  ProductSubSubCategoryPage.assertPageTitle()
+  ProductSubSubCategoryPage.choose(this.product.nanonmaterialmultiitemnocmr.itemproductsubsubcategory)
+  formulationtypePage.assertPageTitle()
+  formulationtypePage.choose('Enter ingredients and their exact concentration manually')
+  ingredientexactconcentrationPage.assertPageTitle()
+  ingredientexactconcentrationPage.enterIngredientDetails(this.product.nanonmaterialmultiitemnocmr.ingredientname1,
+    this.product.nanonmaterialmultiitemnocmr.ingredientweight)
+  selectphoptionPage.assertPageTitle()
+  selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
+  productcompletedPage.assertSuccessfulCreation()
+  productcompletedPage.gotoTaskListPage()
+  tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemnocmr.itemname1)
+
+  tasklistPage.selectSecondtItem()
+  itemnamePage.assertPageTitle()
+  itemnamePage.enterItemName(this.product.nanonmaterialmultiitemnocmr.itemname2)
+  itemnamePage.submit()
+  selectnanomaterialPage.assertPageTitle()
+  selectnanomaterialPage.choose(this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial)
+  exposureconditionPage.assertPageTitle()
+  exposureconditionPage.choose(this.product.nanonmaterialmultiitemnocmr.exposurecondition)
+  exposureroutesPage.assertPageTitle()
+  exposureroutesPage.choose(this.product.nanonmaterialmultiitemnocmr.exposureroutes)
+  numberofshadesPage.assertPageTitle()
+  numberofshadesPage.choose('No')
+  addphysicalformPage.assertPageTitle()
+  addphysicalformPage.choose(this.product.nanonmaterialmultiitemnocmr.itemphysicalform)
+  specialapplicatorPage.assertPageTitle()
+  specialapplicatorPage.choose('pressurised container')
+  specialapplicatortypePage.assertPageTitle()
+  specialapplicatortypePage.choose(this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
+  containscmrsPage.assertPageTitle()
+  containscmrsPage.choose(this.product.nanonmaterialmultiitemnocmr.itemcontainscmrsubstances)
+  productRootcategoryPage.assertPageTitle()
+  productRootcategoryPage.choose(this.product.nanonmaterialmultiitemnocmr.itemcategoryofproduct)
+  productsubcategoryPage.assertPageTitle()
+  productsubcategoryPage.choose(this.product.nanonmaterialmultiitemnocmr.itemproductsubcategory)
+  ProductSubSubCategoryPage.assertPageTitle()
+  ProductSubSubCategoryPage.choose(this.product.nanonmaterialmultiitemnocmr.itemproductsubsubcategory)
+  formulationtypePage.assertPageTitle()
+  formulationtypePage.choose('Enter ingredients and their exact concentration manually')
+  ingredientexactconcentrationPage.assertPageTitle()
+  ingredientexactconcentrationPage.enterIngredientDetails(this.product.nanonmaterialmultiitemnocmr.ingredientname2,
+    this.product.nanonmaterialmultiitemnocmr.ingredientweight)
+  selectphoptionPage.assertPageTitle()
+  selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
+  productcompletedPage.assertSuccessfulCreation()
+  productcompletedPage.gotoTaskListPage()
+  tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemnocmr.itemname2)
 });
 
 Then("the items section is completed successfully", function () {
-
+  tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemnocmr.itemname2)
 
 });

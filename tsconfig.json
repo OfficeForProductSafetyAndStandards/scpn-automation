@@ -3,10 +3,15 @@
     "baseUrl": "https://staging-submit.cosmetic-product-notifications.service.gov.uk",
     "module": "esnext",
     "moduleResolution": "node",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "strict": true,
     "target": "esnext",
-    "types": ["cypress"]
+    "types": [
+      "cypress"
+    ]
   },
   "include": [
     "cypress/**/*.ts"

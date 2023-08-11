@@ -13,12 +13,18 @@ class TaskListPage {
     cy.get("#multi-item-status").should("contain", "Completed")
   }
 
-  assertFirstItemCompleted() {
-    cy.get(".app-task-list__items opss-task-sub__list li:nth-child(1)").should("contain", "Completed")
+  assertItemCompleted(name: string) {
+    cy.contains('span', name)
+      .siblings('b')
+      .should("contain", "Completed")
   }
 
   selectFirstItem() {
     cy.get("a").contains("Item #1").click()
+  }
+
+  selectSecondtItem() {
+    cy.get("a").contains("Item #2").click()
   }
 
   selectCreateProduct() {
@@ -28,7 +34,7 @@ class TaskListPage {
   selectMultiItemKit() {
     cy.get("a").contains("Define the multi-item kit").click()
   }
-  
+
   selectProductDetails() {
     cy.get("a").contains("Product details").click()
   }

@@ -1,7 +1,7 @@
 class NumberOfShadesPage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "Is the product available in different shades")
+      cy.get("h1").should("contain", "available in different shades")
     }
   
     choose(answer: string) {

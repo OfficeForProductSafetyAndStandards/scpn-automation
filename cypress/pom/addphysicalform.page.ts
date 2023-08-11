@@ -1,7 +1,7 @@
 class AddPhysicalFormPage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "What is the physical form of the product")
+      cy.get("h1").should("contain", "What is the physical form of")
     }
   
     choose(answer: string) {
