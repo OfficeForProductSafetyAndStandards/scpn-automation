@@ -13,7 +13,7 @@ So the data can be accessed by both search and submit users to ensure they compl
     When the user selects the responsible person
 
     #create the product - 1st stage
-    And the user completes the first stage of creating a new product notification with nanomaterials and multi-itmes
+    And the user completes the first stage of creating a new product notification with nanomaterials, multi-items and no CMR substances
     Then the details of the cosmetic product are successfully added to SCPN 
 
     #complete the nanomaterial section
@@ -21,12 +21,17 @@ So the data can be accessed by both search and submit users to ensure they compl
     Then the nanomaterials section is completed successfully     
 
     #complete the multi-item section
-    When the user enters the multi-item information for non-mixed products
+    When the user enters the multi-item information
     Then the multi-items section is completed successfully
 
     #complete the items section and upload 
-    When the user enters the item information with no CMR substances and ingredient information with exact concentration
-    Then the items section is completed successfully   
+    When the user enters the item information
+    Then the items section is completed successfully 
+
+    #accept and accept the notification
+    When the user accepts and submits the product notification
+    Then the product notification is successfully created
+
   
   Scenario: Verify Creation of Product Notification (No nanomaterials / no multi-items / no CMR substances / Ingredient csv range
    - Happy Path - COSBETA-2066, COSBETA-2070, COSBETA-2077)
@@ -37,11 +42,11 @@ So the data can be accessed by both search and submit users to ensure they compl
     When the user selects the responsible person
 
     #create the product - 1st stage
-    And the user completes the first stage of creating a new product notification
+    And the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances
     Then the details of the cosmetic product are successfully added to SCPN
 
-    #create cosmetic product with no nanomaterial/ no multi-items / no CMR substances and upload fixed range ingredients csv file
-    When the user creates the product details with no CMR substances
+    #complete second stage of product notification creation and upload fixed range ingredients csv file
+    When the user creates the product notification details
     And the user uploads an ingredients csv with fixed ranges
     Then the product details section is completed successfully
     
