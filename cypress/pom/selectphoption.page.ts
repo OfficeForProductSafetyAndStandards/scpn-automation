@@ -6,11 +6,8 @@ class SelectPHOptionPage {
   
     choose(answer: string) {
         cy.get(".govuk-label").contains(answer).click()
-     }
-
-    submit() {
         cy.get('button[class="govuk-button"]').last().click()
-    }
+     }
   
 }
   

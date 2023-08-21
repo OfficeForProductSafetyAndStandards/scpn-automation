@@ -6,11 +6,9 @@ class ProductRootCategoryPage {
   
     choose(answer: string) {
         cy.get(".govuk-radios__item").contains(answer).click()
-      }
-  
-    submit() {
-      cy.get('.govuk-button').last().click()
+        cy.get('.govuk-button').last().click()
     }
+  
 }
   
 export default new ProductRootCategoryPage;

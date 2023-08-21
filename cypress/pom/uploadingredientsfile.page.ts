@@ -5,12 +5,12 @@ class UploadIngredientsFilePage {
     }
   
     chooseFile() {
-        const filepath = '../images/template-1-example.csv'
-        cy.get('input[type="file"]').attachFile(filepath)   
+      const filepath = '../images/template-1-example.csv'
+      cy.get('input[type="file"]').attachFile(filepath)   
     }
 
     submit() {
-        cy.get('button[class="govuk-button"]').last().click()
+      cy.get('button[class="govuk-button"]').last().click()
     }
   
 }

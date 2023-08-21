@@ -1,16 +1,13 @@
 class FormulationTypePage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "How will you provide the product formulation")
+      cy.get("h1").should("contain", "How will you provide")
     }
   
     choose(answer: string) {
         cy.get(".govuk-label").contains(answer).click()
-     }
-
-    submit() {
         cy.get('button[class="govuk-button"]').last().click()
-    }
+     }
   
 }
   

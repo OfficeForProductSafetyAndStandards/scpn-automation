@@ -6,12 +6,9 @@ class ChildrenUnderThreePage {
   
     choose(answer: string) {
       cy.get(".govuk-label").contains(answer).click()
+      cy.get('button[class="govuk-button"]').last().click()
     }
 
-    submit() {
-        cy.get('button[class="govuk-button"]').last().click()
-      }
-  
   }
   
 export default new ChildrenUnderThreePage;

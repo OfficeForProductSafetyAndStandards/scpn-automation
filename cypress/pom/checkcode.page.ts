@@ -6,9 +6,6 @@ class CheckCodePage {
   
     fillOtpcode(code:string) {
       cy.get("#otp_code").type(code)
-    }
-  
-    submit() {
       cy.get('.govuk-button').last().click()
     }
 }

@@ -1,7 +1,7 @@
-class SpecialApplicatorPage {
+class NanomaterialPurposePage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "contained in?")
+      cy.get("h1").should("contain", "What is the purpose of this nanomaterial?")
     }
   
     choose(answer: string) {
@@ -11,4 +11,4 @@ class SpecialApplicatorPage {
 
 }
   
-export default new SpecialApplicatorPage;
+export default new NanomaterialPurposePage;
