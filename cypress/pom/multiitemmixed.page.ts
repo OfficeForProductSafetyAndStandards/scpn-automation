@@ -1,7 +1,7 @@
-class SpecialApplicatorPage {
+class MultiItemMixedPage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "contained in?")
+      cy.get("h1").should("contain", "Does the kit contain items that need to be mixed?")
     }
   
     choose(answer: string) {
@@ -11,4 +11,4 @@ class SpecialApplicatorPage {
 
 }
   
-export default new SpecialApplicatorPage;
+export default new MultiItemMixedPage;

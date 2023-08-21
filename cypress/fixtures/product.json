@@ -1,6 +1,6 @@
 {
-  "nonanonomultiitem": {
-    "productname": "TestProduct 283",
+  "nonanonomultiitemnocmr": {
+    "productname": "TestProduct 91",
     "forchildrenunderthree": "No",
     "numnberofitems": "1",
     "shades": "None",
@@ -13,5 +13,31 @@
     "physicalform": "Liquid",
     "specialapplicator": "Yes",
     "applicatortype": "Encapsulated"
+  },
+  "nanonmaterialmultiitemnocmr": {
+    "productname": "TestProduct 91",
+    "forchildrenunderthree": "No",
+    "numnberofitems": "2",
+    "shades": "None",
+    "areitemsmixed": "No",
+    "containscmrsubstances": "No",
+    "nanomaterials": "Yes",
+    "nanomaterialspurpose": "Another purpose",
+    "nanomaterialnotified": "Yes",
+    "notifiednanomaterial": "test nano",
+    "exposurecondition": "Rinsed off",
+    "exposureroutes": "Inhalation",
+    "multiitemmixed": "No",
+    "itemname1": "Item Name 91",
+    "itemname2": "Item Name 835",
+    "itemcategoryofproduct": "Skin product",
+    "itemproductsubcategory": "Skin care product",
+    "itemproductsubsubcategory": "Face mask",
+    "itemphysicalform": "Liquid",
+    "itemapplicatortype": "Encapsulated",
+    "itemcontainscmrsubstances": "No",
+    "ingredientname1": "Ingredient 91",
+    "ingredientname2": "Ingredient 835",
+    "ingredientweight": "30"
   }
 }
