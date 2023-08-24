@@ -4,18 +4,14 @@ class SelectResponsiblePersonPage {
       cy.get("h1").should("contain", "Select the Responsible Person")
     }
   
-    selectRP() {
-        cy.fixture("users.json")
-        .as("users")
-        .then((users) => {
-          cy.contains(users.opss.rp).click()
-        })
+    selectRP(user:string) {
+      cy.contains(user).click()
     }
   
     submit() {
       cy.get('button[class="govuk-button"]').last().click()
     }
-  }
+}
   
 export default new SelectResponsiblePersonPage;
 

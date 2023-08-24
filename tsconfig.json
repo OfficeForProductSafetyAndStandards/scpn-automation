@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
-    "baseUrl": "https://cosmetics:reviewAPP@cosmetics-pr-2987-submit-web.london.cloudapps.digital",
+    "baseUrl": "https://staging-submit.cosmetic-product-notifications.service.gov.uk",
     "module": "esnext",
     "moduleResolution": "node",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "strict": true,
     "target": "esnext",
-    "types": ["cypress"]
+    "types": [
+      "cypress"
+    ]
   },
   "include": [
     "cypress/**/*.ts"
