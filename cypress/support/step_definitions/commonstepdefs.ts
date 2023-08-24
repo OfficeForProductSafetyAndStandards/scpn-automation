@@ -1,4 +1,6 @@
 import { Given, When, Then, DataTable } from "@badeball/cypress-cucumber-preprocessor";
+import { generateRandomNumber } from '../utils';
+
 
 import loginPage from "../../pom/login.page"
 import checkCodePage from "../../pom/checkcode.page"
@@ -41,6 +43,7 @@ import selectnanomaterialPage from "../../pom/selectnanomaterial.page";
 import exposureconditionPage from "../../pom/exposurecondition.page";
 import exposureroutesPage from "../../pom/exposureroutes.page";
 import ingredientexactconcentrationPage from "../../pom/ingredientexactconcentration.page";
+import cmrsubstancePage from "../../pom/cmrsubstance.page";
 
 let journeytype: string
 
@@ -49,50 +52,91 @@ beforeEach(function () {
     this.user = user
   })
   cy.fixture('product.json').then((product) => {
-    const randomNumber = Math.floor(Math.random() * 1000)
-    const randomNumber2 = Math.floor(Math.random() * 1000)
-    product.nonanonomultiitemnocmr.productname = `TestProduct ${randomNumber}`
-    product.nanonmaterialmultiitemnocmr.productname = `TestProduct ${randomNumber}`
-    product.nanonmaterialmultiitemnocmr.itemname1 = `Item Name ${randomNumber}`
-    product.nanonmaterialmultiitemnocmr.itemname2 = `Item Name ${randomNumber2}`
-    product.nanonmaterialmultiitemnocmr.ingredientname1 = `Ingredient ${randomNumber}`
-    product.nanonmaterialmultiitemnocmr.ingredientname2 = `Ingredient ${randomNumber2}`
+    product.nonanonomultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
+    product.nanomaterialnomultiitemcmr.productname = `TestProduct ${generateRandomNumber(3)}`
+    product.nanomaterialnomultiitemcmr.substance1 = `Test Substance ${generateRandomNumber(3)}`
+    product.nanomaterialnomultiitemcmr.substance1casno = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
+    product.nanomaterialnomultiitemcmr.substance1ecno = `${generateRandomNumber(3)}-${generateRandomNumber(3)}-${generateRandomNumber(1)}`
+    product.nanonmaterialmultiitemnocmr.itemname1 = `Item Name ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemnocmr.itemname2 = `Item Name ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemnocmr.ingredientname1 = `Ingredient ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemnocmr.ingredientname2 = `Ingredient ${generateRandomNumber(3)}`
     cy.writeFile('cypress/fixtures/product.json', product);
     this.product = product
   })
 })
 
-When("the user uploads an ingredients csv with fixed ranges", function () {
+When("the user uploads an ingredient csv with concentration range", function () {
   formulationtypePage.assertPageTitle()
   formulationtypePage.choose('Upload a CSV file for ingredients and their concentration range')
   uploadingredientsfilePage.assertPageTitle()
-  uploadingredientsfilePage.chooseFile()
+  uploadingredientsfilePage.chooseFile('ingredient-range.csv')
   uploadingredientsfilePage.submit()
   uploadingredientsfilePage.submit()
   selectphoptionPage.assertPageTitle()
   selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
 });
 
+When("the user uploads an ingredient csv with exact concentration", function () {
+  formulationtypePage.assertPageTitle()
+  formulationtypePage.choose('Upload a CSV file for ingredients and their exact concentration')
+  uploadingredientsfilePage.assertPageTitle()
+  uploadingredientsfilePage.chooseFile('ingredient-exact.csv')
+  uploadingredientsfilePage.submit()
+  uploadingredientsfilePage.submit()
+  selectphoptionPage.assertPageTitle()
+  selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
+
+});
+
 When("the user creates the product notification details", function () {
-
-  taskListPage.selectProductDetails()
-  numberofshadesPage.assertPageTitle()
-  numberofshadesPage.choose('No')
-  addphysicalformPage.assertPageTitle()
-  addphysicalformPage.choose(this.product.nonanonomultiitemnocmr.physicalform)
-  specialapplicatorPage.assertPageTitle()
-  specialapplicatorPage.choose('pressurised container')
-  specialapplicatortypePage.assertPageTitle()
-  specialapplicatortypePage.choose(this.product.nonanonomultiitemnocmr.applicatortype)
-  containscmrsPage.assertPageTitle()
-  containscmrsPage.choose(this.product.nonanonomultiitemnocmr.containscmrsubstances)
-  productRootcategoryPage.assertPageTitle()
-  productRootcategoryPage.choose(this.product.nonanonomultiitemnocmr.categoryofproduct)
-  productsubcategoryPage.assertPageTitle()
-  productsubcategoryPage.choose(this.product.nonanonomultiitemnocmr.productsubcategory)
-  ProductSubSubCategoryPage.assertPageTitle()
-  ProductSubSubCategoryPage.choose(this.product.nonanonomultiitemnocmr.productsubsubcategory)
-
+  if (journeytype === "nonanonomultiitemnocmr") {
+    taskListPage.selectProductDetails()
+    numberofshadesPage.assertPageTitle()
+    numberofshadesPage.choose('No')
+    addphysicalformPage.assertPageTitle()
+    addphysicalformPage.choose(this.product.nonanonomultiitemnocmr.physicalform)
+    specialapplicatorPage.assertPageTitle()
+    specialapplicatorPage.choose('pressurised container')
+    specialapplicatortypePage.assertPageTitle()
+    specialapplicatortypePage.choose(this.product.nonanonomultiitemnocmr.applicatortype)
+    containscmrsPage.assertPageTitle()
+    containscmrsPage.choose(this.product.nonanonomultiitemnocmr.containscmrsubstances)
+    productRootcategoryPage.assertPageTitle()
+    productRootcategoryPage.choose(this.product.nonanonomultiitemnocmr.categoryofproduct)
+    productsubcategoryPage.assertPageTitle()
+    productsubcategoryPage.choose(this.product.nonanonomultiitemnocmr.productsubcategory)
+    ProductSubSubCategoryPage.assertPageTitle()
+    ProductSubSubCategoryPage.choose(this.product.nonanonomultiitemnocmr.productsubsubcategory)
+  }
+  if (journeytype === "nanomaterialnomultiitemcmr") {
+    taskListPage.selectProductDetails()
+    selectnanomaterialPage.assertPageTitle()
+    selectnanomaterialPage.choose(this.product.nanomaterialnomultiitemcmr.notifiednanomaterial)
+    exposureconditionPage.assertPageTitle()
+    exposureconditionPage.choose(this.product.nanomaterialnomultiitemcmr.exposurecondition)
+    exposureroutesPage.assertPageTitle()
+    exposureroutesPage.choose(this.product.nanomaterialnomultiitemcmr.exposureroutes)
+    numberofshadesPage.assertPageTitle()
+    numberofshadesPage.choose('No')
+    addphysicalformPage.assertPageTitle()
+    addphysicalformPage.choose(this.product.nanomaterialnomultiitemcmr.physicalform)
+    specialapplicatorPage.assertPageTitle()
+    specialapplicatorPage.choose('pressurised container')
+    specialapplicatortypePage.assertPageTitle()
+    specialapplicatortypePage.choose(this.product.nanomaterialnomultiitemcmr.applicatortype)
+    containscmrsPage.assertPageTitle()
+    containscmrsPage.choose(this.product.nanomaterialnomultiitemcmr.containscmrsubstances)
+    cmrsubstancePage.assertPageTitle()
+    cmrsubstancePage.enterSubstanceDetails(this.product.nanomaterialnomultiitemcmr.substance1, this.product.nanomaterialnomultiitemcmr.substance1casno, this.product.nanomaterialnomultiitemcmr.substance1ecno)
+    productRootcategoryPage.assertPageTitle()
+    productRootcategoryPage.choose(this.product.nanomaterialnomultiitemcmr.categoryofproduct)
+    productsubcategoryPage.assertPageTitle()
+    productsubcategoryPage.choose(this.product.nanomaterialnomultiitemcmr.productsubcategory)
+    ProductSubSubCategoryPage.assertPageTitle()
+    ProductSubSubCategoryPage.choose(this.product.nanomaterialnomultiitemcmr.productsubsubcategory)
+  }
 });
 
 When("the user accepts and submits the product notification", function () {
@@ -130,6 +174,22 @@ When("the user accepts and submits the product notification", function () {
     cosmeticProductsPage.assertPageTitle()
     cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
   }
+  if (journeytype === "nanomaterialnomultiitemcmr") {
+    taskListPage.selectAcceptandSubmit()
+    acceptandsubmitPage.assertPageTitle()
+    acceptandsubmitPage.assertProductInfo(this.product.nanomaterialnomultiitemcmr.productname, this.product.nanomaterialnomultiitemcmr.forchildrenunderthree,
+      this.product.nanomaterialnomultiitemcmr.numnberofitems, this.product.nanomaterialnomultiitemcmr.shades, this.product.nanomaterialnomultiitemcmr.image, this.product.nanomaterialnomultiitemcmr.areitemsmixed)
+    acceptandsubmitPage.assertProductDetails(this.product.nanomaterialnomultiitemcmr.categoryofproduct, this.product.nanomaterialnomultiitemcmr.productsubcategory, this.product.nanomaterialnomultiitemcmr.productsubsubcategory,
+      this.product.nanomaterialnomultiitemcmr.containscmrsubstances, this.product.nanomaterialnomultiitemcmr.physicalform, this.product.nanomaterialnomultiitemcmr.applicatortype)
+    acceptandsubmitPage.assertCMRSubstance(this.product.nanomaterialnomultiitemcmr.substance1, this.product.nanomaterialnomultiitemcmr.substance1casno, this.product.nanomaterialnomultiitemcmr.substance1ecno)
+    acceptandsubmitPage.submit()
+    declarationPage.assertPageTitle()
+    declarationPage.submit()
+    acceptPage.assertPageTitle()
+    acceptPage.selectNotifiedProductsLink()
+    cosmeticProductsPage.assertPageTitle()
+    cosmeticProductsPage.selectLastCreatedProduct(this.product.nanomaterialnomultiitemcmr.productname)
+  }
 
 });
 
@@ -150,7 +210,15 @@ Then("the product notification is successfully created", function () {
 Then("the details of the cosmetic product are successfully added to SCPN", function () {
   productcompletedPage.assertSuccessfulCreation()
   productcompletedPage.gotoTaskListPage()
-  taskListPage.assertProductApplicationCompleted(this.product.nonanonomultiitemnocmr.productname)
+  if (journeytype === "nonanonomultiitemnocmr") {
+    taskListPage.assertProductApplicationCompleted(this.product.nonanonomultiitemnocmr.productname)
+  }
+  if (journeytype === "nanonmaterialmultiitemnocmr") {
+    taskListPage.assertProductApplicationCompleted(this.product.nanonmaterialmultiitemnocmr.productname)
+  }
+  if (journeytype === "nanomaterialnomultiitemcmr") {
+    taskListPage.assertProductApplicationCompleted(this.product.nanomaterialnomultiitemcmr.productname)
+  }
 });
 
 Given("the user visits the SCPN login page", function () {
@@ -206,6 +274,42 @@ When("the user completes the first stage of creating a new product notification 
 
   addproductimagePage.assertPageTitle()
   addproductimagePage.chooseFile()
+});
+
+When("the user completes the first stage of creating a new product notification with nanomaterials, no multi-items and with CMR substances", function () {
+
+  journeytype = "nanomaterialnomultiitemcmr"
+
+  responsiblePersonPage.assertPageTitle()
+  responsiblePersonPage.assertUser(this.user.opss.rp)
+  responsiblePersonPage.selectCosmeticProducts()
+
+  cosmeticProductsPage.assertPageTitle()
+  cosmeticProductsPage.selectCreateNewProduct()
+
+  taskListPage.assertPageTitle()
+  taskListPage.selectCreateProduct()
+
+  productNamePage.assertPageTitle()
+  productNamePage.enterProductName(this.product.nanomaterialnomultiitemcmr.productname)
+  productNamePage.submit()
+
+  internalReferencePage.assertPageTitle()
+  internalReferencePage.choose('No')
+  internalReferencePage.submit()
+
+  childrenUnderThreePage.assertPageTitle()
+  childrenUnderThreePage.choose(this.product.nanomaterialnomultiitemcmr.forchildrenunderthree)
+
+  containsNanomaterialsPage.assertPageTitle()
+  containsNanomaterialsPage.choose('Yes')
+
+  singleorMulticomponentPage.assertPageTitle()
+  singleorMulticomponentPage.choose('No')
+
+  addproductimagePage.assertPageTitle()
+  addproductimagePage.chooseFile()
+
 });
 
 When("the user completes the first stage of creating a new product notification with nanomaterials, multi-items and no CMR substances", function () {

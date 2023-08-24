@@ -4,8 +4,8 @@ class UploadIngredientsFilePage {
       cy.get("h1").should("contain", "Upload the ingredients CSV file")
     }
   
-    chooseFile() {
-      const filepath = '../images/template-1-example.csv'
+    chooseFile(filename: string) {
+      const filepath = `../images/${filename}`
       cy.get('input[type="file"]').attachFile(filepath)   
     }
 
