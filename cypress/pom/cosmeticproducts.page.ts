@@ -7,6 +7,12 @@ class CosmeticProductsPage {
     selectCreateNewProduct() {
         cy.get("a").contains("Create a new product notification").click()
     }
+
+    selectLastCreatedProduct(name:string){
+      cy.contains('tr', name).within(() => {
+        cy.contains('a', 'View').click();
+      });
+    }
   
   }
   

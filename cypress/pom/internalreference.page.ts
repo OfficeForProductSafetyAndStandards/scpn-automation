@@ -3,9 +3,9 @@ class InternalReferencePage {
     assertPageTitle() {
       cy.get("h1").should("contain", "Internal reference")
     }
-  
-    chooseReference() {
-      cy.get(".govuk-radios__item label").contains("No").click()
+
+    choose(answer: string) {
+      cy.get(".govuk-label").contains(answer).click()
     }
 
     submit() {
@@ -15,3 +15,4 @@ class InternalReferencePage {
   }
   
 export default new InternalReferencePage;
+
