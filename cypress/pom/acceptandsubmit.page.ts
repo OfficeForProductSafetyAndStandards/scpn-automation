@@ -35,6 +35,12 @@ class AcceptAndSubmitPage {
     cy.get("h3").contains(itemname).siblings(".govuk-summary-list").get(`.govuk-summary-list__row:contains("Applicator type")`).find(`.govuk-summary-list__value:contains("${applicatortype}")`)
   }
 
+  assertCMRSubstance(substancename: string, casno: string, ecno: string){
+    cy.get(`.govuk-summary-list__row:contains("CMR substances")`).find(`.govuk-summary-list__value:contains("${substancename}")`)
+    cy.get(`.govuk-summary-list__row:contains("CMR substances")`).find(`.govuk-summary-list__value:contains("${casno}")`)
+    cy.get(`.govuk-summary-list__row:contains("CMR substances")`).find(`.govuk-summary-list__value:contains("${ecno}")`)
+  }
+
   submit() {
     cy.get('.govuk-button').last().click()
   }

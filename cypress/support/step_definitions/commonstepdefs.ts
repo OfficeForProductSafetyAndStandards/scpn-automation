@@ -67,19 +67,26 @@ beforeEach(function () {
   })
 })
 
-When("the user uploads an ingredients csv with fixed ranges", function () {
+When("the user uploads an ingredient csv with concentration range", function () {
   formulationtypePage.assertPageTitle()
   formulationtypePage.choose('Upload a CSV file for ingredients and their concentration range')
   uploadingredientsfilePage.assertPageTitle()
-  uploadingredientsfilePage.chooseFile()
+  uploadingredientsfilePage.chooseFile('ingredient-range.csv')
   uploadingredientsfilePage.submit()
   uploadingredientsfilePage.submit()
   selectphoptionPage.assertPageTitle()
   selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
 });
 
-When("the user uploads an ingredients csv with exact ranges", function () {
-
+When("the user uploads an ingredient csv with exact concentration", function () {
+  formulationtypePage.assertPageTitle()
+  formulationtypePage.choose('Upload a CSV file for ingredients and their exact concentration')
+  uploadingredientsfilePage.assertPageTitle()
+  uploadingredientsfilePage.chooseFile('ingredient-exact.csv')
+  uploadingredientsfilePage.submit()
+  uploadingredientsfilePage.submit()
+  selectphoptionPage.assertPageTitle()
+  selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
 
 });
 
@@ -166,6 +173,22 @@ When("the user accepts and submits the product notification", function () {
     acceptPage.selectNotifiedProductsLink()
     cosmeticProductsPage.assertPageTitle()
     cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
+  }
+  if (journeytype === "nanomaterialnomultiitemcmr") {
+    taskListPage.selectAcceptandSubmit()
+    acceptandsubmitPage.assertPageTitle()
+    acceptandsubmitPage.assertProductInfo(this.product.nanomaterialnomultiitemcmr.productname, this.product.nanomaterialnomultiitemcmr.forchildrenunderthree,
+      this.product.nanomaterialnomultiitemcmr.numnberofitems, this.product.nanomaterialnomultiitemcmr.shades, this.product.nanomaterialnomultiitemcmr.image, this.product.nanomaterialnomultiitemcmr.areitemsmixed)
+    acceptandsubmitPage.assertProductDetails(this.product.nanomaterialnomultiitemcmr.categoryofproduct, this.product.nanomaterialnomultiitemcmr.productsubcategory, this.product.nanomaterialnomultiitemcmr.productsubsubcategory,
+      this.product.nanomaterialnomultiitemcmr.containscmrsubstances, this.product.nanomaterialnomultiitemcmr.physicalform, this.product.nanomaterialnomultiitemcmr.applicatortype)
+    acceptandsubmitPage.assertCMRSubstance(this.product.nanomaterialnomultiitemcmr.substance1, this.product.nanomaterialnomultiitemcmr.substance1casno, this.product.nanomaterialnomultiitemcmr.substance1ecno)
+    acceptandsubmitPage.submit()
+    declarationPage.assertPageTitle()
+    declarationPage.submit()
+    acceptPage.assertPageTitle()
+    acceptPage.selectNotifiedProductsLink()
+    cosmeticProductsPage.assertPageTitle()
+    cosmeticProductsPage.selectLastCreatedProduct(this.product.nanomaterialnomultiitemcmr.productname)
   }
 
 });
