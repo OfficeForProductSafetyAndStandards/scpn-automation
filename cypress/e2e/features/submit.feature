@@ -5,11 +5,17 @@ So the data can be accessed by both search and submit users to ensure they compl
  
  Background: 
 
-    # authenticate the submit user
+    #authenticate the submit user
     Given the user visits the SCPN login page
     When the user logs into SCPN
     Then the user successfully authenticates using their verification code
     When the user selects the responsible person
+  
+  Scenario: Verify Creation of Notified Nanomaterial (COSBETA-2097)
+
+    #create the nanomaterial
+    Given the user creates a notified nanomaterial
+    Then the nanomaterial is successfully created
   
   Scenario: Verify Creation of Product Notification (Nanomaterials / multi-items / no CMR substances / Ingredient csv fixed
     - Happy Path - COSBETA-2065, COSBETA-2067, COSBETA-2072, COSBETA-2076)
