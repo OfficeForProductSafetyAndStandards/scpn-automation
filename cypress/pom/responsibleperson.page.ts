@@ -15,6 +15,10 @@ class ResponsiblePersonPage {
   selectCosmeticProducts() {
     cy.get("a").contains("Cosmetic products").click()
   }
+
+  selectNanomaterials() {
+    cy.get("a").contains("Nanomaterials").click()
+  }
   
 }
   

@@ -15,4 +15,3 @@ class InternalReferencePage {
   }
   
 export default new InternalReferencePage;
-
