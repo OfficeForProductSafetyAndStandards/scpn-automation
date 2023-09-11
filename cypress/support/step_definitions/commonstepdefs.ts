@@ -9,7 +9,6 @@ import responsiblePersonPage from "../../pom/responsibleperson.page"
 import cosmeticProductsPage from "../../pom/cosmeticproducts.page"
 import taskListPage from "../../pom/tasklist.page"
 import productNamePage from "../../pom/productname.page"
-import internalReferencePage from "../../pom/internalreference.page"
 import childrenUnderThreePage from "../../pom/childrenunderthree.page"
 import containsNanomaterialsPage from "../../pom/containsnanomaterials.page"
 import singleorMulticomponentPage from "../../pom/singleormulticomponent.page"
@@ -44,14 +43,21 @@ import exposureconditionPage from "../../pom/exposurecondition.page";
 import exposureroutesPage from "../../pom/exposureroutes.page";
 import ingredientexactconcentrationPage from "../../pom/ingredientexactconcentration.page";
 import cmrsubstancePage from "../../pom/cmrsubstance.page";
+import nanomaterialPage from "../../pom/nanomaterial.page";
+import nanomaterialnamePage from "../../pom/nanomaterialname.page";
+import notifiedtoeuPage from "../../pom/notifiedtoeu.page";
+import internalReferencePage from "../../pom/internalreference.page";
+import nanomaterialuploadPage from "../../pom/nanomaterialupload.page";
+import notifyreviewPage from "../../pom/notifyreview.page";
 
 let journeytype: string
 
-beforeEach(function () {
+before(function () {
   cy.fixture('users.json').then((user) => {
     this.user = user
   })
   cy.fixture('product.json').then((product) => {
+    product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
     product.nonanonomultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
     product.nanomaterialnomultiitemcmr.productname = `TestProduct ${generateRandomNumber(3)}`
@@ -66,6 +72,31 @@ beforeEach(function () {
     this.product = product
   })
 })
+
+Given("the user creates a notified nanomaterial", function () {
+  responsiblePersonPage.assertPageTitle()
+  responsiblePersonPage.assertUser(this.user.opss.rp)
+  responsiblePersonPage.selectNanomaterials()
+
+  nanomaterialPage.assertPageTitle()
+  nanomaterialPage.selectAddNanomaterial()
+
+  nanomaterialnamePage.assertPageTitle()
+  nanomaterialnamePage.enterName(this.product.nanomaterial.name)
+
+  notifiedtoeuPage.assertPageTitle()
+  notifiedtoeuPage.choose(this.product.nanomaterial.eunotified)
+
+  nanomaterialuploadPage.assertPageTitle()
+  nanomaterialuploadPage.chooseFile('Test-PDF.pdf')
+
+});
+
+Then("the nanomaterial is successfully created", function () {
+  notifyreviewPage.assertPageTitle()
+  notifyreviewPage.assertInfo(this.product.nanomaterial.name)
+  notifyreviewPage.submit()
+});
 
 When("the user uploads an ingredient csv with concentration range", function () {
   formulationtypePage.assertPageTitle()
@@ -113,7 +144,7 @@ When("the user creates the product notification details", function () {
   if (journeytype === "nanomaterialnomultiitemcmr") {
     taskListPage.selectProductDetails()
     selectnanomaterialPage.assertPageTitle()
-    selectnanomaterialPage.choose(this.product.nanomaterialnomultiitemcmr.notifiednanomaterial)
+    selectnanomaterialPage.choose(this.product.nanomaterial.name)
     exposureconditionPage.assertPageTitle()
     exposureconditionPage.choose(this.product.nanomaterialnomultiitemcmr.exposurecondition)
     exposureroutesPage.assertPageTitle()
@@ -161,10 +192,10 @@ When("the user accepts and submits the product notification", function () {
     acceptandsubmitPage.assertProductInfo(this.product.nanonmaterialmultiitemnocmr.productname, this.product.nanonmaterialmultiitemnocmr.forchildrenunderthree,
       this.product.nanonmaterialmultiitemnocmr.numnberofitems, this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.image, this.product.nanonmaterialmultiitemnocmr.areitemsmixed)
     acceptandsubmitPage.assertItemDetails(this.product.nanonmaterialmultiitemnocmr.itemname1, this.product.nanonmaterialmultiitemnocmr.itemcategoryofproduct, this.product.nanonmaterialmultiitemnocmr.itemcontainscmrsubstances,
-      this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
+      this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterial.name, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
       this.product.nanonmaterialmultiitemnocmr.itemproductsubcategory, this.product.nanonmaterialmultiitemnocmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemnocmr.itemphysicalform, this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
     acceptandsubmitPage.assertItemDetails(this.product.nanonmaterialmultiitemnocmr.itemname2, this.product.nanonmaterialmultiitemnocmr.itemcategoryofproduct, this.product.nanonmaterialmultiitemnocmr.itemcontainscmrsubstances,
-      this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
+      this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterial.name, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
       this.product.nanonmaterialmultiitemnocmr.itemproductsubcategory, this.product.nanonmaterialmultiitemnocmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemnocmr.itemphysicalform, this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
     acceptandsubmitPage.submit()
     declarationPage.assertPageTitle()
@@ -356,7 +387,7 @@ When("the user enters the nanomaterial information", function () {
   nanomaterialplacedonmarketPage.assertPageTitle()
   nanomaterialplacedonmarketPage.submit()
   notifiednanomaterialPage.assertPageTitle()
-  notifiednanomaterialPage.choose(this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial)
+  notifiednanomaterialPage.choose(this.product.nanomaterial.name)
 
 });
 
@@ -384,7 +415,7 @@ When("the user enters the item information", function () {
   itemnamePage.enterItemName(this.product.nanonmaterialmultiitemnocmr.itemname1)
   itemnamePage.submit()
   selectnanomaterialPage.assertPageTitle()
-  selectnanomaterialPage.choose(this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial)
+  selectnanomaterialPage.choose(this.product.nanonmaterial.name)
   exposureconditionPage.assertPageTitle()
   exposureconditionPage.choose(this.product.nanonmaterialmultiitemnocmr.exposurecondition)
   exposureroutesPage.assertPageTitle()
@@ -421,7 +452,7 @@ When("the user enters the item information", function () {
   itemnamePage.enterItemName(this.product.nanonmaterialmultiitemnocmr.itemname2)
   itemnamePage.submit()
   selectnanomaterialPage.assertPageTitle()
-  selectnanomaterialPage.choose(this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial)
+  selectnanomaterialPage.choose(this.product.nanonmaterial.name)
   exposureconditionPage.assertPageTitle()
   exposureconditionPage.choose(this.product.nanonmaterialmultiitemnocmr.exposurecondition)
   exposureroutesPage.assertPageTitle()
