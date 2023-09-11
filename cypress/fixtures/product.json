@@ -1,6 +1,10 @@
 {
+  "nanomaterial": {
+    "name": "Test Nano 18",
+    "eunotified": "Yes"
+  },
   "nonanonomultiitemnocmr": {
-    "productname": "TestProduct 344",
+    "productname": "TestProduct 186",
     "forchildrenunderthree": "No",
     "numnberofitems": "1",
     "shades": "None",
@@ -15,7 +19,7 @@
     "applicatortype": "Encapsulated"
   },
   "nanonmaterialmultiitemnocmr": {
-    "productname": "TestProduct 418",
+    "productname": "TestProduct 252",
     "forchildrenunderthree": "No",
     "numnberofitems": "2",
     "shades": "None",
@@ -28,20 +32,20 @@
     "exposurecondition": "Rinsed off",
     "exposureroutes": "Inhalation",
     "multiitemmixed": "No",
-    "itemname1": "Item Name 543",
-    "itemname2": "Item Name 356",
+    "itemname1": "Item Name 364",
+    "itemname2": "Item Name 704",
     "itemcategoryofproduct": "Skin product",
     "itemproductsubcategory": "Skin care product",
     "itemproductsubsubcategory": "Face mask",
     "itemphysicalform": "Liquid",
     "itemapplicatortype": "Encapsulated",
     "itemcontainscmrsubstances": "No",
-    "ingredientname1": "Ingredient 643",
-    "ingredientname2": "Ingredient 652",
+    "ingredientname1": "Ingredient 993",
+    "ingredientname2": "Ingredient 975",
     "ingredientweight": "30"
   },
   "nanomaterialnomultiitemcmr": {
-    "productname": "TestProduct 403",
+    "productname": "TestProduct 321",
     "forchildrenunderthree": "No",
     "numnberofitems": "1",
     "shades": "None",
@@ -50,9 +54,9 @@
     "nanomaterials": "Yes",
     "nanomaterialspurpose": "Another purpose",
     "nanomaterialnotified": "Yes",
-    "substance1": "Test Substance 337",
-    "substance1casno": "1314-55-6",
-    "substance1ecno": "984-331-7",
+    "substance1": "Test Substance 649",
+    "substance1casno": "8474-66-6",
+    "substance1ecno": "543-838-1",
     "notifiednanomaterial": "test nano",
     "exposurecondition": "Rinsed off",
     "exposureroutes": "Inhalation",
