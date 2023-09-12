@@ -6,9 +6,9 @@ workflow_dispatch:
       trigger_uuid:
         description: 'the trigger UUIID for which we will create an artifact'
         required: false
-jobs:
 
-deploy-env:
+jobs:
+  deploy-env:
     runs-on: ubuntu-latest
     steps:
     - name: Create Run UUID Artifact
@@ -16,10 +16,9 @@ deploy-env:
       run: |
           echo $GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID | \
               tee /tmp/${{ github.event.inputs.trigger_uuid }}
-
-    cypress-run:
-    runs-on: ubuntu-22.04
-    steps:
+    - cypress-run:
+       runs-on: ubuntu-22.04
+      steps:
       - name: Checkout
         uses: actions/checkout@v3
       # Install npm dependencies, cache them correctly
@@ -33,4 +32,3 @@ deploy-env:
       with:
         name: ${{ github.event.inputs.trigger_uuid }}
         path: /tmp/${{ github.event.inputs.trigger_uuid }} 
-  
