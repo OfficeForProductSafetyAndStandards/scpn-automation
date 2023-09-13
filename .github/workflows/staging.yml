@@ -7,8 +7,7 @@ on:
       trigger_uuid:
         description: the trigger UUIID for which we will create an artifact
         required: false
-permissions:
-  actions: write
+permissions: write-all
 jobs:
   deploy-env:
     runs-on: ubuntu-latest
