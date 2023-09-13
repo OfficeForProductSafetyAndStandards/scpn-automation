@@ -1,10 +1,10 @@
-on: [push]
-workflow_dispatch:
-  inputs:
-    trigger_uuid:
-      description: the trigger UUIID for which we will create an artifact
-      required: false
-name: End-to-end tests
+on:
+  workflow_dispatch:
+    inputs:
+      trigger_uuid:
+        description: the trigger UUIID for which we will create an artifact
+        required: false
+  name: End-to-end tests
 
 jobs:
   deploy-env:
