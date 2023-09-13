@@ -1,6 +1,7 @@
 name: End to end tests
 
 on:
+  push:
   workflow_dispatch:
     inputs:
       trigger_uuid:
