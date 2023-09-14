@@ -9,6 +9,7 @@
     ],
     "strict": true,
     "target": "esnext",
+    // "typeRoots": ["./node_modules/@types", "./types"], // Include your custom declaration directory
     "types": [
       "cypress"
     ]

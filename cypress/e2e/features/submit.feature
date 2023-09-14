@@ -10,7 +10,7 @@ So the data can be accessed by both search and submit users to ensure they compl
     When the user logs into SCPN
     Then the user successfully authenticates using their verification code
     When the user selects the responsible person
-  
+ 
   Scenario: Verify Creation of Notified Nanomaterial (COSBETA-2097)
 
     #create the nanomaterial
@@ -20,7 +20,7 @@ So the data can be accessed by both search and submit users to ensure they compl
   Scenario: Verify Creation of Product Notification (Nanomaterials / multi-items / no CMR substances / Ingredient csv fixed
     - Happy Path - COSBETA-2065, COSBETA-2067, COSBETA-2072, COSBETA-2076)
 
-    #create the product - 1st stage
+    create the product - 1st stage
     And the user completes the first stage of creating a new product notification with nanomaterials, multi-items and no CMR substances
     Then the details of the cosmetic product are successfully added to SCPN 
 
