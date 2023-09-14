@@ -1,7 +1,10 @@
+/// <reference types="cypress" />
+
 class ResponsiblePersonPage {
 
-  assertUser(value: string){
-        cy.get(".govuk-summary-list__value").contains(value)
+
+  assertUser(value: string) {
+    cy.get(".govuk-summary-list__value").contains(value)
   }
 
   fillEmail(email: string) {
@@ -19,7 +22,7 @@ class ResponsiblePersonPage {
   selectNanomaterials() {
     cy.get("a").contains("Nanomaterials").click()
   }
-  
+
 }
-  
+
 export default new ResponsiblePersonPage;

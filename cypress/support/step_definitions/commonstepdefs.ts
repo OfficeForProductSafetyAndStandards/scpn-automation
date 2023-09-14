@@ -1,11 +1,10 @@
-import { Given, When, Then, DataTable } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import { generateRandomNumber } from '../utils';
 
 
 import loginPage from "../../pom/login.page"
 import checkCodePage from "../../pom/checkcode.page"
 import selectResponsiblePersonPage from "../../pom/selectresponsibleperson.page"
-import responsiblePersonPage from "../../pom/responsibleperson.page"
 import cosmeticProductsPage from "../../pom/cosmeticproducts.page"
 import taskListPage from "../../pom/tasklist.page"
 import productNamePage from "../../pom/productname.page"
@@ -49,14 +48,16 @@ import notifiedtoeuPage from "../../pom/notifiedtoeu.page";
 import internalReferencePage from "../../pom/internalreference.page";
 import nanomaterialuploadPage from "../../pom/nanomaterialupload.page";
 import notifyreviewPage from "../../pom/notifyreview.page";
+import responsiblepersonPage from "../../pom/responsibleperson.page";
+
 
 let journeytype: string
 
 before(function () {
-  cy.fixture('users.json').then((user) => {
+  cy.fixture('users.json').then(function(user) {
     this.user = user
   })
-  cy.fixture('product.json').then((product) => {
+  cy.fixture('product.json').then(function(product) {
     product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
     product.nonanonomultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
@@ -74,9 +75,9 @@ before(function () {
 })
 
 Given("the user creates a notified nanomaterial", function () {
-  responsiblePersonPage.assertPageTitle()
-  responsiblePersonPage.assertUser(this.user.opss.rp)
-  responsiblePersonPage.selectNanomaterials()
+  responsiblepersonPage.assertPageTitle()
+  responsiblepersonPage.assertUser(this.user.opss.rp)
+  responsiblepersonPage.selectNanomaterials()
 
   nanomaterialPage.assertPageTitle()
   nanomaterialPage.selectAddNanomaterial()
@@ -253,8 +254,8 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
 });
 
 Given("the user visits the SCPN login page", function () {
-  loginPage.goto()
-  loginPage.assertPageTitle()
+  loginPage.loginBasicAuth()
+
 });
 
 When("the user logs into SCPN", function () {
@@ -276,9 +277,9 @@ When("the user selects the responsible person", function () {
 When("the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances", function () {
   journeytype = "nonanonomultiitemnocmr"
 
-  responsiblePersonPage.assertPageTitle()
-  responsiblePersonPage.assertUser(this.user.opss.rp)
-  responsiblePersonPage.selectCosmeticProducts()
+  responsiblepersonPage.assertPageTitle()
+  responsiblepersonPage.assertUser(this.user.opss.rp)
+  responsiblepersonPage.selectCosmeticProducts()
 
   cosmeticProductsPage.assertPageTitle()
   cosmeticProductsPage.selectCreateNewProduct()
@@ -311,9 +312,9 @@ When("the user completes the first stage of creating a new product notification 
 
   journeytype = "nanomaterialnomultiitemcmr"
 
-  responsiblePersonPage.assertPageTitle()
-  responsiblePersonPage.assertUser(this.user.opss.rp)
-  responsiblePersonPage.selectCosmeticProducts()
+  responsiblepersonPage.assertPageTitle()
+  responsiblepersonPage.assertUser(this.user.opss.rp)
+  responsiblepersonPage.selectCosmeticProducts()
 
   cosmeticProductsPage.assertPageTitle()
   cosmeticProductsPage.selectCreateNewProduct()
@@ -347,9 +348,9 @@ When("the user completes the first stage of creating a new product notification 
 
   journeytype = "nanonmaterialmultiitemnocmr"
 
-  responsiblePersonPage.assertPageTitle()
-  responsiblePersonPage.assertUser(this.user.opss.rp)
-  responsiblePersonPage.selectCosmeticProducts()
+  responsiblepersonPage.assertPageTitle()
+  responsiblepersonPage.assertUser(this.user.opss.rp)
+  responsiblepersonPage.selectCosmeticProducts()
 
   cosmeticProductsPage.assertPageTitle()
   cosmeticProductsPage.selectCreateNewProduct()
