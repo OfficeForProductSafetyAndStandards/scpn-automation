@@ -3,7 +3,7 @@ name: End to end tests
 on:
   push:
   workflow_dispatch:
-  permissions: write-all
+permissions: write-all
 jobs:
   deploy-env:
     runs-on: ubuntu-latest
