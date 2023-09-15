@@ -54,10 +54,10 @@ import responsiblepersonPage from "../../pom/responsibleperson.page";
 let journeytype: string
 
 before(function () {
-  cy.fixture('users.json').then(function(user) {
+  cy.fixture('users.json').then(function (user) {
     this.user = user
   })
-  cy.fixture('product.json').then(function(product) {
+  cy.fixture('product.json').then(function (product) {
     product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
     product.nonanonomultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
@@ -76,7 +76,7 @@ before(function () {
 
 Given("the user creates a notified nanomaterial", function () {
   responsiblepersonPage.assertPageTitle()
-  responsiblepersonPage.assertUser(this.user.opss.rp)
+  responsiblepersonPage.assertUser(Cypress.env('RP'))
   responsiblepersonPage.selectNanomaterials()
 
   nanomaterialPage.assertPageTitle()
@@ -265,12 +265,12 @@ When("the user logs into SCPN", function () {
 
 Then("the user successfully authenticates using their verification code", function () {
   checkCodePage.assertPageTitle()
-  checkCodePage.fillOtpcode(this.user.opss.code)
+  checkCodePage.fillOtpcode(Cypress.env('TWO_FACTOR_AUTH_KEY'))
 });
 
 When("the user selects the responsible person", function () {
   selectResponsiblePersonPage.assertPageTitle()
-  selectResponsiblePersonPage.selectRP(this.user.opss.rp)
+  selectResponsiblePersonPage.selectRP(Cypress.env('RP'))
   selectResponsiblePersonPage.submit()
 });
 
@@ -278,7 +278,7 @@ When("the user completes the first stage of creating a new product notification 
   journeytype = "nonanonomultiitemnocmr"
 
   responsiblepersonPage.assertPageTitle()
-  responsiblepersonPage.assertUser(this.user.opss.rp)
+  responsiblepersonPage.assertUser(Cypress.env('RP'))
   responsiblepersonPage.selectCosmeticProducts()
 
   cosmeticProductsPage.assertPageTitle()
@@ -313,7 +313,7 @@ When("the user completes the first stage of creating a new product notification 
   journeytype = "nanomaterialnomultiitemcmr"
 
   responsiblepersonPage.assertPageTitle()
-  responsiblepersonPage.assertUser(this.user.opss.rp)
+  responsiblepersonPage.assertUser(Cypress.env('RP'))
   responsiblepersonPage.selectCosmeticProducts()
 
   cosmeticProductsPage.assertPageTitle()
@@ -349,7 +349,7 @@ When("the user completes the first stage of creating a new product notification 
   journeytype = "nanonmaterialmultiitemnocmr"
 
   responsiblepersonPage.assertPageTitle()
-  responsiblepersonPage.assertUser(this.user.opss.rp)
+  responsiblepersonPage.assertUser(Cypress.env('RP'))
   responsiblepersonPage.selectCosmeticProducts()
 
   cosmeticProductsPage.assertPageTitle()
@@ -488,5 +488,4 @@ When("the user enters the item information", function () {
 
 Then("the items section is completed successfully", function () {
   tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemnocmr.itemname2)
-
 });
