@@ -145,7 +145,7 @@ When("the user creates the product notification details", function () {
   if (journeytype === "nanomaterialnomultiitemcmr") {
     taskListPage.selectProductDetails()
     selectnanomaterialPage.assertPageTitle()
-    selectnanomaterialPage.choose(this.product.nanomaterial.name)
+    selectnanomaterialPage.choose(this.product.nanomaterialnomultiitemcmr.notifiednanomaterial)
     exposureconditionPage.assertPageTitle()
     exposureconditionPage.choose(this.product.nanomaterialnomultiitemcmr.exposurecondition)
     exposureroutesPage.assertPageTitle()
@@ -193,10 +193,10 @@ When("the user accepts and submits the product notification", function () {
     acceptandsubmitPage.assertProductInfo(this.product.nanonmaterialmultiitemnocmr.productname, this.product.nanonmaterialmultiitemnocmr.forchildrenunderthree,
       this.product.nanonmaterialmultiitemnocmr.numnberofitems, this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.image, this.product.nanonmaterialmultiitemnocmr.areitemsmixed)
     acceptandsubmitPage.assertItemDetails(this.product.nanonmaterialmultiitemnocmr.itemname1, this.product.nanonmaterialmultiitemnocmr.itemcategoryofproduct, this.product.nanonmaterialmultiitemnocmr.itemcontainscmrsubstances,
-      this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterial.name, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
+      this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
       this.product.nanonmaterialmultiitemnocmr.itemproductsubcategory, this.product.nanonmaterialmultiitemnocmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemnocmr.itemphysicalform, this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
     acceptandsubmitPage.assertItemDetails(this.product.nanonmaterialmultiitemnocmr.itemname2, this.product.nanonmaterialmultiitemnocmr.itemcategoryofproduct, this.product.nanonmaterialmultiitemnocmr.itemcontainscmrsubstances,
-      this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterial.name, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
+      this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
       this.product.nanonmaterialmultiitemnocmr.itemproductsubcategory, this.product.nanonmaterialmultiitemnocmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemnocmr.itemphysicalform, this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
     acceptandsubmitPage.submit()
     declarationPage.assertPageTitle()
@@ -388,7 +388,7 @@ When("the user enters the nanomaterial information", function () {
   nanomaterialplacedonmarketPage.assertPageTitle()
   nanomaterialplacedonmarketPage.submit()
   notifiednanomaterialPage.assertPageTitle()
-  notifiednanomaterialPage.choose(this.product.nanomaterial.name)
+  notifiednanomaterialPage.choose(this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial)
 
 });
 
@@ -416,7 +416,7 @@ When("the user enters the item information", function () {
   itemnamePage.enterItemName(this.product.nanonmaterialmultiitemnocmr.itemname1)
   itemnamePage.submit()
   selectnanomaterialPage.assertPageTitle()
-  selectnanomaterialPage.choose(this.product.nanonmaterial.name)
+  selectnanomaterialPage.choose(this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial)
   exposureconditionPage.assertPageTitle()
   exposureconditionPage.choose(this.product.nanonmaterialmultiitemnocmr.exposurecondition)
   exposureroutesPage.assertPageTitle()
@@ -453,7 +453,7 @@ When("the user enters the item information", function () {
   itemnamePage.enterItemName(this.product.nanonmaterialmultiitemnocmr.itemname2)
   itemnamePage.submit()
   selectnanomaterialPage.assertPageTitle()
-  selectnanomaterialPage.choose(this.product.nanonmaterial.name)
+  selectnanomaterialPage.choose(this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial)
   exposureconditionPage.assertPageTitle()
   exposureconditionPage.choose(this.product.nanonmaterialmultiitemnocmr.exposurecondition)
   exposureroutesPage.assertPageTitle()
