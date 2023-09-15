@@ -1,10 +1,10 @@
 {
-    "opss": {
-      "email": "${{ secrets.USER_EMAIL }}",
-      "password": "${{ secrets.USER_PASSWORD }}",
-      "code": "${{ secrets.TWO_FACTOR_AUTH_KEY }}",
-      "rp": "${{ secrets.RP }}",
-      "auth_user": "${{ secrets.BASIC_AUTH_USERNAME }}",
-      "auth_password": "${{ secrets.BASIC_AUTH_PASSWORD }}"
-    }
+  "opss": {
+    "email": "${ USER_NAME }",
+    "password": "${ USER_PASSWORD }",
+    "code": "${ TWO_FACTOR_AUTH_KEY }",
+    "rp": "${ RP }",
+    "auth_user": "${ BASIC_AUTH_USERNAME }",
+    "auth_password": "${ BASIC_AUTH_PASSWORD }"
+  }
 }
