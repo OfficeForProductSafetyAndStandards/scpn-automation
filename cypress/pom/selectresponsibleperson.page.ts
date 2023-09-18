@@ -5,7 +5,7 @@ class SelectResponsiblePersonPage {
     }
   
     selectRP(user:string) {
-      cy.contains(user).click()
+      cy.contains(user).click({ force: true });
     }
   
     submit() {
