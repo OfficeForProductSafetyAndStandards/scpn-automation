@@ -1,4 +1,4 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then, After } from "@badeball/cypress-cucumber-preprocessor";
 import { generateRandomNumber } from '../utils';
 
 
@@ -53,10 +53,7 @@ import responsiblepersonPage from "../../pom/responsibleperson.page";
 
 let journeytype: string
 
-before(function () {
-  cy.fixture('users.json').then(function (user) {
-    this.user = user
-  })
+beforeEach(function () {
   cy.fixture('product.json').then(function (product) {
     product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
     product.nonanonomultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
@@ -74,8 +71,25 @@ before(function () {
   })
 })
 
+afterEach(()=> {
+  Cypress.on('test:after:run', (test, runnable) => {
+    const scenarioName = runnable.fullTitle();
+    if (test.state === 'passed') {
+      cy.log("Test Passed ");
+      cy.log(`Scenario: ${scenarioName} passed, not sending alert to opsgenie`);
+    } else if (test.state === 'failed') {
+      cy.log("Test Failed ");
+      cy.log(`Scenario: ${scenarioName} failed, sending alert to opsgenie`);
+      // cy.sendOpsGenieAlert(scenarioName);
+    }
+  });
+})
+
+
 Given("the user creates a notified nanomaterial", function () {
   responsiblepersonPage.assertPageTitle()
+  selectResponsiblePersonPage.selectRP(Cypress.env('RP'))
+
   responsiblepersonPage.assertUser(Cypress.env('RP'))
   responsiblepersonPage.selectNanomaterials()
 
@@ -255,7 +269,6 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
 
 Given("the user visits the SCPN login page", function () {
   loginPage.loginBasicAuth()
-
 });
 
 When("the user logs into SCPN", function () {
@@ -488,4 +501,5 @@ When("the user enters the item information", function () {
 
 Then("the items section is completed successfully", function () {
   tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemnocmr.itemname2)
+
 });
