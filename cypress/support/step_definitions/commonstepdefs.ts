@@ -71,19 +71,19 @@ beforeEach(function () {
   })
 })
 
-afterEach(()=> {
-  Cypress.on('test:after:run', (test, runnable) => {
-    const scenarioName = runnable.fullTitle();
-    if (test.state === 'passed') {
-      cy.log("Test Passed ");
-      cy.log(`Scenario: ${scenarioName} passed, not sending alert to opsgenie`);
-    } else if (test.state === 'failed') {
-      cy.log("Test Failed ");
-      cy.log(`Scenario: ${scenarioName} failed, sending alert to opsgenie`);
-      // cy.sendOpsGenieAlert(scenarioName);
-    }
-  });
-})
+//afterEach(()=> {
+//  Cypress.on('test:after:run', (test, runnable) => {
+//    const scenarioName = runnable.fullTitle();
+//   if (test.state === 'passed') {
+//      cy.log("Test Passed ");
+//      cy.log(`Scenario: ${scenarioName} passed, not sending alert to opsgenie`);
+//    } else if (test.state === 'failed') {
+//      cy.log("Test Failed ");
+//      cy.log(`Scenario: ${scenarioName} failed, sending alert to opsgenie`);
+//      // cy.sendOpsGenieAlert(scenarioName);
+//    }
+//  });
+//})
 
 
 Given("the user creates a notified nanomaterial", function () {
