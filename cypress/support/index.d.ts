@@ -1,5 +1,5 @@
 declare namespace Cypress {
   interface Chainable {
-    sendOpsGenieAlert(message: string): Chainable<any>;
+    sendOpsGenieAlert(title: string,message: string): Chainable<any>;
   }
 }
