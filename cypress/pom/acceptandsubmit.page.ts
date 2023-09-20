@@ -38,7 +38,7 @@ class AcceptAndSubmitPage {
   assertCMRSubstance(substancename: string, casno: string, ecno: string){
     cy.get(`.govuk-summary-list__row:contains("CMR substances")`).find(`.govuk-summary-list__value:contains("${substancename}")`)
     cy.get(`.govuk-summary-list__row:contains("CMR substances")`).find(`.govuk-summary-list__value:contains("${casno}")`)
-    cy.get(`.govuk-summary-list__row:contains("CMR substances")`).find(`.govuk-summary-list__value:contains("${ecno}")`)
+    cy.get(`.govuk-summary-list__row:contains("CMR substances")`).find(`.govuk-summary-list__value:contains("tt")`)
   }
 
   submit() {

@@ -75,6 +75,7 @@ afterEach(function () {
   const name = Cypress.currentTest.title
   const sceanrioStatus = (Cypress as any).mocha.getRunner().suite.ctx.currentTest.state
   if (sceanrioStatus === 'failed') {
+    cy.log(name)
     cy.sendOpsGenieAlert(name, sceanrioStatus);
   }
 });
@@ -102,7 +103,7 @@ Given("the user creates a notified nanomaterial", function (this: any) {
 
 Then("the nanomaterial is successfully created", function (this: any) {
   notifyreviewPage.assertPageTitle()
-  notifyreviewPage.assertInfo('rte')
+  notifyreviewPage.assertInfo(this.product.nanomaterial.name)
   notifyreviewPage.submit()
 });
 
