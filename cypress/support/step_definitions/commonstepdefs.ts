@@ -50,7 +50,6 @@ import nanomaterialuploadPage from "../../pom/nanomaterialupload.page";
 import notifyreviewPage from "../../pom/notifyreview.page";
 import responsiblepersonPage from "../../pom/responsibleperson.page";
 
-
 let journeytype: string
 
 beforeEach(function () {
