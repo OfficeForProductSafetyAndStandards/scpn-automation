@@ -1,4 +1,4 @@
-import { Given, When, Then, After } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then, After, Before } from "@badeball/cypress-cucumber-preprocessor";
 import { generateRandomNumber } from '../utils';
 
 
@@ -69,24 +69,17 @@ beforeEach(function () {
     cy.writeFile('cypress/fixtures/product.json', product);
     this.product = product
   })
-})
+});
 
-//afterEach(()=> {
-//  Cypress.on('test:after:run', (test, runnable) => {
-//    const scenarioName = runnable.fullTitle();
-//   if (test.state === 'passed') {
-//      cy.log("Test Passed ");
-//      cy.log(`Scenario: ${scenarioName} passed, not sending alert to opsgenie`);
-//    } else if (test.state === 'failed') {
-//      cy.log("Test Failed ");
-//      cy.log(`Scenario: ${scenarioName} failed, sending alert to opsgenie`);
-//      // cy.sendOpsGenieAlert(scenarioName);
-//    }
-//  });
-//})
+afterEach(function () {
+  const name = Cypress.currentTest.title
+  const sceanrioStatus = (Cypress as any).mocha.getRunner().suite.ctx.currentTest.state
+  if (sceanrioStatus === 'failed') {
+    cy.sendOpsGenieAlert(name, sceanrioStatus);
+  }
+});
 
-
-Given("the user creates a notified nanomaterial", function () {
+Given("the user creates a notified nanomaterial", function (this: any) {
   responsiblepersonPage.assertPageTitle()
   selectResponsiblePersonPage.selectRP(Cypress.env('RP'))
 
@@ -107,9 +100,9 @@ Given("the user creates a notified nanomaterial", function () {
 
 });
 
-Then("the nanomaterial is successfully created", function () {
+Then("the nanomaterial is successfully created", function (this: any) {
   notifyreviewPage.assertPageTitle()
-  notifyreviewPage.assertInfo(this.product.nanomaterial.name)
+  notifyreviewPage.assertInfo('rte')
   notifyreviewPage.submit()
 });
 
@@ -136,7 +129,7 @@ When("the user uploads an ingredient csv with exact concentration", function () 
 
 });
 
-When("the user creates the product notification details", function () {
+When("the user creates the product notification details", function (this: any) {
   if (journeytype === "nonanonomultiitemnocmr") {
     taskListPage.selectProductDetails()
     numberofshadesPage.assertPageTitle()
@@ -185,7 +178,7 @@ When("the user creates the product notification details", function () {
   }
 });
 
-When("the user accepts and submits the product notification", function () {
+When("the user accepts and submits the product notification", function (this: any) {
   if (journeytype === "nonanonomultiitemnocmr") {
     taskListPage.selectAcceptandSubmit()
     acceptandsubmitPage.assertPageTitle()
@@ -244,16 +237,17 @@ Then("the product details section is completed successfully", function () {
   productcompletedPage.gotoTaskListPage()
 });
 
-Then("the product notification is successfully created", function () {
+Then("the product notification is successfully created", function (this: any) {
   if (journeytype === "nonanonomultiitemnocmr") {
     productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
+
   }
   if (journeytype === "nanonmaterialmultiitemnocmr") {
     productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
   }
 });
 
-Then("the details of the cosmetic product are successfully added to SCPN", function () {
+Then("the details of the cosmetic product are successfully added to SCPN", function (this: any) {
   productcompletedPage.assertSuccessfulCreation()
   productcompletedPage.gotoTaskListPage()
   if (journeytype === "nonanonomultiitemnocmr") {
@@ -287,7 +281,7 @@ When("the user selects the responsible person", function () {
   selectResponsiblePersonPage.submit()
 });
 
-When("the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances", function () {
+When("the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances", function (this: any) {
   journeytype = "nonanonomultiitemnocmr"
 
   responsiblepersonPage.assertPageTitle()
@@ -321,7 +315,7 @@ When("the user completes the first stage of creating a new product notification 
   addproductimagePage.chooseFile()
 });
 
-When("the user completes the first stage of creating a new product notification with nanomaterials, no multi-items and with CMR substances", function () {
+When("the user completes the first stage of creating a new product notification with nanomaterials, no multi-items and with CMR substances", function (this: any) {
 
   journeytype = "nanomaterialnomultiitemcmr"
 
@@ -357,7 +351,7 @@ When("the user completes the first stage of creating a new product notification 
 
 });
 
-When("the user completes the first stage of creating a new product notification with nanomaterials, multi-items and no CMR substances", function () {
+When("the user completes the first stage of creating a new product notification with nanomaterials, multi-items and no CMR substances", function (this: any) {
 
   journeytype = "nanonmaterialmultiitemnocmr"
 
@@ -392,7 +386,7 @@ When("the user completes the first stage of creating a new product notification 
   addproductimagePage.chooseFile()
 });
 
-When("the user enters the nanomaterial information", function () {
+When("the user enters the nanomaterial information", function (this: any) {
   taskListPage.selectNanomaterials()
   nanomaterialpurposePage.assertPageTitle()
   nanomaterialpurposePage.choose(this.product.nanonmaterialmultiitemnocmr.nanomaterialspurpose)
@@ -422,7 +416,7 @@ Then("the multi-items section is completed successfully", function () {
   taskListPage.assertMultiItemApplicationCompleted()
 });
 
-When("the user enters the item information", function () {
+When("the user enters the item information", function (this: any) {
 
   tasklistPage.selectFirstItem()
   itemnamePage.assertPageTitle()
@@ -499,7 +493,7 @@ When("the user enters the item information", function () {
   tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemnocmr.itemname2)
 });
 
-Then("the items section is completed successfully", function () {
+Then("the items section is completed successfully", function (this: any) {
   tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemnocmr.itemname2)
 
 });

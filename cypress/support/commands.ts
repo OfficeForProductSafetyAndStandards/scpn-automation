@@ -1,17 +1,14 @@
-/// <reference types="cypress" />
 import 'cypress-file-upload';
 
-
 // Define the custom command
-Cypress.Commands.add('sendOpsGenieAlert', (message: string) => {
+Cypress.Commands.add('sendOpsGenieAlert', (title: string, message: string) => {
   // Define your OpsGenie integration details
   const apiKey = 'ef3e0cb8-c84e-4609-ae85-629401db05e1';
   const apiUrl = 'https://api.opsgenie.com/v2/alerts';
 
   // Define the payload for the OpsGenie alert
-
   const alertPayload = {
-    "message": "E2E test failed!",
+    "message": `${title} Failed`,
     "alias": message
   };
 
