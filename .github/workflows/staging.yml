@@ -2,6 +2,8 @@ name: End to end tests
 
 on:
   push:
+  schedule:
+    - cron: '0 18 * * 0' # Runs every Sunday at 6:00 PM UTC
   workflow_dispatch:
 permissions: write-all
 env:
