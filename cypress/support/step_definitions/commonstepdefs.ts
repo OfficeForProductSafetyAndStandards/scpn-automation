@@ -49,6 +49,8 @@ import internalReferencePage from "../../pom/internalreference.page";
 import nanomaterialuploadPage from "../../pom/nanomaterialupload.page";
 import notifyreviewPage from "../../pom/notifyreview.page";
 import responsiblepersonPage from "../../pom/responsibleperson.page";
+import archivereasonPage from "../../pom/archivereason.page";
+import deleteconfirmationPage from "../../pom/deleteconfirmation.page";
 
 let journeytype: string
 
@@ -77,6 +79,116 @@ afterEach(function () {
     cy.log(name)
     cy.sendOpsGenieAlert(name, sceanrioStatus);
   }
+});
+
+Then("the notification is successfully archived", function () {
+  switch (journeytype) {
+
+    case 'nanonmaterialmultiitemnocmr':
+      cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
+      productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
+      break
+
+    case 'nanomaterialnomultiitemcmr':
+      cosmeticProductsPage.selectLastCreatedProduct(this.product.nanomaterialnomultiitemcmr.productname)
+      productPage.assertPageTitle(this.product.nanomaterialnomultiitemcmr.productname)
+      break
+
+    case 'nonanonomultiitemnocmr':
+      cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
+      productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
+      break
+  }
+
+});
+
+
+When("the user deletes the product notification", function () {
+
+  switch (journeytype) {
+    case 'nanonmaterialmultiitemnocmr':
+      productPage.selectUnarchiveNotificationLink()
+      cosmeticProductsPage.assertUnarchiveSuccess()
+      cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
+      productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
+      productPage.selectDeleteNotificationLink()
+      deleteconfirmationPage.assertPageTitle()
+      deleteconfirmationPage.deleteNotificaiton()
+      break
+
+    case 'nanomaterialnomultiitemcmr':
+      productPage.selectUnarchiveNotificationLink()
+      cosmeticProductsPage.assertUnarchiveSuccess()
+      cosmeticProductsPage.selectLastCreatedProduct(this.product.nanomaterialnomultiitemcmr.productname)
+      productPage.assertPageTitle(this.product.nanomaterialnomultiitemcmr.productname)
+      productPage.selectDeleteNotificationLink()
+      deleteconfirmationPage.assertPageTitle()
+      deleteconfirmationPage.deleteNotificaiton()
+      break
+
+    case 'nonanonomultiitemnocmr':
+      productPage.selectUnarchiveNotificationLink()
+      cosmeticProductsPage.assertUnarchiveSuccess()
+      cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
+      productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
+      productPage.selectDeleteNotificationLink()
+      deleteconfirmationPage.assertPageTitle()
+      deleteconfirmationPage.deleteNotificaiton()
+      break
+  }
+
+});
+
+
+Then("the notification is successfully deleted", function () {
+
+  switch (journeytype) {
+    case 'nanonmaterialmultiitemnocmr':
+      cosmeticProductsPage.assertDeletionSuccess(this.product.nanonmaterialmultiitemnocmr.productname)
+      break
+
+    case 'nanomaterialnomultiitemcmr':
+      cosmeticProductsPage.assertDeletionSuccess(this.product.nanomaterialnomultiitemcmr.productname)
+      break
+
+    case 'nonanonomultiitemnocmr':
+      cosmeticProductsPage.assertDeletionSuccess(this.product.nonanonomultiitemnocmr.productname)
+      break
+  }
+
+});
+
+When("the user archives the last created product notification", function () {
+
+  switch (journeytype) {
+    case 'nanonmaterialmultiitemnocmr':
+      productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
+      productPage.selectArchiveNotificationLink()
+      archivereasonPage.assertPageTitle()
+      archivereasonPage.choose('Product no longer available on the market')
+      cosmeticProductsPage.assertArchiveSuccess()
+      cosmeticProductsPage.selectArchivedNotifications()
+      break
+
+    case 'nanomaterialnomultiitemcmr':
+      productPage.assertPageTitle(this.product.nanomaterialnomultiitemcmr.productname)
+      productPage.selectArchiveNotificationLink()
+      archivereasonPage.assertPageTitle()
+      archivereasonPage.choose('Product no longer available on the market')
+      cosmeticProductsPage.assertArchiveSuccess()
+      cosmeticProductsPage.selectArchivedNotifications()
+      break
+
+    case 'nonanonomultiitemnocmr':
+      productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
+      productPage.selectArchiveNotificationLink()
+      archivereasonPage.assertPageTitle()
+      archivereasonPage.choose('Product no longer available on the market')
+      cosmeticProductsPage.assertArchiveSuccess()
+      cosmeticProductsPage.selectArchivedNotifications()
+      break
+  }
+
 });
 
 Given("the user creates a notified nanomaterial", function (this: any) {
