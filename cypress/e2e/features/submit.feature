@@ -10,6 +10,12 @@ So the data can be accessed by both search and submit users to ensure they compl
     When the user logs into SCPN
     Then the user successfully authenticates using their verification code
     When the user selects the responsible person
+
+  Scenario: Verify Cookie Policy (Happy Path)
+
+    Then the user sees the SCPN cookie banner
+    When the user accepts the cookies and hides item
+    Then the cookie banner is no longer displayed
  
   Scenario: Verify Creation of Notified Nanomaterial (COSBETA-2097)
 
@@ -100,4 +106,8 @@ So the data can be accessed by both search and submit users to ensure they compl
     #delete the notification
     When the user deletes the product notification
     Then the notification is successfully deleted
+  
+
+  
+
 
