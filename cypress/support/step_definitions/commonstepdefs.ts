@@ -81,6 +81,20 @@ afterEach(function () {
   }
 });
 
+Then("the user sees the SCPN cookie banner", function () {
+  cy.get("h2").should("contain", "Cookies on Cosmetics Notification Service")
+});
+
+When("the user accepts the cookies and hides item", function () {
+  cy.get('button').contains("Accept analytics cookies").click()
+  cy.get("button").should("contain", "Hide cookie message")
+  cy.get('button').contains("Hide cookie message").click()
+});
+
+Then("the cookie banner is no longer displayed", function () {
+  cy.get('button').contains("Hide cookie message").should('not.exist')
+});
+
 Then("the notification is successfully archived", function () {
   switch (journeytype) {
 
