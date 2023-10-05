@@ -1,4 +1,6 @@
 import 'cypress-file-upload';
+import { basicAuthCreds } from '../support/common-helpers'
+
 
 Cypress.Commands.add('sendOpsGenieAlert', (title: string, message: string) => {
   // Define your OpsGenie integration details
@@ -24,3 +26,8 @@ Cypress.Commands.add('sendOpsGenieAlert', (title: string, message: string) => {
   cy.get('@apiResponse').its('status').should('eq', 202);
 
 });
+
+Cypress.Commands.add('visitUrl', (urlPath: string, options = {}) => {
+  cy.visit(urlPath, { ...basicAuthCreds(), ...options })
+});
+
