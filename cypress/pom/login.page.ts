@@ -1,7 +1,8 @@
 class LoginPage {
 
-  loginBasicAuth() {
-    cy.visitUrl('/sign-in')
+
+  loginBasicAuth(url: string) {
+    cy.visitUrl(`${url}/sign-in`)
   }
 
   assertPageTitle() {
@@ -9,8 +10,18 @@ class LoginPage {
   }
 
   loginAsOpss() {
-    this.fillEmail(Cypress.env('USER_EMAIL'))
-    this.fillPassword(Cypress.env('USER_PASSWORD'))
+    cy.url().then((url) => {
+      if (url.includes('submit')) {
+        this.fillEmail(Cypress.env('SUBMIT_USER_EMAIL'))
+        this.fillPassword(Cypress.env('SUBMIT_USER_PASSWORD'))
+      } else if (url.includes('search')) {
+        this.fillEmail(Cypress.env('SEARCH_USER_EMAIL'))
+        this.fillPassword(Cypress.env('SEARCH_USER_PASSWORD'))
+      } else if (url.includes('support')) {
+        this.fillEmail(Cypress.env('SUPPORT_USER_EMAIL'))
+        this.fillPassword(Cypress.env('SUPPORT_USER_PASSWORD'))
+      }
+    });
   }
 
   fillEmail(email: string) {
