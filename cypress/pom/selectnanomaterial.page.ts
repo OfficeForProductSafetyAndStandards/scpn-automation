@@ -9,6 +9,12 @@ class SelectNanomaterialPage {
         cy.get('button[class="govuk-button"]').last().click()
      }
   
+    chooseMulti(list: string[]){
+      for (let i = 0; i < list.length; i++) {
+        cy.get(".govuk-label").contains(list[i]).click()
+      }
+      cy.get('button[class="govuk-button"]').last().click()
+    }
 }
   
 export default new SelectNanomaterialPage;

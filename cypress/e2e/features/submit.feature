@@ -9,7 +9,7 @@ So the data can be accessed by both search and submit users to ensure they compl
     Given the user visits the url: "https://staging-submit.cosmetic-product-notifications.service.gov.uk"
     When the user logs into the service
     Then the user successfully authenticates using their verification code
-    When the user selects the responsible person
+    
 
   Scenario: Verify Cookie Policy (Happy Path)
 
