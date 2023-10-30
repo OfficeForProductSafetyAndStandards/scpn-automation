@@ -645,6 +645,9 @@ Then("the user checks answers and sends", function () {
 })
 
 When("the user reaches Add a cosmetic product, there should be only one go to question", function () {
+  responsiblepersonPage.assertPageTitle()
+  responsiblepersonPage.assertUser(Cypress.env('RP'))
+  responsiblepersonPage.selectCosmeticProducts()
   cosmeticProductsPage.assertPageTitle()
   cosmeticProductsPage.selectCreateNewProduct()
   taskListPage.assertPageTitle()

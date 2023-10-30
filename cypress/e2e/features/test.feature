@@ -9,7 +9,8 @@ So the data can be accessed by both search and submit users to ensure they compl
    Given the user visits the url: "https://staging-submit.cosmetic-product-notifications.service.gov.uk"
    When the user logs into the service
    Then the user successfully authenticates using their verification code
-  
+   When the user selects the responsible person
+
   Scenario: ability to view questions within tasks on task page
    #finish first step of creating product and go back to task list page
    When the user reaches Add a cosmetic product, there should be only one go to question

@@ -1,6 +1,6 @@
 {
   "nanomaterial": {
-    "name": "Test Nano 40",
+    "name": "Test Nano 24",
     "eunotified": "Yes"
   },
   "rpAddress": {
@@ -15,7 +15,7 @@
     "Telephone": "07984563072"
   },
   "nonanonomultiitemnocmr": {
-    "productname": "TestProduct 501",
+    "productname": "TestProduct 184",
     "forchildrenunderthree": "No",
     "numnberofitems": "1",
     "shades": "None",
@@ -30,7 +30,7 @@
     "applicatortype": "Encapsulated"
   },
   "nanonmaterialmultiitemnocmr": {
-    "productname": "TestProduct 836",
+    "productname": "TestProduct 728",
     "forchildrenunderthree": "No",
     "numnberofitems": "2",
     "shades": "None",
@@ -43,20 +43,20 @@
     "exposurecondition": "Rinsed off",
     "exposureroutes": "Inhalation",
     "multiitemmixed": "No",
-    "itemname1": "Item Name 421",
-    "itemname2": "Item Name 211",
+    "itemname1": "Item Name 475",
+    "itemname2": "Item Name 304",
     "itemcategoryofproduct": "Skin product",
     "itemproductsubcategory": "Skin care product",
     "itemproductsubsubcategory": "Face mask",
     "itemphysicalform": "Liquid",
     "itemapplicatortype": "Encapsulated",
     "itemcontainscmrsubstances": "No",
-    "ingredientname1": "Ingredient 887",
-    "ingredientname2": "Ingredient 238",
+    "ingredientname1": "Ingredient 851",
+    "ingredientname2": "Ingredient 711",
     "ingredientweight": "30"
   },
   "nanomaterialnomultiitemcmr": {
-    "productname": "TestProduct 882",
+    "productname": "TestProduct 499",
     "forchildrenunderthree": "No",
     "numnberofitems": "1",
     "shades": "None",
@@ -65,9 +65,9 @@
     "nanomaterials": "Yes",
     "nanomaterialspurpose": "Another purpose",
     "nanomaterialnotified": "Yes",
-    "substance1": "Test Substance 758",
-    "substance1casno": "8696-13-1",
-    "substance1ecno": "971-861-7",
+    "substance1": "Test Substance 910",
+    "substance1casno": "3559-60-9",
+    "substance1ecno": "331-290-9",
     "notifiednanomaterial": "test nano",
     "exposurecondition": "Rinsed off",
     "exposureroutes": "Inhalation",
