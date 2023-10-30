@@ -13,9 +13,9 @@ class ContainsNanomaterialsPage {
       }
       cy.get('button[class="govuk-button"]').last().click()
     }
-    chooseMulti(value: number){
+    chooseMulti(value: string){
       cy.get(".govuk-label").contains("Yes").click()
-      cy.get("#nanomaterials_count").clear().type("2")
+      cy.get("#nanomaterials_count").clear().type(value)
       cy.get('button[class="govuk-button"]').last().click()
     }
   

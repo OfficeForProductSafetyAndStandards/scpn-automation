@@ -5,18 +5,18 @@ class TaskListPage {
   }
 
   assertProductApplicationCompleted(product: string) {
-    cy.get("#product-status").should("contain", "COMPLETE")
+    cy.get("#product-status").should("contain", "complete")
     cy.get("h1").should("contain", product)
   }
 
   assertMultiItemApplicationCompleted() {
-    cy.get("#multi-item-status").should("contain", "COMPLETE")
+    cy.get("#multi-item-status").should("contain", "complete")
   }
 
   assertItemCompleted(name: string) {
     cy.contains('span', name)
       .siblings('b')
-      .should("contain", "Completed")
+      .should("contain", "complete")
   }
 
   selectFirstItem() {
@@ -34,17 +34,83 @@ class TaskListPage {
   selectMultiItemKit() {
     cy.get("a").contains("Define the multi-item kit").click()
   }
-
+/**  obsolete
   selectProductDetails() {
     cy.get("a").contains("Product details").click()
   }
+**/
+  selectProductDetails() {
+    cy.get("ol").within(() => {
+    
+      let list: number[] = []
+      
 
-  selectNanomaterials() {
+    cy.get("ul").each((ul) => {
+        list.push(1)  
+    }).then(() => {
+      let num: number = list.length
+      //if number of UL obtained is 3 ..
+      if (num == 3){
+        cy.get("ul").eq(1).within(() => {
+          cy.get("a").click()
+        })
+      }
+      else if (num == 4){
+        cy.get("ul").eq(2).within(() => {
+          cy.get("a").click()
+        })
+      }
+      else if (num == 5){
+        cy.get("ul").eq(3).within(() => {
+          cy.get("a").click()
+        })
+      }
+    })
+
+      /**if (cy.get("ul").its('length').should("eq", 3)){
+        cy.get("ul").eq(1).within(() => {
+          cy.get("a").click()
+        })
+      }
+      else if (cy.get("ul").its('length').should("eq", 4)){
+        cy.get("ul").eq(2).within(() => {
+          cy.get("a").click()
+        })
+      }
+      else if (cy.get("ul").its('length').should("eq", 5)){
+        cy.get("ul").eq(3).within(() => {
+          cy.get("a").click()
+        })
+      }**/
+      
+    })
+  }
+
+
+  /**
+   * this code wont work as intended NanoMaterial#1 is not in an "a" block and it is also not a hyperlink, fix below
+   * selectNanomaterials() {
     cy.get("a").contains("Nanomaterial #1").click()
   }
+  **/
+
+
+  //go to nanomaterials unordered list (second ul), get all Go to question "a"
+  //click on purpose go to question of chosen nanomaterial number
+  selectNanomaterials(value: number) {
+    cy.get("ol").within(() => {
+      cy.get("ul").eq(1).within(() => {
+        cy.get("a").filter(':contains("Go to question")').eq(0+(4*(value-1))).click()
+      })
+    })
+  }
+  
+  //obsolete function 
   selectAcceptandSubmit() {
     cy.get("a").contains("Accept and submit").click()
   }
+
+  
 
   goToSummary() {
     cy.get("a").contains("Go to summary").click()
@@ -113,7 +179,7 @@ class TaskListPage {
   goQuestion(value: number){
     
     cy.get("ol").within(() => {
-      cy.get("a").eq(value-1).click()
+      cy.get("a").filter(':contains("Go to question")').eq(value-1).click()
     })
   }
 }
