@@ -182,6 +182,13 @@ class TaskListPage {
       cy.get("a").filter(':contains("Go to question")').eq(value-1).click()
     })
   }
+
+  viewDeletePresent(){
+    if(cy.get(".govuk-button-group").contains("View draft") && cy.get(".govuk-button-group").contains("Delete this draft")){
+      return true
+    }
+    return false
+  }
 }
 
 export default new TaskListPage;

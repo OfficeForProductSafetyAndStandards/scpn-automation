@@ -124,30 +124,36 @@ When("the user deletes the product notification", function () {
   switch (journeytype) {
     case 'nanonmaterialmultiitemnocmr':
       productPage.selectUnarchiveNotificationLink()
+      
       cosmeticProductsPage.assertUnarchiveSuccess()
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
       productPage.selectDeleteNotificationLink()
+      checkCodePage.fillOtpcode("11222")
       //deleteconfirmationPage.assertPageTitle()
       //deleteconfirmationPage.deleteNotificaiton()
       break
 
     case 'nanomaterialnomultiitemcmr':
       productPage.selectUnarchiveNotificationLink()
+
       cosmeticProductsPage.assertUnarchiveSuccess()
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanomaterialnomultiitemcmr.productname)
       productPage.assertPageTitle(this.product.nanomaterialnomultiitemcmr.productname)
       productPage.selectDeleteNotificationLink()
+      checkCodePage.fillOtpcode("11222")
       //deleteconfirmationPage.assertPageTitle()
       //deleteconfirmationPage.deleteNotificaiton()
       break
 
     case 'nonanonomultiitemnocmr':
       productPage.selectUnarchiveNotificationLink()
+
       cosmeticProductsPage.assertUnarchiveSuccess()
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
       productPage.selectDeleteNotificationLink()
+      checkCodePage.fillOtpcode("11222")
       //deleteconfirmationPage.assertPageTitle()
       //deleteconfirmationPage.deleteNotificaiton()
       break
@@ -429,17 +435,17 @@ Then("the user successfully authenticates using their verification code", functi
 });
 
 When("the user selects the responsible person", function () {
-  /**selectResponsiblePersonPage.assertPageTitle()
+  selectResponsiblePersonPage.assertPageTitle()
   selectResponsiblePersonPage.selectRP(Cypress.env('RP'))
-  selectResponsiblePersonPage.submit()*/
+  selectResponsiblePersonPage.submit()
 });
 
 When("the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances", function (this: any) {
   journeytype = "nonanonomultiitemnocmr"
 
-  /**responsiblepersonPage.assertPageTitle()
+  responsiblepersonPage.assertPageTitle()
   responsiblepersonPage.assertUser(Cypress.env('RP'))
-  responsiblepersonPage.selectCosmeticProducts()**/
+  responsiblepersonPage.selectCosmeticProducts()
 
   cosmeticProductsPage.assertPageTitle()
   cosmeticProductsPage.selectCreateNewProduct()
@@ -676,6 +682,9 @@ Then("check if subheading says incomplete and confirmation of outstanding sectio
   taskListPage.sectionsCompleted()
 })
 
+Then("check if view and delete draft buttons are present",function (){
+  taskListPage.viewDeletePresent()
+})
 
 
 When("user reaches tasklist page, there should be many go to questions", function () {
@@ -768,7 +777,14 @@ When("the user checks Accept and submit status", function () {
     cy.get("li").eq(4)
   }).contains("in progress")
   taskListPage.goToSummary()
+  // yh edit works just wanted to test another fumction
+  acceptandsubmitPage.buttonsPresent()
   acceptandsubmitPage.edit(2)
+})
+
+When("user clicks on created product notification", function (){
+  cy.get("a").contains("View").click()
+
 })
 
 When("the user creates a product with 2 nano and multi", function () {
@@ -849,9 +865,9 @@ When("the user completes the first stage of creating a new product notification 
 
   journeytype = "nanomaterialnomultiitemcmr"
 
-  /**responsiblepersonPage.assertPageTitle()
+  responsiblepersonPage.assertPageTitle()
   responsiblepersonPage.assertUser(Cypress.env('RP'))
-  responsiblepersonPage.selectCosmeticProducts()**/
+  responsiblepersonPage.selectCosmeticProducts()
 
   cosmeticProductsPage.assertPageTitle()
   cosmeticProductsPage.selectCreateNewProduct()
@@ -885,10 +901,8 @@ When("the user completes the first stage of creating a new product notification 
 
   journeytype = "nanonmaterialmultiitemnocmr"
 
- /**responsiblepersonPage.assertPageTitle()
+  responsiblepersonPage.assertPageTitle()
   responsiblepersonPage.assertUser(Cypress.env('RP'))
-  Gilead here, had to disable this because after login responsible person already setup for me
-  **/
   responsiblepersonPage.selectCosmeticProducts()
 
   cosmeticProductsPage.assertPageTitle()

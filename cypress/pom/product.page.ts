@@ -23,7 +23,9 @@ class ProductPage {
     selectDeleteNotificationLink(){
         cy.get('a').contains('Delete this notification').click()
     }
-  
+    checkCopyPresent(){
+        cy.get('a').contains("Copy this notification")
+    }
 }
   
 export default new ProductPage;
