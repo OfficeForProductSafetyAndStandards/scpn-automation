@@ -11,12 +11,13 @@ So the data can be accessed by both search and submit users to ensure they compl
    Then the user successfully authenticates using their verification code
    When the user selects the responsible person
 
-  Scenario: ability to view questions within tasks on task page
+  Scenario: COSBETA 2297: ability to view questions within tasks on task page
    #finish first step of creating product and go back to task list page
    When the user reaches Add a cosmetic product, there should be only one go to question
    
    When the user creates a new product notification
    Then check if subheading says incomplete and confirmation of outstanding sections
+   And  check if view and delete draft buttons are present
    
    #One go to question before completing product, many when completed
    When user reaches tasklist page, there should be many go to questions 
@@ -28,7 +29,8 @@ So the data can be accessed by both search and submit users to ensure they compl
    When user completes second nanomaterial section 
    #user fills in product details
    Then user fills in the product details
-   And the user checks Accept and submit status
-   
+   And the user reviews filled in details and submits
+
+   When user views their new product notification, Copy, Archive, and Delete notification should be present
 
  

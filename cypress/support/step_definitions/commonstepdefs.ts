@@ -775,14 +775,24 @@ Then("user fills in the product details", function () {
 
 })
 
-When("the user checks Accept and submit status", function () {
+When("the user reviews filled in details and submits", function () {
   cy.get("ol").within(() => {
     cy.get("li").eq(4)
   }).contains("in progress")
   taskListPage.goToSummary()
   // yh edit works just wanted to test another fumction
   acceptandsubmitPage.buttonsPresent()
-  acceptandsubmitPage.edit(2)
+  //acceptandsubmitPage.edit(2)
+  acceptandsubmitPage.submit()
+  declarationPage.assertPageTitle()
+  declarationPage.submit()
+  acceptPage.assertPageTitle()
+  acceptPage.selectNotifiedProductsLink()
+})
+
+When("user views their new product notification, Copy, Archive, and Delete notification should be present", function() {
+  cosmeticProductsPage.selectNotification(1)
+  productPage.checkCopyArchiveDelete()
 })
 
 When("user clicks on created product notification", function (){

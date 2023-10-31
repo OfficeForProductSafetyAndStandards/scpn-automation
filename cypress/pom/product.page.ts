@@ -23,8 +23,12 @@ class ProductPage {
     selectDeleteNotificationLink(){
         cy.get('a').contains('Delete this notification').click()
     }
-    checkCopyPresent(){
-        cy.get('a').contains("Copy this notification")
+    
+    checkCopyArchiveDelete(){
+        if (cy.get('a').contains("Copy this notification") && cy.get('a').contains("Archive this notification") && cy.get('a').contains("Delete this notification")){
+            return true;
+        }
+        return false;
     }
 }
   
