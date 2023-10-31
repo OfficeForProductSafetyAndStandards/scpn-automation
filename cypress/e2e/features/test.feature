@@ -31,6 +31,5 @@ So the data can be accessed by both search and submit users to ensure they compl
    Then user fills in the product details
    And the user reviews filled in details and submits
 
-   When user views their new product notification, Copy, Archive, and Delete notification should be present
-
- 
+   When user views their new product notification
+    Then the notified product should have capability to be copied archived and deleted

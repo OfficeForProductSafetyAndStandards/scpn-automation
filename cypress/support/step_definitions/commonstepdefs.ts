@@ -790,11 +790,13 @@ When("the user reviews filled in details and submits", function () {
   acceptPage.selectNotifiedProductsLink()
 })
 
-When("user views their new product notification, Copy, Archive, and Delete notification should be present", function() {
+When("user views their new product notification", function() {
   cosmeticProductsPage.selectNotification(1)
-  productPage.checkCopyArchiveDelete()
 })
 
+Then ("the notified product should have capability to be copied archived and deleted", function(){
+  productPage.checkCopyArchiveDelete()
+})
 When("user clicks on created product notification", function (){
   cy.get("a").contains("View").click()
 
