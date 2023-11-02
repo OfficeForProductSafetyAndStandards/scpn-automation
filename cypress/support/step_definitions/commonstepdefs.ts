@@ -50,8 +50,7 @@ import nanomaterialuploadPage from "../../pom/nanomaterialupload.page";
 import notifyreviewPage from "../../pom/notifyreview.page";
 import responsiblepersonPage from "../../pom/responsibleperson.page";
 import archivereasonPage from "../../pom/archivereason.page";
-import deleteconfirmationPage from "../../pom/deleteconfirmation.page";
-import { when } from "cypress/types/jquery";
+
 
 let journeytype: string
 
@@ -84,7 +83,6 @@ afterEach(function () {
 
 Then("the user sees the SCPN cookie banner", function () {
   cy.get("h2").should("contain", "Cookies on Cosmetics Notification Service")
-  
 });
 
 When("the user accepts the cookies and hides item", function () {
@@ -129,9 +127,7 @@ When("the user deletes the product notification", function () {
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
       productPage.selectDeleteNotificationLink()
-      checkCodePage.fillOtpcode("11222")
-      //deleteconfirmationPage.assertPageTitle()
-      //deleteconfirmationPage.deleteNotificaiton()
+      //checkCodePage.fillOtpcode("11222")
       break
 
     case 'nanomaterialnomultiitemcmr':
@@ -141,9 +137,7 @@ When("the user deletes the product notification", function () {
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanomaterialnomultiitemcmr.productname)
       productPage.assertPageTitle(this.product.nanomaterialnomultiitemcmr.productname)
       productPage.selectDeleteNotificationLink()
-      checkCodePage.fillOtpcode("11222")
-      //deleteconfirmationPage.assertPageTitle()
-      //deleteconfirmationPage.deleteNotificaiton()
+      //checkCodePage.fillOtpcode("11222")
       break
 
     case 'nonanonomultiitemnocmr':
@@ -153,9 +147,7 @@ When("the user deletes the product notification", function () {
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
       productPage.selectDeleteNotificationLink()
-      checkCodePage.fillOtpcode("11222")
-      //deleteconfirmationPage.assertPageTitle()
-      //deleteconfirmationPage.deleteNotificaiton()
+      //checkCodePage.fillOtpcode("11222")
       break
   }
 
@@ -185,6 +177,7 @@ When("the user archives the last created product notification", function () {
   switch (journeytype) {
     case 'nanonmaterialmultiitemnocmr':
       productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
+      productPage.checkCopyArchiveDelete()
       productPage.selectArchiveNotificationLink()
       archivereasonPage.assertPageTitle()
       archivereasonPage.choose('Product no longer available on the market')
@@ -194,6 +187,7 @@ When("the user archives the last created product notification", function () {
 
     case 'nanomaterialnomultiitemcmr':
       productPage.assertPageTitle(this.product.nanomaterialnomultiitemcmr.productname)
+      productPage.checkCopyArchiveDelete()
       productPage.selectArchiveNotificationLink()
       archivereasonPage.assertPageTitle()
       archivereasonPage.choose('Product no longer available on the market')
@@ -203,6 +197,7 @@ When("the user archives the last created product notification", function () {
 
     case 'nonanonomultiitemnocmr':
       productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
+      productPage.checkCopyArchiveDelete()
       productPage.selectArchiveNotificationLink()
       archivereasonPage.assertPageTitle()
       archivereasonPage.choose('Product no longer available on the market')
@@ -214,12 +209,6 @@ When("the user archives the last created product notification", function () {
 });
 
 Given("the user creates a notified nanomaterial", function (this: any) {
-  /**responsiblepersonPage.assertPageTitle()
-  selectResponsiblePersonPage.selectRP(Cypress.env('RP'))
-
-  responsiblepersonPage.assertUser(Cypress.env('RP'))
-  Gilead here, had to disable this because after login responsible person already setup for me
-  **/
   responsiblepersonPage.selectNanomaterials()
 
   nanomaterialPage.assertPageTitle()
@@ -324,8 +313,6 @@ When("the user accepts and submits the product notification", function (this: an
   switch (journeytype) {
 
     case 'nonanonomultiitemnocmr':
-      
-    //taskListPage.selectAcceptandSubmit()
       taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nonanonomultiitemnocmr.productname, this.product.nonanonomultiitemnocmr.forchildrenunderthree,
@@ -362,7 +349,6 @@ When("the user accepts and submits the product notification", function (this: an
       break
 
     case 'nanomaterialnomultiitemcmr':
-      //taskListPage.selectAcceptandSubmit()
       taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nanomaterialnomultiitemcmr.productname, this.product.nanomaterialnomultiitemcmr.forchildrenunderthree,
@@ -400,6 +386,10 @@ Then("the product notification is successfully created", function (this: any) {
 Then("the details of the cosmetic product are successfully added to SCPN", function (this: any) {
   productcompletedPage.assertSuccessfulCreation()
   productcompletedPage.gotoTaskListPage()
+  taskListPage.isIncomplete()
+  taskListPage.sectionsCompleted()
+  taskListPage.viewDeletePresent()
+  taskListPage.numberOfQuestionsMany()
   if (journeytype === "nonanonomultiitemnocmr") {
     taskListPage.assertProductApplicationCompleted(this.product.nonanonomultiitemnocmr.productname)
   }
@@ -451,6 +441,8 @@ When("the user completes the first stage of creating a new product notification 
   cosmeticProductsPage.selectCreateNewProduct()
 
   taskListPage.assertPageTitle()
+  //checks if number of questions is one
+  taskListPage.numberOfQuestionsOne()
   taskListPage.selectCreateProduct()
 
   productNamePage.assertPageTitle()
@@ -474,408 +466,6 @@ When("the user completes the first stage of creating a new product notification 
   addproductimagePage.chooseFile()
 });
 
-
-When("the user creates a new product not for children under 3, with Nanomaterials, multis and no CMRS", function (this: any) {
-  cosmeticProductsPage.assertPageTitle()
-  cosmeticProductsPage.selectCreateNewProduct()
-
-  taskListPage.assertPageTitle()
-  taskListPage.selectCreateProduct()
-
-  productNamePage.assertPageTitle()
-  productNamePage.enterProductName(`AutoMation Test ${generateRandomNumber(2)}`)
-  productNamePage.submit()
-
-  internalReferencePage.assertPageTitle()
-  internalReferencePage.choose('No')
-  internalReferencePage.submit()
-
-  childrenUnderThreePage.assertPageTitle()
-  childrenUnderThreePage.choose(this.product.nanomaterialnomultiitemcmr.forchildrenunderthree)
-
-  containsNanomaterialsPage.assertPageTitle()
-  containsNanomaterialsPage.choose('Yes')
-
-  singleorMulticomponentPage.assertPageTitle()
-  singleorMulticomponentPage.choose("Yes")
-
-  addproductimagePage.assertPageTitle()
-  addproductimagePage.chooseFile()
-  
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.submit()
-
-  nanomaterialpurposePage.assertPageTitle()
-  nanomaterialpurposePage.choose("Another purpose")
-  
-  nanomaterialnotifiedPage.assertPageTitle()
-  nanomaterialnotifiedPage.choose("Yes")
-
-  nanomaterialplacedonmarketPage.assertPageTitle()
-  nanomaterialplacedonmarketPage.submit()
-
-
-
-  notifiednanomaterialPage.assertPageTitle()
-  notifiednanomaterialPage.choose("test nano")
-
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.submit()
-
-  multiitemmixedPage.assertPageTitle()
-  multiitemmixedPage.choose("No")
-
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.submit()
-
-  itemnamePage.assertPageTitle()
-  itemnamePage.enterItemName("glasses")
-  itemnamePage.submit()
-
-  selectnanomaterialPage.assertPageTitle()
-  selectnanomaterialPage.choose("test nano")
-
-  exposureconditionPage.assertPageTitle()
-  exposureconditionPage.choose("Left on")
-
-  exposureroutesPage.assertPageTitle()
-  exposureroutesPage.choose("Dermal")
-
-  numberofshadesPage.assertPageTitle()
-  numberofshadesPage.choose("No")
-
-  addphysicalformPage.assertPageTitle()
-  addphysicalformPage.choose("Solid, or pressed powder")
-  
-  specialapplicatorPage.assertPageTitle()
-  specialapplicatorPage.choose("A typical non-pressurised bottle, jar, sachet or other package")
-
-  containscmrsPage.assertPageTitle()
-  containscmrsPage.choose("No")
-
-  productRootcategoryPage.assertPageTitle()
-  productRootcategoryPage.choose("Hair and scalp products")
-
-  productsubcategoryPage.assertPageTitle()
-  productsubcategoryPage.choose("Hair colouring products")
-
-  ProductSubSubCategoryPage.assertPageTitle()
-  ProductSubSubCategoryPage.choose("Oxidative hair colour products")
-
-  formulationtypePage.assertPageTitle()
-  formulationtypePage.choose('Enter ingredients and their exact concentration manually')
-
-  ingredientexactconcentrationPage.assertPageTitle()
-  ingredientexactconcentrationPage.enterIngredientDetails("i", " 18")
-
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.submit()
-
-  itemnamePage.assertPageTitle()
-  itemnamePage.enterItemName("eyes")
-  itemnamePage.submit()
-
-  selectnanomaterialPage.assertPageTitle()
-  selectnanomaterialPage.choose("test nano")
-
-  exposureconditionPage.assertPageTitle()
-  exposureconditionPage.choose("Left on")
-
-  exposureroutesPage.assertPageTitle()
-  exposureroutesPage.choose("Dermal")
-
-  numberofshadesPage.assertPageTitle()
-  numberofshadesPage.choose("No")
-
-  addphysicalformPage.assertPageTitle()
-  addphysicalformPage.choose("Solid, or pressed powder")
-  
-  specialapplicatorPage.assertPageTitle()
-  specialapplicatorPage.choose("A typical non-pressurised bottle, jar, sachet or other package")
-
-  containscmrsPage.assertPageTitle()
-  containscmrsPage.choose("No")
-
-  productRootcategoryPage.assertPageTitle()
-  productRootcategoryPage.choose("Hair and scalp products")
-
-  productsubcategoryPage.assertPageTitle()
-  productsubcategoryPage.choose("Hair colouring products")
-
-  ProductSubSubCategoryPage.assertPageTitle()
-  ProductSubSubCategoryPage.choose("Oxidative hair colour products")
-
-  formulationtypePage.assertPageTitle()
-  formulationtypePage.choose('Enter ingredients and their exact concentration manually')
-  
-  ingredientexactconcentrationPage.assertPageTitle()
-  ingredientexactconcentrationPage.enterIngredientDetails("i", " 18")
-
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.submit()
-
-  acceptandsubmitPage.assertPageTitle()
-  acceptandsubmitPage.submit()
-
-  declarationPage.assertPageTitle()
-  declarationPage.submit()
-});
-
-When("the user clicks on nanomaterial section then adds a nanomaterial", function () {
-  
-  responsiblepersonPage.selectNanomaterials()
-  nanomaterialPage.assertPageTitle()
-  nanomaterialPage.selectAddNanomaterial()
-  nanomaterialnamePage.assertPageTitle()
-  nanomaterialnamePage.enterName(`test ${generateRandomNumber(2)}`)
-}); 
-Then("the user states that the EU has been notified", function () {
-  notifiedtoeuPage.assertPageTitle()
-  notifiedtoeuPage.choose("Yes")
-});
-
-When("the user uploads details about nanomaterial", function () {
-  nanomaterialuploadPage.assertPageTitle()
-  nanomaterialuploadPage.chooseFile("Test-PDF.pdf")
-});
-
-Then("the user checks answers and sends", function () {
-  notifyreviewPage.assertPageTitle()
-  notifyreviewPage.submit()
-})
-
-When("the user reaches Add a cosmetic product, there should be only one go to question", function () {
-  responsiblepersonPage.assertPageTitle()
-  responsiblepersonPage.assertUser(Cypress.env('RP'))
-  responsiblepersonPage.selectCosmeticProducts()
-  cosmeticProductsPage.assertPageTitle()
-  cosmeticProductsPage.selectCreateNewProduct()
-  taskListPage.assertPageTitle()
-  taskListPage.numberOfQuestionsOne()
-  taskListPage.selectCreateProduct()
-})
-
-When("the user creates a new product notification", function () {
-  productNamePage.assertPageTitle()
-  productNamePage.enterProductName(`AutoMation Test ${generateRandomNumber(2)}`)
-  productNamePage.submit()
-
-  internalReferencePage.assertPageTitle()
-  internalReferencePage.choose('No')
-  internalReferencePage.submit()
-
-  childrenUnderThreePage.assertPageTitle()
-  childrenUnderThreePage.choose("No")
-
-  containsNanomaterialsPage.assertPageTitle()
-  containsNanomaterialsPage.chooseMulti("2")
-
-  singleorMulticomponentPage.assertPageTitle()
-  singleorMulticomponentPage.choose("No")
-
-  addproductimagePage.assertPageTitle()
-  addproductimagePage.chooseFile()
-  
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.gotoTaskListPage()
-})
-
-Then("check if subheading says incomplete and confirmation of outstanding sections", function () {
-  taskListPage.isIncomplete()
-  taskListPage.sectionsCompleted()
-})
-
-Then("check if view and delete draft buttons are present",function (){
-  taskListPage.viewDeletePresent()
-})
-
-
-When("user reaches tasklist page, there should be many go to questions", function () {
-  taskListPage.numberOfQuestionsMany()
-})
-
-Then ("user completes one nanomaterial section", function () {
-  taskListPage.goQuestion(7)
-
-  nanomaterialpurposePage.assertPageTitle()
-  nanomaterialpurposePage.choose("Another purpose")
-  
-  nanomaterialnotifiedPage.assertPageTitle()
-  nanomaterialnotifiedPage.choose("Yes")
-
-  nanomaterialplacedonmarketPage.assertPageTitle()
-  nanomaterialplacedonmarketPage.submit()
-
-  notifiednanomaterialPage.assertPageTitle()
-  notifiednanomaterialPage.choose("test nano")
-
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.gotoTaskListPage()
-})
-
-When("user completes second nanomaterial section", function () {
-  taskListPage.goQuestion(11)
-  nanomaterialpurposePage.assertPageTitle()
-  nanomaterialpurposePage.choose("Another purpose")
-  
-  nanomaterialnotifiedPage.assertPageTitle()
-  nanomaterialnotifiedPage.choose("Yes")
-
-  nanomaterialplacedonmarketPage.assertPageTitle()
-  nanomaterialplacedonmarketPage.submit()
-
-  notifiednanomaterialPage.assertPageTitle()
-  notifiednanomaterialPage.choose("Crystals")
-
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.gotoTaskListPage()
-})
-
-Then("user fills in the product details", function () {
-  taskListPage.goQuestion(15)
-  selectnanomaterialPage.assertPageTitle()
-  selectnanomaterialPage.chooseMulti(["test nano", "Crystals"])
-  
-  exposureconditionPage.assertPageTitle()
-  exposureconditionPage.choose("Left on")
-
-  exposureroutesPage.assertPageTitle()
-  exposureroutesPage.choose("Dermal")
-
-  numberofshadesPage.assertPageTitle()
-  numberofshadesPage.choose("No")
-
-  addphysicalformPage.assertPageTitle()
-  addphysicalformPage.choose("Solid, or pressed powder")
-  
-  specialapplicatorPage.assertPageTitle()
-  specialapplicatorPage.choose("A typical non-pressurised bottle, jar, sachet or other package")
-
-  containscmrsPage.assertPageTitle()
-  containscmrsPage.choose("No")
-
-  productRootcategoryPage.assertPageTitle()
-  productRootcategoryPage.choose("Hair and scalp products")
-
-  productsubcategoryPage.assertPageTitle()
-  productsubcategoryPage.choose("Hair colouring products")
-
-  ProductSubSubCategoryPage.assertPageTitle()
-  ProductSubSubCategoryPage.choose("Oxidative hair colour products")
-
-  formulationtypePage.assertPageTitle()
-  formulationtypePage.choose('Enter ingredients and their exact concentration manually')
-
-  ingredientexactconcentrationPage.assertPageTitle()
-  ingredientexactconcentrationPage.enterIngredientDetails("i", " 18")
-
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.gotoTaskListPage()
-
-
-})
-
-When("the user reviews filled in details and submits", function () {
-  cy.get("ol").within(() => {
-    cy.get("li").eq(4)
-  }).contains("in progress")
-  taskListPage.goToSummary()
-  // yh edit works just wanted to test another fumction
-  acceptandsubmitPage.buttonsPresent()
-  //acceptandsubmitPage.edit(2)
-  acceptandsubmitPage.submit()
-  declarationPage.assertPageTitle()
-  declarationPage.submit()
-  acceptPage.assertPageTitle()
-  acceptPage.selectNotifiedProductsLink()
-})
-
-When("user views their new product notification", function() {
-  cosmeticProductsPage.selectNotification(1)
-})
-
-Then ("the notified product should have capability to be copied archived and deleted", function(){
-  productPage.checkCopyArchiveDelete()
-})
-When("user clicks on created product notification", function (){
-  cy.get("a").contains("View").click()
-
-})
-
-When("the user creates a product with 2 nano and multi", function () {
-  cosmeticProductsPage.assertPageTitle()
-  cosmeticProductsPage.selectCreateNewProduct()
-
-  taskListPage.assertPageTitle()
-  taskListPage.selectCreateProduct()
-
-  productNamePage.assertPageTitle()
-  productNamePage.enterProductName(`AutoMation Test ${generateRandomNumber(2)}`)
-  productNamePage.submit()
-
-  internalReferencePage.assertPageTitle()
-  internalReferencePage.choose('No')
-  internalReferencePage.submit()
-
-  childrenUnderThreePage.assertPageTitle()
-  childrenUnderThreePage.choose(this.product.nanomaterialnomultiitemcmr.forchildrenunderthree)
-
-  containsNanomaterialsPage.assertPageTitle()
-  containsNanomaterialsPage.chooseMulti("2")
-
-  singleorMulticomponentPage.assertPageTitle()
-  singleorMulticomponentPage.choose("Yes")
-
-  addproductimagePage.assertPageTitle()
-  addproductimagePage.chooseFile()
-  
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.submit()
-})
-
-Then("the user completes one nanomaterial and goes back to taskList page", function (this: any) {
-  nanomaterialpurposePage.assertPageTitle()
-  nanomaterialpurposePage.choose("Another purpose")
-  
-  nanomaterialnotifiedPage.assertPageTitle()
-  nanomaterialnotifiedPage.choose("Yes")
-
-  nanomaterialplacedonmarketPage.assertPageTitle()
-  nanomaterialplacedonmarketPage.submit()
-
-
-
-  notifiednanomaterialPage.assertPageTitle()
-  notifiednanomaterialPage.choose("test nano")
-
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.gotoTaskListPage()
-})
-
-When("the user checks the status of the questions hes completed and takes a break", function (this: any) {
-  taskListPage.twoNano1Multicheck();
-})
-
-Then("user goes back to taskList page and completes second nanomaterial", function (this: any) {
-  taskListPage.goQuestion(11)
-  nanomaterialpurposePage.assertPageTitle()
-  nanomaterialpurposePage.choose("Another purpose")
-  
-  nanomaterialnotifiedPage.assertPageTitle()
-  nanomaterialnotifiedPage.choose("Yes")
-
-  nanomaterialplacedonmarketPage.assertPageTitle()
-  nanomaterialplacedonmarketPage.submit()
-
-
-
-  notifiednanomaterialPage.assertPageTitle()
-  notifiednanomaterialPage.choose("Crystals")
-
-  productcompletedPage.assertSuccessfulCreation()
-  productcompletedPage.gotoTaskListPage()
-})
-
 When("the user completes the first stage of creating a new product notification with nanomaterials, no multi-items and with CMR substances", function (this: any) {
 
   journeytype = "nanomaterialnomultiitemcmr"
@@ -888,6 +478,7 @@ When("the user completes the first stage of creating a new product notification 
   cosmeticProductsPage.selectCreateNewProduct()
 
   taskListPage.assertPageTitle()
+  taskListPage.numberOfQuestionsOne()
   taskListPage.selectCreateProduct()
 
   productNamePage.assertPageTitle()
@@ -924,6 +515,7 @@ When("the user completes the first stage of creating a new product notification 
   cosmeticProductsPage.selectCreateNewProduct()
 
   taskListPage.assertPageTitle()
+  taskListPage.numberOfQuestionsOne()
   taskListPage.selectCreateProduct()
 
   productNamePage.assertPageTitle()
@@ -966,6 +558,7 @@ Then("the nanomaterials section is completed successfully", function () {
 });
 
 When("the user enters the multi-item information", function () {
+  taskListPage.numberOfQuestionsMany()
   taskListPage.selectMultiItemKit()
   multiitemmixedPage.assertPageTitle()
   multiitemmixedPage.choose('No')
@@ -1046,7 +639,7 @@ When("the user enters the item information", function (this: any) {
   formulationtypePage.choose('Enter ingredients and their exact concentration manually')
   ingredientexactconcentrationPage.assertPageTitle()
   ingredientexactconcentrationPage.enterIngredientDetails(this.product.nanonmaterialmultiitemnocmr.ingredientname2,
-    this.product.nanonmaterialmultiitemnocmr.ingredientweight)
+      this.product.nanonmaterialmultiitemnocmr.ingredientweight)
   selectphoptionPage.assertPageTitle()
   selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
   productcompletedPage.assertSuccessfulCreation()

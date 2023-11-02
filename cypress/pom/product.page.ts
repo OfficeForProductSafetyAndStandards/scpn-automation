@@ -25,10 +25,7 @@ class ProductPage {
     }
     
     checkCopyArchiveDelete(){
-        if (cy.get('a').contains("Copy this notification") && cy.get('a').contains("Archive this notification") && cy.get('a').contains("Delete this notification")){
-            return true;
-        }
-        return false;
+        return (cy.get('a').contains("Copy this notification") && cy.get('a').contains("Archive this notification") && cy.get('a').contains("Delete this notification"))
     }
 }
   

@@ -45,9 +45,7 @@ class AcceptAndSubmitPage {
     cy.get('.govuk-button').last().click()
   }
 
-  buttonsPresent(){
 
-  }
   edit(value: number ){
     cy.get("a").filter(':contains("Edit")').eq(value-1).click()
   }
