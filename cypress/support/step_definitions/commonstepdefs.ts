@@ -50,6 +50,9 @@ import nanomaterialuploadPage from "../../pom/nanomaterialupload.page";
 import notifyreviewPage from "../../pom/notifyreview.page";
 import responsiblepersonPage from "../../pom/responsibleperson.page";
 import archivereasonPage from "../../pom/archivereason.page";
+import headerPage from "../../pom/header.page";
+import FooterPage from "../../pom/footer.page";
+import footerPage from "../../pom/footer.page";
 
 
 let journeytype: string
@@ -410,8 +413,12 @@ Given("the user visits the url: {string}", function (url: string) {
 });
 
 When("the user logs into the service", function () {
+  headerPage.assertHeader()
+  headerPage.assertSignIn()
   loginPage.loginAsOpss()
   loginPage.submit()
+  headerPage.assertLogIn()
+  footerPage.assertFooter()
 });
 
 // When("the user logs into SCPN", function () {
@@ -428,6 +435,7 @@ When("the user selects the responsible person", function () {
   selectResponsiblePersonPage.assertPageTitle()
   selectResponsiblePersonPage.selectRP(Cypress.env('RP'))
   selectResponsiblePersonPage.submit()
+  headerPage.assertHrefs();
 });
 
 When("the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances", function (this: any) {
