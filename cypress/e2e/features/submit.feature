@@ -11,18 +11,21 @@ So the data can be accessed by both search and submit users to ensure they compl
     Then the user successfully authenticates using their verification code
     When the user selects the responsible person
 
+
   Scenario: Verify Cookie Policy (Happy Path)
 
     Then the user sees the SCPN cookie banner
     When the user accepts the cookies and hides item
     Then the cookie banner is no longer displayed
  
+
   Scenario: Verify Creation of Notified Nanomaterial (COSBETA-2097)
 
     #create the nanomaterial
     Given the user creates a notified nanomaterial
     Then the nanomaterial is successfully created
   
+
   Scenario: Verify Creation of Product Notification (Nanomaterials / multi-items / no CMR substances / Ingredient csv fixed
   - Happy Path - COSBETA-2065, COSBETA-2067, COSBETA-2072, COSBETA-2076)
 
@@ -62,6 +65,7 @@ So the data can be accessed by both search and submit users to ensure they compl
     #accept and submit the notification
     When the user accepts and submits the product notification
     Then the product notification is successfully created 
+
 
   Scenario: Verify Creation of Product Notification (Notified Nanomaterials  / no multi-items / CMR substances / Ingredient csv exact
   - Happy Path - COSBETA-2068, COSBETA-2069)
