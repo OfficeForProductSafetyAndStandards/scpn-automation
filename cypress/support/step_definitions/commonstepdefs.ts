@@ -130,7 +130,7 @@ When("the user deletes the product notification", function () {
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
       productPage.selectDeleteNotificationLink()
-      //checkCodePage.fillOtpcode("11222")
+      checkCodePage.fillOtpcode("11222")
       break
 
     case 'nanomaterialnomultiitemcmr':
@@ -140,7 +140,7 @@ When("the user deletes the product notification", function () {
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanomaterialnomultiitemcmr.productname)
       productPage.assertPageTitle(this.product.nanomaterialnomultiitemcmr.productname)
       productPage.selectDeleteNotificationLink()
-      //checkCodePage.fillOtpcode("11222")
+      checkCodePage.fillOtpcode("11222")
       break
 
     case 'nonanonomultiitemnocmr':
@@ -150,7 +150,7 @@ When("the user deletes the product notification", function () {
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
       productPage.selectDeleteNotificationLink()
-      //checkCodePage.fillOtpcode("11222")
+      checkCodePage.fillOtpcode("11222")
       break
   }
 
