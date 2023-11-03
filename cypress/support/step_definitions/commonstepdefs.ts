@@ -415,10 +415,12 @@ Given("the user visits the url: {string}", function (url: string) {
 When("the user logs into the service", function () {
   headerPage.assertHeader()
   headerPage.assertSignIn()
+  footerPage.assertFooter()
+  footerPage.assertHrefs()
   loginPage.loginAsOpss()
   loginPage.submit()
-  headerPage.assertLogIn()
-  footerPage.assertFooter()
+  headerPage.assertLoggedIn()
+
 });
 
 // When("the user logs into SCPN", function () {
@@ -435,6 +437,7 @@ When("the user selects the responsible person", function () {
   selectResponsiblePersonPage.assertPageTitle()
   selectResponsiblePersonPage.selectRP(Cypress.env('RP'))
   selectResponsiblePersonPage.submit()
+  headerPage.assertNavbar();
   headerPage.assertHrefs();
 });
 

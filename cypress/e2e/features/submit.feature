@@ -17,7 +17,7 @@ So the data can be accessed by both search and submit users to ensure they compl
     Then the user sees the SCPN cookie banner
     When the user accepts the cookies and hides item
     Then the cookie banner is no longer displayed
- 
+
 
   Scenario: Verify Creation of Notified Nanomaterial (COSBETA-2097)
 
