@@ -27,6 +27,7 @@ class ProductPage {
     checkCopyArchiveDelete(){
         return (cy.get('a').contains("Copy this notification") && cy.get('a').contains("Archive this notification") && cy.get('a').contains("Delete this notification"))
     }
+
 }
   
 export default new ProductPage;

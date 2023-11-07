@@ -124,8 +124,7 @@ When("the user deletes the product notification", function () {
 
   switch (journeytype) {
     case 'nanonmaterialmultiitemnocmr':
-      productPage.selectUnarchiveNotificationLink()
-      
+      productPage.selectUnarchiveNotificationLink()      
       cosmeticProductsPage.assertUnarchiveSuccess()
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
@@ -135,7 +134,6 @@ When("the user deletes the product notification", function () {
 
     case 'nanomaterialnomultiitemcmr':
       productPage.selectUnarchiveNotificationLink()
-
       cosmeticProductsPage.assertUnarchiveSuccess()
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanomaterialnomultiitemcmr.productname)
       productPage.assertPageTitle(this.product.nanomaterialnomultiitemcmr.productname)
@@ -145,7 +143,6 @@ When("the user deletes the product notification", function () {
 
     case 'nonanonomultiitemnocmr':
       productPage.selectUnarchiveNotificationLink()
-
       cosmeticProductsPage.assertUnarchiveSuccess()
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)

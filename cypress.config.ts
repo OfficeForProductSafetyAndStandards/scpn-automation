@@ -50,6 +50,7 @@ export default defineConfig({
   e2e: {
     specPattern: "**/*.feature",
     defaultCommandTimeout: 10000,
+
     baseUrl: "https://staging-submit.cosmetic-product-notifications.service.gov.uk",
     setupNodeEvents,
   },
