@@ -1,7 +1,4 @@
-class FooterPage{
-    assertFooter(){
-        cy.get('footer').contains('Guidance')
-    }
+class FooterPage {
     assertHrefs() {
         cy.get("footer").within(function () {
             cy.get("a:contains(Find a frame formulation)").invoke('attr', 'href').then((href) =>
@@ -25,4 +22,5 @@ class FooterPage{
         })
     }
 }
+
 export default new FooterPage();

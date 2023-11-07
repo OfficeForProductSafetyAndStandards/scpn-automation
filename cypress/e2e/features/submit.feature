@@ -13,14 +13,22 @@ So the data can be accessed by both search and submit users to ensure they compl
 
 
   Scenario: Verify Cookie Policy (Happy Path)
-
     Then the user sees the SCPN cookie banner
     When the user accepts the cookies and hides item
     Then the cookie banner is no longer displayed
 
 
-  Scenario: Verify Creation of Notified Nanomaterial (COSBETA-2097)
+  Scenario: Verify Header
+    Then the user sees the header information
+    And the user sees the correct header information after signing out
 
+
+  Scenario: Verify Footer
+    Then the user sees the footer information
+    And the user sees the correct footer information after signing out
+
+  
+  Scenario: Verify Creation of Notified Nanomaterial (COSBETA-2097)
     #create the nanomaterial
     Given the user creates a notified nanomaterial
     Then the nanomaterial is successfully created
@@ -28,7 +36,6 @@ So the data can be accessed by both search and submit users to ensure they compl
 
   Scenario: Verify Creation of Product Notification (Nanomaterials / multi-items / no CMR substances / Ingredient csv fixed
   - Happy Path - COSBETA-2065, COSBETA-2067, COSBETA-2072, COSBETA-2076)
-
     #create the product - 1st stage
     And the user completes the first stage of creating a new product notification with nanomaterials, multi-items and no CMR substances
     Then the details of the cosmetic product are successfully added to SCPN 
@@ -52,7 +59,6 @@ So the data can be accessed by both search and submit users to ensure they compl
   
   Scenario: Verify Creation of Product Notification (No nanomaterials / no multi-items / no CMR substances / Ingredient csv range
   - Happy Path - COSBETA-2066, COSBETA-2070, COSBETA-2077)
-
     #create the product - 1st stage
     And the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances
     Then the details of the cosmetic product are successfully added to SCPN
@@ -69,8 +75,7 @@ So the data can be accessed by both search and submit users to ensure they compl
 
   Scenario: Verify Creation of Product Notification (Notified Nanomaterials  / no multi-items / CMR substances / Ingredient csv exact
   - Happy Path - COSBETA-2068, COSBETA-2069)
-
-    #create the product - 1st stage
+   #create the product - 1st stage
     And the user completes the first stage of creating a new product notification with nanomaterials, no multi-items and with CMR substances
     Then the details of the cosmetic product are successfully added to SCPN 
 
@@ -89,7 +94,6 @@ So the data can be accessed by both search and submit users to ensure they compl
     
 
   Scenario: Verify Archival and Deletion of Product Notification (Happy Path - COSBETA-2094, COSBETA-2093)
-
     #create the product - 1st stage
     And the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances
     Then the details of the cosmetic product are successfully added to SCPN

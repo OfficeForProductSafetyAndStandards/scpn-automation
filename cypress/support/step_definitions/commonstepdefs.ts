@@ -413,15 +413,29 @@ Given("the user visits the url: {string}", function (url: string) {
 });
 
 When("the user logs into the service", function () {
-  headerPage.assertHeader()
-  headerPage.assertSignIn()
-  footerPage.assertFooter()
-  footerPage.assertHrefs()
   loginPage.loginAsOpss()
   loginPage.submit()
-  headerPage.assertLoggedIn()
-
 });
+
+Then("the user sees the header information", function(){
+  headerPage.assertHeaderLoggedIn()
+})
+
+
+
+Then("the user sees the correct header information after signing out", function(){
+  headerPage.signOut()
+  headerPage.assertHeaderLoggedOut()
+})
+
+Then("the user sees the footer information", function(){
+  footerPage.assertHrefs()
+})
+
+Then("the user sees the correct footer information after signing out", function(){
+  headerPage.signOut()
+  footerPage.assertHrefs()
+})
 
 // When("the user logs into SCPN", function () {
 //   loginPage.loginAsOpss()
@@ -437,8 +451,6 @@ When("the user selects the responsible person", function () {
   selectResponsiblePersonPage.assertPageTitle()
   selectResponsiblePersonPage.selectRP(Cypress.env('RP'))
   selectResponsiblePersonPage.submit()
-  headerPage.assertNavbar();
-  headerPage.assertHrefs();
 });
 
 When("the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances", function (this: any) {
