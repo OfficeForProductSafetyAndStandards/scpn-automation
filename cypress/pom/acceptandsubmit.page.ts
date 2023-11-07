@@ -45,6 +45,11 @@ class AcceptAndSubmitPage {
     cy.get('.govuk-button').last().click()
   }
 
+
+  edit(value: number ){
+    cy.get("a").filter(':contains("Edit")').eq(value-1).click()
+  }
+
 }
 
 export default new AcceptAndSubmitPage;

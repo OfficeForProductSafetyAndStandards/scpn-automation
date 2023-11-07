@@ -50,7 +50,10 @@ import nanomaterialuploadPage from "../../pom/nanomaterialupload.page";
 import notifyreviewPage from "../../pom/notifyreview.page";
 import responsiblepersonPage from "../../pom/responsibleperson.page";
 import archivereasonPage from "../../pom/archivereason.page";
-import deleteconfirmationPage from "../../pom/deleteconfirmation.page";
+import headerPage from "../../pom/header.page";
+import FooterPage from "../../pom/footer.page";
+import footerPage from "../../pom/footer.page";
+
 
 let journeytype: string
 
@@ -121,13 +124,12 @@ When("the user deletes the product notification", function () {
 
   switch (journeytype) {
     case 'nanonmaterialmultiitemnocmr':
-      productPage.selectUnarchiveNotificationLink()
+      productPage.selectUnarchiveNotificationLink()      
       cosmeticProductsPage.assertUnarchiveSuccess()
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
       productPage.selectDeleteNotificationLink()
-      deleteconfirmationPage.assertPageTitle()
-      deleteconfirmationPage.deleteNotificaiton()
+      checkCodePage.fillOtpcode("11222")
       break
 
     case 'nanomaterialnomultiitemcmr':
@@ -136,8 +138,7 @@ When("the user deletes the product notification", function () {
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanomaterialnomultiitemcmr.productname)
       productPage.assertPageTitle(this.product.nanomaterialnomultiitemcmr.productname)
       productPage.selectDeleteNotificationLink()
-      deleteconfirmationPage.assertPageTitle()
-      deleteconfirmationPage.deleteNotificaiton()
+      checkCodePage.fillOtpcode("11222")
       break
 
     case 'nonanonomultiitemnocmr':
@@ -146,8 +147,7 @@ When("the user deletes the product notification", function () {
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
       productPage.selectDeleteNotificationLink()
-      deleteconfirmationPage.assertPageTitle()
-      deleteconfirmationPage.deleteNotificaiton()
+      checkCodePage.fillOtpcode("11222")
       break
   }
 
@@ -177,6 +177,7 @@ When("the user archives the last created product notification", function () {
   switch (journeytype) {
     case 'nanonmaterialmultiitemnocmr':
       productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
+      productPage.checkCopyArchiveDelete()
       productPage.selectArchiveNotificationLink()
       archivereasonPage.assertPageTitle()
       archivereasonPage.choose('Product no longer available on the market')
@@ -186,6 +187,7 @@ When("the user archives the last created product notification", function () {
 
     case 'nanomaterialnomultiitemcmr':
       productPage.assertPageTitle(this.product.nanomaterialnomultiitemcmr.productname)
+      productPage.checkCopyArchiveDelete()
       productPage.selectArchiveNotificationLink()
       archivereasonPage.assertPageTitle()
       archivereasonPage.choose('Product no longer available on the market')
@@ -195,6 +197,7 @@ When("the user archives the last created product notification", function () {
 
     case 'nonanonomultiitemnocmr':
       productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
+      productPage.checkCopyArchiveDelete()
       productPage.selectArchiveNotificationLink()
       archivereasonPage.assertPageTitle()
       archivereasonPage.choose('Product no longer available on the market')
@@ -206,10 +209,6 @@ When("the user archives the last created product notification", function () {
 });
 
 Given("the user creates a notified nanomaterial", function (this: any) {
-  responsiblepersonPage.assertPageTitle()
-  selectResponsiblePersonPage.selectRP(Cypress.env('RP'))
-
-  responsiblepersonPage.assertUser(Cypress.env('RP'))
   responsiblepersonPage.selectNanomaterials()
 
   nanomaterialPage.assertPageTitle()
@@ -314,7 +313,7 @@ When("the user accepts and submits the product notification", function (this: an
   switch (journeytype) {
 
     case 'nonanonomultiitemnocmr':
-      taskListPage.selectAcceptandSubmit()
+      taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nonanonomultiitemnocmr.productname, this.product.nonanonomultiitemnocmr.forchildrenunderthree,
         this.product.nonanonomultiitemnocmr.numnberofitems, this.product.nonanonomultiitemnocmr.shades, this.product.nonanonomultiitemnocmr.image, this.product.nonanonomultiitemnocmr.areitemsmixed)
@@ -330,7 +329,7 @@ When("the user accepts and submits the product notification", function (this: an
       break
 
     case 'nanonmaterialmultiitemnocmr':
-      taskListPage.selectAcceptandSubmit()
+      taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nanonmaterialmultiitemnocmr.productname, this.product.nanonmaterialmultiitemnocmr.forchildrenunderthree,
         this.product.nanonmaterialmultiitemnocmr.numnberofitems, this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.image, this.product.nanonmaterialmultiitemnocmr.areitemsmixed)
@@ -350,7 +349,7 @@ When("the user accepts and submits the product notification", function (this: an
       break
 
     case 'nanomaterialnomultiitemcmr':
-      taskListPage.selectAcceptandSubmit()
+      taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nanomaterialnomultiitemcmr.productname, this.product.nanomaterialnomultiitemcmr.forchildrenunderthree,
         this.product.nanomaterialnomultiitemcmr.numnberofitems, this.product.nanomaterialnomultiitemcmr.shades, this.product.nanomaterialnomultiitemcmr.image, this.product.nanomaterialnomultiitemcmr.areitemsmixed)
@@ -387,6 +386,10 @@ Then("the product notification is successfully created", function (this: any) {
 Then("the details of the cosmetic product are successfully added to SCPN", function (this: any) {
   productcompletedPage.assertSuccessfulCreation()
   productcompletedPage.gotoTaskListPage()
+  taskListPage.isIncomplete()
+  taskListPage.sectionsCompleted()
+  taskListPage.viewDeletePresent()
+  taskListPage.numberOfQuestionsMany()
   if (journeytype === "nonanonomultiitemnocmr") {
     taskListPage.assertProductApplicationCompleted(this.product.nonanonomultiitemnocmr.productname)
   }
@@ -411,6 +414,26 @@ When("the user logs into the service", function () {
   loginPage.submit()
 });
 
+Then("the user sees the header information", function(){
+  headerPage.assertHeaderLoggedIn()
+})
+
+
+
+Then("the user sees the correct header information after signing out", function(){
+  headerPage.signOut()
+  headerPage.assertHeaderLoggedOut()
+})
+
+Then("the user sees the footer information", function(){
+  footerPage.assertHrefs()
+})
+
+Then("the user sees the correct footer information after signing out", function(){
+  headerPage.signOut()
+  footerPage.assertHrefs()
+})
+
 // When("the user logs into SCPN", function () {
 //   loginPage.loginAsOpss()
 //   loginPage.submit()
@@ -418,7 +441,7 @@ When("the user logs into the service", function () {
 
 Then("the user successfully authenticates using their verification code", function () {
   checkCodePage.assertPageTitle()
-  checkCodePage.fillOtpcode(Cypress.env('TWO_FACTOR_AUTH_KEY'))
+  checkCodePage.fillOtpcode("11222")
 });
 
 When("the user selects the responsible person", function () {
@@ -438,6 +461,8 @@ When("the user completes the first stage of creating a new product notification 
   cosmeticProductsPage.selectCreateNewProduct()
 
   taskListPage.assertPageTitle()
+  //checks if number of questions is one
+  taskListPage.numberOfQuestionsOne()
   taskListPage.selectCreateProduct()
 
   productNamePage.assertPageTitle()
@@ -473,6 +498,7 @@ When("the user completes the first stage of creating a new product notification 
   cosmeticProductsPage.selectCreateNewProduct()
 
   taskListPage.assertPageTitle()
+  taskListPage.numberOfQuestionsOne()
   taskListPage.selectCreateProduct()
 
   productNamePage.assertPageTitle()
@@ -509,6 +535,7 @@ When("the user completes the first stage of creating a new product notification 
   cosmeticProductsPage.selectCreateNewProduct()
 
   taskListPage.assertPageTitle()
+  taskListPage.numberOfQuestionsOne()
   taskListPage.selectCreateProduct()
 
   productNamePage.assertPageTitle()
@@ -533,7 +560,7 @@ When("the user completes the first stage of creating a new product notification 
 });
 
 When("the user enters the nanomaterial information", function (this: any) {
-  taskListPage.selectNanomaterials()
+  taskListPage.selectNanomaterials(1)
   nanomaterialpurposePage.assertPageTitle()
   nanomaterialpurposePage.choose(this.product.nanonmaterialmultiitemnocmr.nanomaterialspurpose)
   nanomaterialnotifiedPage.assertPageTitle()
@@ -551,6 +578,7 @@ Then("the nanomaterials section is completed successfully", function () {
 });
 
 When("the user enters the multi-item information", function () {
+  taskListPage.numberOfQuestionsMany()
   taskListPage.selectMultiItemKit()
   multiitemmixedPage.assertPageTitle()
   multiitemmixedPage.choose('No')
@@ -631,7 +659,7 @@ When("the user enters the item information", function (this: any) {
   formulationtypePage.choose('Enter ingredients and their exact concentration manually')
   ingredientexactconcentrationPage.assertPageTitle()
   ingredientexactconcentrationPage.enterIngredientDetails(this.product.nanonmaterialmultiitemnocmr.ingredientname2,
-    this.product.nanonmaterialmultiitemnocmr.ingredientweight)
+      this.product.nanonmaterialmultiitemnocmr.ingredientweight)
   selectphoptionPage.assertPageTitle()
   selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
   productcompletedPage.assertSuccessfulCreation()

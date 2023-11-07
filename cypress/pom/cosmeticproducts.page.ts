@@ -29,6 +29,17 @@ class CosmeticProductsPage {
         cy.contains('a', 'View').click();
       });
     }
+    selectNotification(value: number){
+        if(value-1 > 20){
+            let numClicks = value-1/20
+            for(let i = 0; i < numClicks; i++){
+                cy.get("a").contains("Next Page").click()
+            }
+            //i add + 1 because there is a view cookies "a" tag so it adds it to list of "a" containing View
+            cy.get("a").filter(':contains("View")').eq(((value-1)%20)+1).click()
+        }
+        cy.get("a").filter(':contains("View")').eq(((value-1)%20)+1).click()
+    }
   
   }
   

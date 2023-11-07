@@ -1,10 +1,21 @@
 {
   "nanomaterial": {
-    "name": "Test Nano 41",
+    "name": "Test Nano 35",
     "eunotified": "Yes"
   },
+  "rpAddress": {
+    "Name": "Nashtech1",
+    "Address": "56 Windsor Road new",
+    "Second Address": "New City Update \n New County Update",
+    "Postcode": "SL4 5TT"
+  },
+  "assignedContacts": {
+    "Name": "Caroline Coll",
+    "Email": "nasirkhan@beis.gov.uk",
+    "Telephone": "07984563072"
+  },
   "nonanonomultiitemnocmr": {
-    "productname": "TestProduct 467",
+    "productname": "TestProduct 145",
     "forchildrenunderthree": "No",
     "numnberofitems": "1",
     "shades": "None",
@@ -19,7 +30,7 @@
     "applicatortype": "Encapsulated"
   },
   "nanonmaterialmultiitemnocmr": {
-    "productname": "TestProduct 696",
+    "productname": "TestProduct 933",
     "forchildrenunderthree": "No",
     "numnberofitems": "2",
     "shades": "None",
@@ -32,20 +43,20 @@
     "exposurecondition": "Rinsed off",
     "exposureroutes": "Inhalation",
     "multiitemmixed": "No",
-    "itemname1": "Item Name 301",
-    "itemname2": "Item Name 467",
+    "itemname1": "Item Name 108",
+    "itemname2": "Item Name 364",
     "itemcategoryofproduct": "Skin product",
     "itemproductsubcategory": "Skin care product",
     "itemproductsubsubcategory": "Face mask",
     "itemphysicalform": "Liquid",
     "itemapplicatortype": "Encapsulated",
     "itemcontainscmrsubstances": "No",
-    "ingredientname1": "Ingredient 578",
-    "ingredientname2": "Ingredient 928",
+    "ingredientname1": "Ingredient 458",
+    "ingredientname2": "Ingredient 208",
     "ingredientweight": "30"
   },
   "nanomaterialnomultiitemcmr": {
-    "productname": "TestProduct 398",
+    "productname": "TestProduct 165",
     "forchildrenunderthree": "No",
     "numnberofitems": "1",
     "shades": "None",
@@ -54,9 +65,9 @@
     "nanomaterials": "Yes",
     "nanomaterialspurpose": "Another purpose",
     "nanomaterialnotified": "Yes",
-    "substance1": "Test Substance 600",
-    "substance1casno": "8249-80-7",
-    "substance1ecno": "751-864-6",
+    "substance1": "Test Substance 773",
+    "substance1casno": "2429-25-4",
+    "substance1ecno": "765-323-2",
     "notifiednanomaterial": "test nano",
     "exposurecondition": "Rinsed off",
     "exposureroutes": "Inhalation",
