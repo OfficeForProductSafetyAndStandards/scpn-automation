@@ -53,6 +53,8 @@ import archivereasonPage from "../../pom/archivereason.page";
 import headerPage from "../../pom/header.page";
 import FooterPage from "../../pom/footer.page";
 import footerPage from "../../pom/footer.page";
+import notificationsearchPage from "../../pom/notificationsearch.page";
+import notificationresultPage from "../../pom/notificationresult.page";
 
 
 let journeytype: string
@@ -452,6 +454,44 @@ When("the user selects the responsible person", function () {
   selectResponsiblePersonPage.selectRP(Cypress.env('RP'))
   selectResponsiblePersonPage.submit()
 });
+
+Then("user searches for Archived product notification", function(){
+notificationsearchPage.assertPageTitle();
+notificationsearchPage.search("Soft and shiny shampoo");
+notificationsearchPage.selectNotificationStatus("Archived");
+notificationsearchPage.submit();
+});
+
+Then("user searches for Notified product notification", function(){
+  notificationsearchPage.assertPageTitle();
+  notificationsearchPage.search("Hair dye");
+  notificationsearchPage.selectNotificationStatus("Notified");
+  notificationsearchPage.submit();
+});
+
+Then("user searches for an Ingredient", function(){
+  notificationsearchPage.selectIngredient()
+  notificationsearchPage.searchIngredient("test");
+  notificationsearchPage.submit();
+})
+When("user sees the results of their search", function (){
+  notificationresultPage.assertPageTitle();
+})
+
+When("user sees the results of their ingredient search", function (){
+  notificationresultPage.assertIngredientPageTitle();
+})
+Then("user views the details of their archived result", function(){
+  notificationresultPage.select("Soft and shiny shampoo");
+})
+
+Then("user views the details of their notified result", function(){
+  notificationresultPage.select("Hair dye");
+})
+
+Then("user views the details of the ingredient", function (){
+  notificationresultPage.select("test");
+})
 
 When("the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances", function (this: any) {
   journeytype = "nonanonomultiitemnocmr"
