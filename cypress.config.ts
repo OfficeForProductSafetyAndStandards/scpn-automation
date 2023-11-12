@@ -52,5 +52,6 @@ export default defineConfig({
     defaultCommandTimeout: 10000,
     baseUrl: "https://staging-submit.cosmetic-product-notifications.service.gov.uk",
     setupNodeEvents,
+    experimentalRunAllSpecs: true,
   },
 });

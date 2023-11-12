@@ -111,9 +111,7 @@ So the data can be accessed by both search and submit users to ensure they compl
     When the user archives the last created product notification
     Then the notification is successfully archived
 
-    #delete the notification
-    When the user deletes the product notification
-    Then the notification is successfully deleted
+
   
 
   

@@ -59,6 +59,7 @@ import notificationresultPage from "../../pom/notificationresult.page";
 
 let journeytype: string
 
+
 beforeEach(function () {
   cy.fixture('product.json').then(function (product) {
     product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
@@ -77,6 +78,7 @@ beforeEach(function () {
   })
 });
 
+
 afterEach(function () {
   const name = Cypress.currentTest.title
   const sceanrioStatus = (Cypress as any).mocha.getRunner().suite.ctx.currentTest.state
@@ -84,6 +86,7 @@ afterEach(function () {
     cy.log(name)
     cy.sendOpsGenieAlert(name, sceanrioStatus);
   }
+
 });
 
 Then("the user sees the SCPN cookie banner", function () {
@@ -178,7 +181,7 @@ Then("the notification is successfully deleted", function () {
 });
 
 When("the user archives the last created product notification", function () {
-
+  let store = ""
   switch (journeytype) {
     case 'nanonmaterialmultiitemnocmr':
       productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
@@ -188,6 +191,7 @@ When("the user archives the last created product notification", function () {
       archivereasonPage.choose('Product no longer available on the market')
       cosmeticProductsPage.assertArchiveSuccess()
       cosmeticProductsPage.selectArchivedNotifications()
+      store = this.product.nanonmaterialmultiitemnocmr.productname
       break
 
     case 'nanomaterialnomultiitemcmr':
@@ -198,6 +202,7 @@ When("the user archives the last created product notification", function () {
       archivereasonPage.choose('Product no longer available on the market')
       cosmeticProductsPage.assertArchiveSuccess()
       cosmeticProductsPage.selectArchivedNotifications()
+      store = this.product.nanomaterialnomultiitemcmr.productname
       break
 
     case 'nonanonomultiitemnocmr':
@@ -208,9 +213,13 @@ When("the user archives the last created product notification", function () {
       archivereasonPage.choose('Product no longer available on the market')
       cosmeticProductsPage.assertArchiveSuccess()
       cosmeticProductsPage.selectArchivedNotifications()
+      store = this.product.nonanonomultiitemnocmr.productname
       break
   }
-
+  cy.fixture('product.json').then(function (product) {
+    product.status.archived = store
+    cy.writeFile('cypress/fixtures/product.json', product);
+  })
 });
 
 Given("the user creates a notified nanomaterial", function (this: any) {
@@ -400,9 +409,14 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
   }
   if (journeytype === "nanonmaterialmultiitemnocmr") {
     taskListPage.assertProductApplicationCompleted(this.product.nanonmaterialmultiitemnocmr.productname)
+    cy.fixture('product.json').then(function (product) {
+      product.status.notified = this.product.nanonmaterialmultiitemnocmr.productname
+      cy.writeFile('cypress/fixtures/product.json', product);
+    })
   }
   if (journeytype === "nanomaterialnomultiitemcmr") {
     taskListPage.assertProductApplicationCompleted(this.product.nanomaterialnomultiitemcmr.productname)
+
   }
 });
 
@@ -457,14 +471,15 @@ When("the user selects the responsible person", function () {
 
 Then("user searches for Archived product notification", function(){
 notificationsearchPage.assertPageTitle();
-notificationsearchPage.search("Soft and shiny shampoo");
+
+notificationsearchPage.search(this.product.status.archived);
 notificationsearchPage.selectNotificationStatus("Archived");
 notificationsearchPage.submit();
 });
 
 Then("user searches for Notified product notification", function(){
   notificationsearchPage.assertPageTitle();
-  notificationsearchPage.search("Hair dye");
+  notificationsearchPage.search(this.product.status.notified);
   notificationsearchPage.selectNotificationStatus("Notified");
   notificationsearchPage.submit();
 });
@@ -482,16 +497,17 @@ When("user sees the results of their ingredient search", function (){
   notificationresultPage.assertIngredientPageTitle();
 })
 Then("user views the details of their archived result", function(){
-  notificationresultPage.select("Soft and shiny shampoo");
+  notificationresultPage.select(this.product.nonanonomultiitemnocmr.productname);
 })
 
 Then("user views the details of their notified result", function(){
-  notificationresultPage.select("Hair dye");
+  notificationresultPage.select(this.product.nanonmaterialmultiitemnocmr.productname);
 })
 
 Then("user views the details of the ingredient", function (){
   notificationresultPage.select("test");
 })
+
 
 When("the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances", function (this: any) {
   journeytype = "nonanonomultiitemnocmr"
