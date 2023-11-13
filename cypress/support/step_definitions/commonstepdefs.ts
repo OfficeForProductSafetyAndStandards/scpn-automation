@@ -57,9 +57,11 @@ import notificationsearchPage from "../../pom/notificationsearch.page";
 import notificationresultPage from "../../pom/notificationresult.page";
 
 
+
 let journeytype: string
-
-
+let archived: boolean
+let notified: boolean
+let store: string
 beforeEach(function () {
   cy.fixture('product.json').then(function (product) {
     product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
@@ -87,6 +89,20 @@ afterEach(function () {
     cy.sendOpsGenieAlert(name, sceanrioStatus);
   }
 
+  if(archived){
+    console.log("archived is true: " + store);
+    cy.fixture('product.json').then(function (product) {
+      product.status.archived = store
+      //console.log("im storing the store value : " + store + " now")
+      cy.writeFile('cypress/fixtures/product.json', product);
+    })
+  }
+  if(notified){
+    cy.fixture('product.json').then(function (product) {
+      product.status.notified = this.product.nanonmaterialmultiitemnocmr.productname
+      cy.writeFile('cypress/fixtures/product.json', product);
+    })
+  }
 });
 
 Then("the user sees the SCPN cookie banner", function () {
@@ -130,7 +146,7 @@ When("the user deletes the product notification", function () {
   switch (journeytype) {
     case 'nanonmaterialmultiitemnocmr':
       productPage.selectUnarchiveNotificationLink()
-      
+
       cosmeticProductsPage.assertUnarchiveSuccess()
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
@@ -181,7 +197,6 @@ Then("the notification is successfully deleted", function () {
 });
 
 When("the user archives the last created product notification", function () {
-  let store = ""
   switch (journeytype) {
     case 'nanonmaterialmultiitemnocmr':
       productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
@@ -216,10 +231,8 @@ When("the user archives the last created product notification", function () {
       store = this.product.nonanonomultiitemnocmr.productname
       break
   }
-  cy.fixture('product.json').then(function (product) {
-    product.status.archived = store
-    cy.writeFile('cypress/fixtures/product.json', product);
-  })
+  archived = true
+
 });
 
 Given("the user creates a notified nanomaterial", function (this: any) {
@@ -330,9 +343,9 @@ When("the user accepts and submits the product notification", function (this: an
       taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nonanonomultiitemnocmr.productname, this.product.nonanonomultiitemnocmr.forchildrenunderthree,
-        this.product.nonanonomultiitemnocmr.numnberofitems, this.product.nonanonomultiitemnocmr.shades, this.product.nonanonomultiitemnocmr.image, this.product.nonanonomultiitemnocmr.areitemsmixed)
+          this.product.nonanonomultiitemnocmr.numnberofitems, this.product.nonanonomultiitemnocmr.shades, this.product.nonanonomultiitemnocmr.image, this.product.nonanonomultiitemnocmr.areitemsmixed)
       acceptandsubmitPage.assertProductDetails(this.product.nonanonomultiitemnocmr.categoryofproduct, this.product.nonanonomultiitemnocmr.productsubcategory, this.product.nonanonomultiitemnocmr.productsubsubcategory,
-        this.product.nonanonomultiitemnocmr.containscmrsubstances, this.product.nonanonomultiitemnocmr.physicalform, this.product.nonanonomultiitemnocmr.applicatortype)
+          this.product.nonanonomultiitemnocmr.containscmrsubstances, this.product.nonanonomultiitemnocmr.physicalform, this.product.nonanonomultiitemnocmr.applicatortype)
       acceptandsubmitPage.submit()
       declarationPage.assertPageTitle()
       declarationPage.submit()
@@ -346,13 +359,13 @@ When("the user accepts and submits the product notification", function (this: an
       taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nanonmaterialmultiitemnocmr.productname, this.product.nanonmaterialmultiitemnocmr.forchildrenunderthree,
-        this.product.nanonmaterialmultiitemnocmr.numnberofitems, this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.image, this.product.nanonmaterialmultiitemnocmr.areitemsmixed)
+          this.product.nanonmaterialmultiitemnocmr.numnberofitems, this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.image, this.product.nanonmaterialmultiitemnocmr.areitemsmixed)
       acceptandsubmitPage.assertItemDetails(this.product.nanonmaterialmultiitemnocmr.itemname1, this.product.nanonmaterialmultiitemnocmr.itemcategoryofproduct, this.product.nanonmaterialmultiitemnocmr.itemcontainscmrsubstances,
-        this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
-        this.product.nanonmaterialmultiitemnocmr.itemproductsubcategory, this.product.nanonmaterialmultiitemnocmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemnocmr.itemphysicalform, this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
+          this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
+          this.product.nanonmaterialmultiitemnocmr.itemproductsubcategory, this.product.nanonmaterialmultiitemnocmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemnocmr.itemphysicalform, this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
       acceptandsubmitPage.assertItemDetails(this.product.nanonmaterialmultiitemnocmr.itemname2, this.product.nanonmaterialmultiitemnocmr.itemcategoryofproduct, this.product.nanonmaterialmultiitemnocmr.itemcontainscmrsubstances,
-        this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
-        this.product.nanonmaterialmultiitemnocmr.itemproductsubcategory, this.product.nanonmaterialmultiitemnocmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemnocmr.itemphysicalform, this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
+          this.product.nanonmaterialmultiitemnocmr.shades, this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial, this.product.nanonmaterialmultiitemnocmr.exposureroutes, this.product.nanonmaterialmultiitemnocmr.exposurecondition,
+          this.product.nanonmaterialmultiitemnocmr.itemproductsubcategory, this.product.nanonmaterialmultiitemnocmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemnocmr.itemphysicalform, this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
       acceptandsubmitPage.submit()
       declarationPage.assertPageTitle()
       declarationPage.submit()
@@ -366,9 +379,9 @@ When("the user accepts and submits the product notification", function (this: an
       taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nanomaterialnomultiitemcmr.productname, this.product.nanomaterialnomultiitemcmr.forchildrenunderthree,
-        this.product.nanomaterialnomultiitemcmr.numnberofitems, this.product.nanomaterialnomultiitemcmr.shades, this.product.nanomaterialnomultiitemcmr.image, this.product.nanomaterialnomultiitemcmr.areitemsmixed)
+          this.product.nanomaterialnomultiitemcmr.numnberofitems, this.product.nanomaterialnomultiitemcmr.shades, this.product.nanomaterialnomultiitemcmr.image, this.product.nanomaterialnomultiitemcmr.areitemsmixed)
       acceptandsubmitPage.assertProductDetails(this.product.nanomaterialnomultiitemcmr.categoryofproduct, this.product.nanomaterialnomultiitemcmr.productsubcategory, this.product.nanomaterialnomultiitemcmr.productsubsubcategory,
-        this.product.nanomaterialnomultiitemcmr.containscmrsubstances, this.product.nanomaterialnomultiitemcmr.physicalform, this.product.nanomaterialnomultiitemcmr.applicatortype)
+          this.product.nanomaterialnomultiitemcmr.containscmrsubstances, this.product.nanomaterialnomultiitemcmr.physicalform, this.product.nanomaterialnomultiitemcmr.applicatortype)
       acceptandsubmitPage.assertCMRSubstance(this.product.nanomaterialnomultiitemcmr.substance1, this.product.nanomaterialnomultiitemcmr.substance1casno, this.product.nanomaterialnomultiitemcmr.substance1ecno)
       acceptandsubmitPage.submit()
       declarationPage.assertPageTitle()
@@ -409,10 +422,7 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
   }
   if (journeytype === "nanonmaterialmultiitemnocmr") {
     taskListPage.assertProductApplicationCompleted(this.product.nanonmaterialmultiitemnocmr.productname)
-    cy.fixture('product.json').then(function (product) {
-      product.status.notified = this.product.nanonmaterialmultiitemnocmr.productname
-      cy.writeFile('cypress/fixtures/product.json', product);
-    })
+    notified = true
   }
   if (journeytype === "nanomaterialnomultiitemcmr") {
     taskListPage.assertProductApplicationCompleted(this.product.nanomaterialnomultiitemcmr.productname)
@@ -470,11 +480,11 @@ When("the user selects the responsible person", function () {
 });
 
 Then("user searches for Archived product notification", function(){
-notificationsearchPage.assertPageTitle();
+  notificationsearchPage.assertPageTitle();
 
-notificationsearchPage.search(this.product.status.archived);
-notificationsearchPage.selectNotificationStatus("Archived");
-notificationsearchPage.submit();
+  notificationsearchPage.search(this.product.status.archived);
+  notificationsearchPage.selectNotificationStatus("Archived");
+  notificationsearchPage.submit();
 });
 
 Then("user searches for Notified product notification", function(){
@@ -497,11 +507,11 @@ When("user sees the results of their ingredient search", function (){
   notificationresultPage.assertIngredientPageTitle();
 })
 Then("user views the details of their archived result", function(){
-  notificationresultPage.select(this.product.nonanonomultiitemnocmr.productname);
+  notificationresultPage.select(this.product.status.archived);
 })
 
 Then("user views the details of their notified result", function(){
-  notificationresultPage.select(this.product.nanonmaterialmultiitemnocmr.productname);
+  notificationresultPage.select(this.product.status.notified);
 })
 
 Then("user views the details of the ingredient", function (){
@@ -681,7 +691,7 @@ When("the user enters the item information", function (this: any) {
   formulationtypePage.choose('Enter ingredients and their exact concentration manually')
   ingredientexactconcentrationPage.assertPageTitle()
   ingredientexactconcentrationPage.enterIngredientDetails(this.product.nanonmaterialmultiitemnocmr.ingredientname1,
-    this.product.nanonmaterialmultiitemnocmr.ingredientweight)
+      this.product.nanonmaterialmultiitemnocmr.ingredientweight)
   selectphoptionPage.assertPageTitle()
   selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
   productcompletedPage.assertSuccessfulCreation()
