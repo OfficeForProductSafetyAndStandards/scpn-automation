@@ -61,7 +61,8 @@ import notificationresultPage from "../../pom/notificationresult.page";
 let journeytype: string
 let archived: boolean
 let notified: boolean
-let store: string
+let storeArchived: string
+let storeNotified:string
 beforeEach(function () {
   cy.fixture('product.json').then(function (product) {
     product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
@@ -90,16 +91,16 @@ afterEach(function () {
   }
 
   if(archived){
-    console.log("archived is true: " + store);
+    console.log("archived is true: " + storeArchived);
     cy.fixture('product.json').then(function (product) {
-      product.status.archived = store
+      product.status.archived = storeArchived
       //console.log("im storing the store value : " + store + " now")
       cy.writeFile('cypress/fixtures/product.json', product);
     })
   }
   if(notified){
     cy.fixture('product.json').then(function (product) {
-      product.status.notified = this.product.nanonmaterialmultiitemnocmr.productname
+      product.status.notified = storeNotified
       cy.writeFile('cypress/fixtures/product.json', product);
     })
   }
@@ -206,7 +207,7 @@ When("the user archives the last created product notification", function () {
       archivereasonPage.choose('Product no longer available on the market')
       cosmeticProductsPage.assertArchiveSuccess()
       cosmeticProductsPage.selectArchivedNotifications()
-      store = this.product.nanonmaterialmultiitemnocmr.productname
+      storeArchived = this.product.nanonmaterialmultiitemnocmr.productname
       break
 
     case 'nanomaterialnomultiitemcmr':
@@ -217,7 +218,7 @@ When("the user archives the last created product notification", function () {
       archivereasonPage.choose('Product no longer available on the market')
       cosmeticProductsPage.assertArchiveSuccess()
       cosmeticProductsPage.selectArchivedNotifications()
-      store = this.product.nanomaterialnomultiitemcmr.productname
+      storeArchived = this.product.nanomaterialnomultiitemcmr.productname
       break
 
     case 'nonanonomultiitemnocmr':
@@ -228,7 +229,7 @@ When("the user archives the last created product notification", function () {
       archivereasonPage.choose('Product no longer available on the market')
       cosmeticProductsPage.assertArchiveSuccess()
       cosmeticProductsPage.selectArchivedNotifications()
-      store = this.product.nonanonomultiitemnocmr.productname
+      storeArchived = this.product.nonanonomultiitemnocmr.productname
       break
   }
   archived = true
@@ -422,6 +423,7 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
   }
   if (journeytype === "nanonmaterialmultiitemnocmr") {
     taskListPage.assertProductApplicationCompleted(this.product.nanonmaterialmultiitemnocmr.productname)
+    storeNotified = this.product.nanonmaterialmultiitemnocmr.productname
     notified = true
   }
   if (journeytype === "nanomaterialnomultiitemcmr") {
