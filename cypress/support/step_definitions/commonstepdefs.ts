@@ -51,10 +51,13 @@ import notifyreviewPage from "../../pom/notifyreview.page";
 import responsiblepersonPage from "../../pom/responsibleperson.page";
 import archivereasonPage from "../../pom/archivereason.page";
 import headerPage from "../../pom/header.page";
-import FooterPage from "../../pom/footer.page";
 import footerPage from "../../pom/footer.page";
 import notificationsearchPage from "../../pom/notificationsearch.page";
 import notificationresultPage from "../../pom/notificationresult.page";
+import osudashboardPage from "../../pom/osudashboard.page";
+import accountadminPage from "../../pom/accountadmin.page";
+import accountadminsearchPage from "../../pom/accountadminsearch.page";
+import searchaccountPage from "../../pom/searchaccount.page";
 
 
 
@@ -911,4 +914,14 @@ Then("the items section is completed successfully", function (this: any) {
 Then("the items section is completed successfully for cmr", function (this: any) {
   tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemcmr.itemname2)
 
+});
+
+Then("the OSU portal user changes the search user role to: {string}", function (role: string) {
+  osudashboardPage.assertPageTitle()
+  osudashboardPage.gotoAccountAdmin()
+  accountadminPage.assertPageTitle()
+  accountadminPage.gotoSearch()
+  accountadminsearchPage.search()
+  accountadminsearchPage.view()
+  searchaccountPage.changeRole(role)
 });

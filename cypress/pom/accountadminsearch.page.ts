@@ -1,6 +1,6 @@
 class AccountAdminSearchPage{
-    search(email: string){
-        cy.get("#q-field").type(email);
+    search(){
+        cy.get("#q-field").type(Cypress.env('SEARCH_USER_EMAIL'));
         cy.get('button').last().click()
     }
 
