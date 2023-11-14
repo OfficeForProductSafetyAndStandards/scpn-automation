@@ -61,21 +61,31 @@ import notificationresultPage from "../../pom/notificationresult.page";
 let journeytype: string
 let archived: boolean
 let notified: boolean
+let perfect: boolean
 let storeArchived: string
 let storeNotified:string
+let completeProduct: string
 beforeEach(function () {
   cy.fixture('product.json').then(function (product) {
     product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
     product.nonanonomultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemnocmr.productname = `TestProduct ${generateRandomNumber(3)}`
     product.nanomaterialnomultiitemcmr.productname = `TestProduct ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemcmr.productname = `TestProduct ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemcmr.substance1 = `Test Substance ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemcmr.substance1casno = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
+    product.nanonmaterialmultiitemcmr.substance1ecno = `${generateRandomNumber(3)}-${generateRandomNumber(3)}-${generateRandomNumber(1)}`
     product.nanomaterialnomultiitemcmr.substance1 = `Test Substance ${generateRandomNumber(3)}`
     product.nanomaterialnomultiitemcmr.substance1casno = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
     product.nanomaterialnomultiitemcmr.substance1ecno = `${generateRandomNumber(3)}-${generateRandomNumber(3)}-${generateRandomNumber(1)}`
     product.nanonmaterialmultiitemnocmr.itemname1 = `Item Name ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemnocmr.itemname2 = `Item Name ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemcmr.itemname1 = `Item Name ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemcmr.itemname2 = `Item Name ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemnocmr.ingredientname1 = `Ingredient ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemnocmr.ingredientname2 = `Ingredient ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemcmr.ingredientname1 = `Ingredient ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemcmr.ingredientname2 = `Ingredient ${generateRandomNumber(3)}`
     cy.writeFile('cypress/fixtures/product.json', product);
     this.product = product
   })
@@ -101,6 +111,13 @@ afterEach(function () {
   if(notified){
     cy.fixture('product.json').then(function (product) {
       product.status.notified = storeNotified
+      cy.writeFile('cypress/fixtures/product.json', product);
+    })
+  }
+
+  if(perfect){
+    cy.fixture('product.json').then(function (product) {
+      product.status.completeProduct = completeProduct
       cy.writeFile('cypress/fixtures/product.json', product);
     })
   }
@@ -376,6 +393,25 @@ When("the user accepts and submits the product notification", function (this: an
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemnocmr.productname)
       break
 
+    case 'nanonmaterialmultiitemcmr':
+      taskListPage.goToSummary()
+      acceptandsubmitPage.assertPageTitle()
+      acceptandsubmitPage.assertProductInfo(this.product.nanonmaterialmultiitemcmr.productname, this.product.nanonmaterialmultiitemcmr.forchildrenunderthree,
+          this.product.nanonmaterialmultiitemcmr.numnberofitems, this.product.nanonmaterialmultiitemcmr.shades, this.product.nanonmaterialmultiitemcmr.image, this.product.nanonmaterialmultiitemcmr.areitemsmixed)
+      acceptandsubmitPage.assertItemDetails(this.product.nanonmaterialmultiitemcmr.itemname1, this.product.nanonmaterialmultiitemcmr.itemcategoryofproduct, this.product.nanonmaterialmultiitemcmr.itemcontainscmrsubstances,
+          this.product.nanonmaterialmultiitemcmr.shades, this.product.nanonmaterialmultiitemcmr.notifiednanomaterial, this.product.nanonmaterialmultiitemcmr.exposureroutes, this.product.nanonmaterialmultiitemcmr.exposurecondition,
+          this.product.nanonmaterialmultiitemcmr.itemproductsubcategory, this.product.nanonmaterialmultiitemcmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemcmr.itemphysicalform, this.product.nanonmaterialmultiitemcmr.itemapplicatortype)
+      acceptandsubmitPage.assertItemDetails(this.product.nanonmaterialmultiitemcmr.itemname2, this.product.nanonmaterialmultiitemcmr.itemcategoryofproduct, this.product.nanonmaterialmultiitemcmr.itemcontainscmrsubstances,
+          this.product.nanonmaterialmultiitemcmr.shades, this.product.nanonmaterialmultiitemcmr.notifiednanomaterial, this.product.nanonmaterialmultiitemcmr.exposureroutes, this.product.nanonmaterialmultiitemcmr.exposurecondition,
+          this.product.nanonmaterialmultiitemcmr.itemproductsubcategory, this.product.nanonmaterialmultiitemcmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemcmr.itemphysicalform, this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
+      acceptandsubmitPage.submit()
+      declarationPage.assertPageTitle()
+      declarationPage.submit()
+      acceptPage.assertPageTitle()
+      acceptPage.selectNotifiedProductsLink()
+      cosmeticProductsPage.assertPageTitle()
+      cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemcmr.productname)
+      break
     case 'nanomaterialnomultiitemcmr':
       taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
@@ -421,6 +457,7 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
   if (journeytype === "nonanonomultiitemnocmr") {
     taskListPage.assertProductApplicationCompleted(this.product.nonanonomultiitemnocmr.productname)
   }
+
   if (journeytype === "nanonmaterialmultiitemnocmr") {
     taskListPage.assertProductApplicationCompleted(this.product.nanonmaterialmultiitemnocmr.productname)
     storeNotified = this.product.nanonmaterialmultiitemnocmr.productname
@@ -429,6 +466,11 @@ Then("the details of the cosmetic product are successfully added to SCPN", funct
   if (journeytype === "nanomaterialnomultiitemcmr") {
     taskListPage.assertProductApplicationCompleted(this.product.nanomaterialnomultiitemcmr.productname)
 
+  }
+  if (journeytype === "nanonmaterialmultiitemcmr") {
+    taskListPage.assertProductApplicationCompleted(this.product.nanonmaterialmultiitemcmr.productname)
+    completeProduct = this.product.nanonmaterialmultiitemcmr.productname
+    perfect = true
   }
 });
 
@@ -557,6 +599,42 @@ When("the user completes the first stage of creating a new product notification 
   addproductimagePage.chooseFile()
 });
 
+When("the user completes the first stage of creating a new product notification with nanomaterials, multi-items and CMR substances", function (this: any) {
+  journeytype = "nanonmultiitemcmr"
+
+  responsiblepersonPage.assertPageTitle()
+  responsiblepersonPage.assertUser(Cypress.env('RP'))
+  responsiblepersonPage.selectCosmeticProducts()
+
+  cosmeticProductsPage.assertPageTitle()
+  cosmeticProductsPage.selectCreateNewProduct()
+
+  taskListPage.assertPageTitle()
+  //checks if number of questions is one
+  taskListPage.numberOfQuestionsOne()
+  taskListPage.selectCreateProduct()
+
+  productNamePage.assertPageTitle()
+  productNamePage.enterProductName(this.product.nanonmaterialmultiitemcmr.productname)
+  productNamePage.submit()
+
+  internalReferencePage.assertPageTitle()
+  internalReferencePage.choose('No')
+  internalReferencePage.submit()
+
+  childrenUnderThreePage.assertPageTitle()
+  childrenUnderThreePage.choose(this.product.nanonmaterialmultiitemcmr.forchildrenunderthree)
+
+  containsNanomaterialsPage.assertPageTitle()
+  containsNanomaterialsPage.choose('Yes')
+
+  singleorMulticomponentPage.assertPageTitle()
+  singleorMulticomponentPage.choose('Yes')
+
+  addproductimagePage.assertPageTitle()
+  addproductimagePage.chooseFile()
+});
+
 When("the user completes the first stage of creating a new product notification with nanomaterials, no multi-items and with CMR substances", function (this: any) {
 
   journeytype = "nanomaterialnomultiitemcmr"
@@ -642,7 +720,17 @@ When("the user enters the nanomaterial information", function (this: any) {
   notifiednanomaterialPage.choose(this.product.nanonmaterialmultiitemnocmr.notifiednanomaterial)
 
 });
-
+When("the user enters the nanomaterial information for cmr", function (this: any){
+  taskListPage.selectNanomaterials(1)
+  nanomaterialpurposePage.assertPageTitle()
+  nanomaterialpurposePage.choose(this.product.nanonmaterialmultiitemcmr.nanomaterialspurpose)
+  nanomaterialnotifiedPage.assertPageTitle()
+  nanomaterialnotifiedPage.choose('Yes')
+  nanomaterialplacedonmarketPage.assertPageTitle()
+  nanomaterialplacedonmarketPage.submit()
+  notifiednanomaterialPage.assertPageTitle()
+  notifiednanomaterialPage.choose(this.product.nanonmaterialmultiitemcmr.notifiednanomaterial)
+});
 Then("the nanomaterials section is completed successfully", function () {
   nanomaterialcompletionPage.assertPageTitle()
   nanomaterialcompletionPage.submit()
@@ -738,7 +826,89 @@ When("the user enters the item information", function (this: any) {
   tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemnocmr.itemname2)
 });
 
+When("the user enters the item information for cmr product", function (this: any) {
+  tasklistPage.selectFirstItem()
+  itemnamePage.assertPageTitle()
+  itemnamePage.enterItemName(this.product.nanonmaterialmultiitemcmr.itemname1)
+  itemnamePage.submit()
+  selectnanomaterialPage.assertPageTitle()
+  selectnanomaterialPage.choose(this.product.nanonmaterialmultiitemcmr.notifiednanomaterial)
+  exposureconditionPage.assertPageTitle()
+  exposureconditionPage.choose(this.product.nanonmaterialmultiitemcmr.exposurecondition)
+  exposureroutesPage.assertPageTitle()
+  exposureroutesPage.choose(this.product.nanonmaterialmultiitemcmr.exposureroutes)
+  numberofshadesPage.assertPageTitle()
+  numberofshadesPage.choose('No')
+  addphysicalformPage.assertPageTitle()
+  addphysicalformPage.choose(this.product.nanonmaterialmultiitemcmr.itemphysicalform)
+  specialapplicatorPage.assertPageTitle()
+  specialapplicatorPage.choose('pressurised container')
+  specialapplicatortypePage.assertPageTitle()
+  specialapplicatortypePage.choose(this.product.nanonmaterialmultiitemcmr.itemapplicatortype)
+  containscmrsPage.assertPageTitle()
+  containscmrsPage.choose(this.product.nanonmaterialmultiitemcmr.itemcontainscmrsubstances)
+  cmrsubstancePage.assertPageTitle()
+  cmrsubstancePage.enterSubstanceDetails(this.product.nanonmaterialmultiitemcmr.substance1, this.product.nanonmaterialmultiitemcmr.substance1casno, this.product.nanonmaterialmultiitemcmr.substance1ecno)
+
+  productRootcategoryPage.assertPageTitle()
+  productRootcategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemcategoryofproduct)
+  productsubcategoryPage.assertPageTitle()
+  productsubcategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemproductsubcategory)
+  ProductSubSubCategoryPage.assertPageTitle()
+  ProductSubSubCategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemproductsubsubcategory)
+  formulationtypePage.assertPageTitle()
+  formulationtypePage.choose('Enter ingredients and their exact concentration manually')
+  ingredientexactconcentrationPage.assertPageTitle()
+  ingredientexactconcentrationPage.enterIngredientDetails(this.product.nanonmaterialmultiitemcmr.ingredientname1, this.product.nanonmaterialmultiitemcmr.ingredientweight)
+  selectphoptionPage.assertPageTitle()
+  selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
+  productcompletedPage.assertSuccessfulCreation()
+  productcompletedPage.gotoTaskListPage()
+  tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemcmr.itemname1)
+
+  tasklistPage.selectSecondtItem()
+  itemnamePage.assertPageTitle()
+  itemnamePage.enterItemName(this.product.nanonmaterialmultiitemcmr.itemname2)
+  itemnamePage.submit()
+  selectnanomaterialPage.assertPageTitle()
+  selectnanomaterialPage.choose(this.product.nanonmaterialmultiitemcmr.notifiednanomaterial)
+  exposureconditionPage.assertPageTitle()
+  exposureconditionPage.choose(this.product.nanonmaterialmultiitemcmr.exposurecondition)
+  exposureroutesPage.assertPageTitle()
+  exposureroutesPage.choose(this.product.nanonmaterialmultiitemcmr.exposureroutes)
+  numberofshadesPage.assertPageTitle()
+  numberofshadesPage.choose('No')
+  addphysicalformPage.assertPageTitle()
+  addphysicalformPage.choose(this.product.nanonmaterialmultiitemcmr.itemphysicalform)
+  specialapplicatorPage.assertPageTitle()
+  specialapplicatorPage.choose('pressurised container')
+  specialapplicatortypePage.assertPageTitle()
+  specialapplicatortypePage.choose(this.product.nanonmaterialmultiitemcmr.itemapplicatortype)
+  containscmrsPage.assertPageTitle()
+  containscmrsPage.choose(this.product.nanonmaterialmultiitemcmr.itemcontainscmrsubstances)
+  cmrsubstancePage.assertPageTitle()
+  cmrsubstancePage.enterSubstanceDetails(this.product.nanonmaterialmultiitemcmr.substance1, this.product.nanonmaterialmultiitemcmr.substance1casno, this.product.nanonmaterialmultiitemcmr.substance1ecno)
+  productRootcategoryPage.assertPageTitle()
+  productRootcategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemcategoryofproduct)
+  productsubcategoryPage.assertPageTitle()
+  productsubcategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemproductsubcategory)
+  ProductSubSubCategoryPage.assertPageTitle()
+  ProductSubSubCategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemproductsubsubcategory)
+  formulationtypePage.assertPageTitle()
+  formulationtypePage.choose('Enter ingredients and their exact concentration manually')
+  ingredientexactconcentrationPage.assertPageTitle()
+  ingredientexactconcentrationPage.enterIngredientDetails(this.product.nanonmaterialmultiitemcmr.ingredientname2, this.product.nanonmaterialmultiitemcmr.ingredientweight)
+  selectphoptionPage.assertPageTitle()
+  selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
+  productcompletedPage.assertSuccessfulCreation()
+  productcompletedPage.gotoTaskListPage()
+  tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemcmr.itemname2)
+});
 Then("the items section is completed successfully", function (this: any) {
   tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemnocmr.itemname2)
+
+});
+Then("the items section is completed successfully for cmr", function (this: any) {
+  tasklistPage.assertItemCompleted(this.product.nanonmaterialmultiitemcmr.itemname2)
 
 });

@@ -111,6 +111,28 @@ So the data can be accessed by both search and submit users to ensure they compl
     When the user archives the last created product notification
     Then the notification is successfully archived
 
+  Scenario: Verify Creation of Product Notification (Nanomaterials / multi-items / CMR substances / Ingredient csv fixed
+  - Happy Path - COSBETA-2272)
+    #create the product - 1st stage
+    And the user completes the first stage of creating a new product notification with nanomaterials, multi-items and CMR substances
+    Then the details of the cosmetic product are successfully added to SCPN
+
+    #complete the nanomaterial section
+    When the user enters the nanomaterial information for cmr
+    Then the nanomaterials section is completed successfully
+
+    #complete the multi-item section
+    When the user enters the multi-item information
+    Then the multi-items section is completed successfully
+
+    #complete the items section and upload
+    When the user enters the item information for cmr product
+    Then the items section is completed successfully for cmr
+
+    #accept and submit the notification
+    When the user accepts and submits the product notification
+    Then the product notification is successfully created
+
 
   
 
