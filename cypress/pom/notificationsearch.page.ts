@@ -13,11 +13,22 @@ class NotificationsearchPage{
     selectNotificationStatus(type: string){
         cy.get('fieldset').contains(type).click();
     }
+    selectSortingOrder(type: string){
+        cy.get(".govuk-radios").contains(type).click()
+    }
     selectIngredient(){
         cy.get('a').contains('Ingredients search').click()
     }
     submit() {
         cy.get('button[class="govuk-button"]').last().click()
+    }
+
+    assertCosmeticSearch(){
+        cy.get('a').contains("Cosmetic products search")
+    }
+
+    assertIngredientSearch(){
+        cy.get('a').contains("Ingredients search")
     }
 }
 

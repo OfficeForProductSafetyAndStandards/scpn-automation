@@ -58,10 +58,14 @@ import osudashboardPage from "../../pom/osudashboard.page";
 import accountadminPage from "../../pom/accountadmin.page";
 import accountadminsearchPage from "../../pom/accountadminsearch.page";
 import searchaccountPage from "../../pom/searchaccount.page";
+import searchproductPage from "../../pom/searchproduct.page";
+import accesstypePage from "../../pom/accesstype.page";
+import SearchproductPage from "../../pom/searchproduct.page";
 
 
 
 let journeytype: string
+let roleType: string
 let archived: boolean
 let notified: boolean
 let perfect: boolean
@@ -78,6 +82,8 @@ beforeEach(function () {
     product.nanonmaterialmultiitemcmr.substance1 = `Test Substance ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemcmr.substance1casno = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
     product.nanonmaterialmultiitemcmr.substance1ecno = `${generateRandomNumber(3)}-${generateRandomNumber(3)}-${generateRandomNumber(1)}`
+    product.nanonmaterialmultiitemcmr.ingredient1CAS = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
+    product.nanonmaterialmultiitemcmr.ingredient2CAS = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
     product.nanomaterialnomultiitemcmr.substance1 = `Test Substance ${generateRandomNumber(3)}`
     product.nanomaterialnomultiitemcmr.substance1casno = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
     product.nanomaterialnomultiitemcmr.substance1ecno = `${generateRandomNumber(3)}-${generateRandomNumber(3)}-${generateRandomNumber(1)}`
@@ -415,7 +421,7 @@ When("the user accepts and submits the product notification", function (this: an
       cosmeticProductsPage.assertPageTitle()
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nanonmaterialmultiitemcmr.productname)
       break
-    case 'nanomaterialnomultiitemcmr':
+    case 'nanonmaterialnomultiitemcmr':
       taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nanomaterialnomultiitemcmr.productname, this.product.nanomaterialnomultiitemcmr.forchildrenunderthree,
@@ -447,6 +453,9 @@ Then("the product notification is successfully created", function (this: any) {
   }
   if (journeytype === "nanonmaterialmultiitemnocmr") {
     productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
+  }
+  if (journeytype === "nanonmaterialmultiitemcmr") {
+    productPage.assertPageTitle(this.product.nanonmaterialmultiitemcmr.productname)
   }
 });
 
@@ -519,6 +528,11 @@ Then("the user successfully authenticates using their verification code", functi
   checkCodePage.assertPageTitle()
   checkCodePage.fillOtpcode("11222")
 });
+
+Then("the user recieves text message and successfully authenticates using their verification code", function(){
+  accesstypePage.assertPageTitle()
+  accesstypePage.choose()
+})
 
 When("the user selects the responsible person", function () {
   selectResponsiblePersonPage.assertPageTitle()
@@ -603,7 +617,7 @@ When("the user completes the first stage of creating a new product notification 
 });
 
 When("the user completes the first stage of creating a new product notification with nanomaterials, multi-items and CMR substances", function (this: any) {
-  journeytype = "nanonmultiitemcmr"
+  journeytype = "nanonmaterialmultiitemcmr"
 
   responsiblepersonPage.assertPageTitle()
   responsiblepersonPage.assertUser(Cypress.env('RP'))
@@ -862,7 +876,7 @@ When("the user enters the item information for cmr product", function (this: any
   formulationtypePage.assertPageTitle()
   formulationtypePage.choose('Enter ingredients and their exact concentration manually')
   ingredientexactconcentrationPage.assertPageTitle()
-  ingredientexactconcentrationPage.enterIngredientDetails(this.product.nanonmaterialmultiitemcmr.ingredientname1, this.product.nanonmaterialmultiitemcmr.ingredientweight)
+  ingredientexactconcentrationPage.enterIngredientDetailswithCAS(this.product.nanonmaterialmultiitemcmr.ingredientname1, this.product.nanonmaterialmultiitemcmr.ingredientweight, this.product.nanonmaterialmultiitemcmr.ingredient1CAS, "yes")
   selectphoptionPage.assertPageTitle()
   selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
   productcompletedPage.assertSuccessfulCreation()
@@ -900,7 +914,7 @@ When("the user enters the item information for cmr product", function (this: any
   formulationtypePage.assertPageTitle()
   formulationtypePage.choose('Enter ingredients and their exact concentration manually')
   ingredientexactconcentrationPage.assertPageTitle()
-  ingredientexactconcentrationPage.enterIngredientDetails(this.product.nanonmaterialmultiitemcmr.ingredientname2, this.product.nanonmaterialmultiitemcmr.ingredientweight)
+  ingredientexactconcentrationPage.enterIngredientDetailswithCAS(this.product.nanonmaterialmultiitemcmr.ingredientname1, this.product.nanonmaterialmultiitemcmr.ingredientweight, this.product.nanonmaterialmultiitemcmr.ingredient2CAS, "no")
   selectphoptionPage.assertPageTitle()
   selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
   productcompletedPage.assertSuccessfulCreation()
@@ -924,4 +938,154 @@ Then("the OSU portal user changes the search user role to: {string}", function (
   accountadminsearchPage.search()
   accountadminsearchPage.view()
   searchaccountPage.changeRole(role)
+  roleType = role
 });
+
+When ("user sees the Search Dashboard", function(){
+  switch (roleType) {
+
+    case 'OPSS General':
+      notificationsearchPage.assertCosmeticSearch()
+      break
+    case 'OPSS Enforcement':
+        notificationsearchPage.assertCosmeticSearch()
+        notificationsearchPage.assertIngredientSearch()
+      break
+    case 'OPSS Science':
+      notificationsearchPage.assertCosmeticSearch()
+      notificationsearchPage.assertIngredientSearch()
+      break
+    case 'Trading Standards':
+      notificationsearchPage.assertCosmeticSearch()
+      notificationsearchPage.assertIngredientSearch()
+      break
+    case 'NPIS':
+      notificationsearchPage.assertCosmeticSearch()
+      notificationsearchPage.assertIngredientSearch()
+      break
+  }
+})
+
+When("user searches for previously created product notification", function (){
+  notificationsearchPage.search(this.product.status.completeProduct)
+  notificationsearchPage.selectNotificationStatus("Notified")
+  notificationsearchPage.selectSortingOrder("Newest")
+  notificationsearchPage.submit()
+
+  notificationresultPage.assertPageTitle()
+  notificationresultPage.select(this.product.status.completeProduct)
+})
+
+Then("user is displayed the correct product notification pertaining to the specified search user role", function(){
+  switch (roleType) {
+
+    case 'OPSS General':
+        searchproductPage.assertPageTitle(this.product.status.completeProduct);
+        searchproductPage.containsCosmeticProductNumber()
+        searchproductPage.containsProductNotified()
+        searchproductPage.containsUnder3()
+        searchproductPage.containsProductName()
+        searchproductPage.containsNumberItems()
+        searchproductPage.containsShades(1)
+        searchproductPage.containsLabelImage()
+        searchproductPage.containsMixed()
+        searchproductPage.containsResponsiblePerson()
+        searchproductPage.containsAssignedContact()
+      break
+    case 'OPSS Enforcement':
+      searchproductPage.assertPageTitle(this.product.status.completeProduct);
+      searchproductPage.containsCosmeticProductNumber()
+      searchproductPage.containsProductNotified()
+      searchproductPage.containsUnder3()
+      searchproductPage.containsProductName()
+      searchproductPage.containsNumberItems()
+      searchproductPage.containsShades(3)
+      searchproductPage.containsLabelImage()
+      searchproductPage.containsMixed()
+      searchproductPage.containsCMR(2)
+      searchproductPage.containsNanomaterials(2)
+      searchproductPage.containsCategoryOfProduct(2)
+      searchproductPage.containsPhysicalForm(2)
+      searchproductPage.containsSpecialApplicator(2)
+      searchproductPage.containsPH(2)
+      searchproductPage.containsFormulation(2)
+      searchproductPage.containsIngredients(2)
+      searchproductPage.containsPercentage()
+      searchproductPage.notifiedNPIS()
+      searchproductPage.containsCAS()
+      searchproductPage.containsResponsiblePerson()
+      searchproductPage.containsAddressHistory()
+      searchproductPage.containsAssignedContact()
+      break
+    case 'OPSS Science':
+      searchproductPage.assertPageTitle(this.product.status.completeProduct);
+      searchproductPage.containsCosmeticProductNumber()
+      searchproductPage.containsProductNotified()
+      searchproductPage.containsProductName()
+      searchproductPage.containsUnder3()
+      searchproductPage.containsNumberItems()
+      searchproductPage.containsShades(3)
+      searchproductPage.containsLabelImage()
+      searchproductPage.containsMixed()
+      searchproductPage.containsCMR(2)
+      searchproductPage.containsNanomaterials(2)
+      searchproductPage.containsCategoryOfProduct(2)
+      searchproductPage.containsPhysicalForm(2)
+      searchproductPage.containsSpecialApplicator(2)
+      searchproductPage.containsPH(2)
+      searchproductPage.containsFormulation(2)
+      searchproductPage.containsIngredients(1)
+      searchproductPage.containsCAS()
+      searchproductPage.containsResponsiblePerson()
+      searchproductPage.containsAssignedContact()
+      searchproductPage.containsPDF()
+      break
+    case 'Trading Standards':
+      searchproductPage.assertPageTitle(this.product.status.completeProduct);
+      searchproductPage.containsCosmeticProductNumber()
+      searchproductPage.containsProductNotified()
+      searchproductPage.containsUnder3()
+      searchproductPage.containsProductName()
+      searchproductPage.containsNumberItems()
+      searchproductPage.containsShades(3)
+      searchproductPage.containsLabelImage()
+      searchproductPage.containsMixed()
+      searchproductPage.containsCMR(2)
+      searchproductPage.containsNanomaterials(2)
+      searchproductPage.containsCategoryOfProduct(2)
+      searchproductPage.containsPhysicalForm(2)
+      searchproductPage.containsSpecialApplicator(2)
+      searchproductPage.containsPH(2)
+      searchproductPage.containsFormulation(2)
+      searchproductPage.containsIngredients(1)
+      searchproductPage.containsCAS()
+      searchproductPage.containsResponsiblePerson()
+      searchproductPage.containsAddressHistory()
+      searchproductPage.containsAssignedContact()
+      break
+    case 'NPIS':
+      searchproductPage.assertPageTitle(this.product.status.completeProduct);
+      searchproductPage.containsCosmeticProductNumber()
+      searchproductPage.containsProductNotified()
+      searchproductPage.containsUnder3()
+      searchproductPage.containsProductName()
+      searchproductPage.containsNumberItems()
+      searchproductPage.containsShades(3)
+      searchproductPage.containsLabelImage()
+      searchproductPage.containsMixed()
+      searchproductPage.containsCMR(2)
+      searchproductPage.containsNanomaterials(2)
+      searchproductPage.containsCategoryOfProduct(2)
+      searchproductPage.containsPhysicalForm(2)
+      searchproductPage.containsSpecialApplicator(2)
+      searchproductPage.containsFormulation(2)
+      searchproductPage.containsIngredients(2)
+      searchproductPage.containsPercentage()
+      searchproductPage.notifiedNPIS()
+      searchproductPage.containsCAS()
+      searchproductPage.containsResponsiblePerson()
+      searchproductPage.containsAssignedContact()
+      break
+  }
+})
+
