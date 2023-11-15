@@ -7,7 +7,7 @@ Feature: Verify Search Role type is only able to see permitted product notificat
     #authenticate the support user
     Given the user visits the url: "https://staging-support.cosmetic-product-notifications.service.gov.uk"
     When the user logs into the service
-    Then the user successfully authenticates using their verification code
+    Then the user recieves text message and successfully authenticates using their verification code
 
   Scenario: Assert view permissions of OPSS General search user
     Then the OSU portal user changes the search user role to: "OPSS General"
