@@ -450,17 +450,8 @@ When("the user accepts and submits the product notification", function (this: an
       break
 
     case 'nanonmaterialmultiitemcmr':
-
       taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
-      acceptandsubmitPage.assertProductInfo(this.product.nanonmaterialmultiitemcmr.productname, this.product.nanonmaterialmultiitemcmr.forchildrenunderthree,
-          this.product.nanonmaterialmultiitemcmr.numnberofitems, this.product.nanonmaterialmultiitemcmr.shades, this.product.nanonmaterialmultiitemcmr.image, this.product.nanonmaterialmultiitemcmr.areitemsmixed)
-      acceptandsubmitPage.assertItemDetails(this.product.nanonmaterialmultiitemcmr.itemname1, this.product.nanonmaterialmultiitemcmr.itemcategoryofproduct, this.product.nanonmaterialmultiitemcmr.itemcontainscmrsubstances,
-          this.product.nanonmaterialmultiitemcmr.shades, this.product.nanonmaterialmultiitemcmr.notifiednanomaterial, this.product.nanonmaterialmultiitemcmr.exposureroutes, this.product.nanonmaterialmultiitemcmr.exposurecondition,
-          this.product.nanonmaterialmultiitemcmr.itemproductsubcategory, this.product.nanonmaterialmultiitemcmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemcmr.itemphysicalform, this.product.nanonmaterialmultiitemcmr.itemapplicatortype)
-      acceptandsubmitPage.assertItemDetails(this.product.nanonmaterialmultiitemcmr.itemname2, this.product.nanonmaterialmultiitemcmr.itemcategoryofproduct, this.product.nanonmaterialmultiitemcmr.itemcontainscmrsubstances,
-          this.product.nanonmaterialmultiitemcmr.shades, this.product.nanonmaterialmultiitemcmr.notifiednanomaterial, this.product.nanonmaterialmultiitemcmr.exposureroutes, this.product.nanonmaterialmultiitemcmr.exposurecondition,
-          this.product.nanonmaterialmultiitemcmr.itemproductsubcategory, this.product.nanonmaterialmultiitemcmr.itemproductsubsubcategory, this.product.nanonmaterialmultiitemcmr.itemphysicalform, this.product.nanonmaterialmultiitemnocmr.itemapplicatortype)
       acceptandsubmitPage.submit()
       declarationPage.assertPageTitle()
       declarationPage.submit()
@@ -473,10 +464,10 @@ When("the user accepts and submits the product notification", function (this: an
       taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nanomaterialnomultiitemcmr.productname, this.product.nanomaterialnomultiitemcmr.forchildrenunderthree,
-          this.product.nanomaterialnomultiitemcmr.numnberofitems, this.product.nanomaterialnomultiitemcmr.shades, this.product.nanomaterialnomultiitemcmr.image, this.product.nanomaterialnomultiitemcmr.areitemsmixed)
-      acceptandsubmitPage.assertProductDetails(this.product.nanomaterialnomultiitemcmr.categoryofproduct, this.product.nanomaterialnomultiitemcmr.productsubcategory, this.product.nanomaterialnomultiitemcmr.productsubsubcategory,
-          this.product.nanomaterialnomultiitemcmr.containscmrsubstances, this.product.nanomaterialnomultiitemcmr.physicalform, this.product.nanomaterialnomultiitemcmr.applicatortype)
-      acceptandsubmitPage.assertCMRSubstance(this.product.nanomaterialnomultiitemcmr.substance1, this.product.nanomaterialnomultiitemcmr.substance1casno, this.product.nanomaterialnomultiitemcmr.substance1ecno)
+        this.product.nanomaterialnomultiitemcmr.numnberofitems, this.product.nanomaterialnomultiitemcmr.shades, this.product.nanomaterialnomultiitemcmr.image, this.product.nanomaterialnomultiitemcmr.areitemsmixed)
+    acceptandsubmitPage.assertProductDetails(this.product.nanomaterialnomultiitemcmr.categoryofproduct, this.product.nanomaterialnomultiitemcmr.productsubcategory, this.product.nanomaterialnomultiitemcmr.productsubsubcategory,
+        this.product.nanomaterialnomultiitemcmr.containscmrsubstances, this.product.nanomaterialnomultiitemcmr.physicalform, this.product.nanomaterialnomultiitemcmr.applicatortype)
+    acceptandsubmitPage.assertCMRSubstance(this.product.nanomaterialnomultiitemcmr.substance1, this.product.nanomaterialnomultiitemcmr.substance1casno, this.product.nanomaterialnomultiitemcmr.substance1ecno)
       acceptandsubmitPage.submit()
       declarationPage.assertPageTitle()
       declarationPage.submit()
