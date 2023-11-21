@@ -10,8 +10,7 @@ So the data can be accessed by both search and submit users to ensure they compl
     When the user logs into the service
     Then the user successfully authenticates using their verification code
     When the user selects the responsible person
-
-
+  
   Scenario: Verify Cookie Policy (Happy Path)
     Then the user sees the SCPN cookie banner
     When the user accepts the cookies and hides item
@@ -27,12 +26,11 @@ So the data can be accessed by both search and submit users to ensure they compl
     Then the user sees the footer information
     And the user sees the correct footer information after signing out
 
-  
+
   Scenario: Verify Creation of Notified Nanomaterial (COSBETA-2097)
     #create the nanomaterial
     Given the user creates a notified nanomaterial
     Then the nanomaterial is successfully created
-  
 
   Scenario: Verify Creation of Product Notification (Nanomaterials / multi-items / no CMR substances / Ingredient csv fixed
   - Happy Path - COSBETA-2065, COSBETA-2067, COSBETA-2072, COSBETA-2076)
@@ -55,7 +53,6 @@ So the data can be accessed by both search and submit users to ensure they compl
     #accept and submit the notification
     When the user accepts and submits the product notification
     Then the product notification is successfully created
-
 
   Scenario: Verify Creation of Product Notification (No nanomaterials / no multi-items / no CMR substances / Ingredient csv range
   - Happy Path - COSBETA-2066, COSBETA-2070, COSBETA-2077)
@@ -91,8 +88,7 @@ So the data can be accessed by both search and submit users to ensure they compl
     #accept and submit the notification
     When the user accepts and submits the product notification
     Then the product notification is successfully created
-
-
+  
   Scenario: Verify Archival and Deletion of Product Notification (Happy Path - COSBETA-2094, COSBETA-2093)
     #create the product - 1st stage
     And the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances

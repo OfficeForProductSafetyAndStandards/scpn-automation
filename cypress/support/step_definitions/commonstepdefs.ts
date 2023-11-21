@@ -60,8 +60,9 @@ import accountadminsearchPage from "../../pom/accountadminsearch.page";
 import searchaccountPage from "../../pom/searchaccount.page";
 import searchproductPage from "../../pom/searchproduct.page";
 import accesstypePage from "../../pom/accesstype.page";
-import SearchproductPage from "../../pom/searchproduct.page";
 
+import * as fs from 'fs';
+import "cypress-fs";
 
 
 let journeytype: string
@@ -72,6 +73,10 @@ let perfect: boolean
 let storeArchived: string
 let storeNotified:string
 let completeProduct: string
+let cosmeticNumber: string
+let dateNotified: string
+
+
 beforeEach(function () {
   cy.fixture('product.json').then(function (product) {
     product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
@@ -82,6 +87,9 @@ beforeEach(function () {
     product.nanonmaterialmultiitemcmr.substance1 = `Test Substance ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemcmr.substance1casno = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
     product.nanonmaterialmultiitemcmr.substance1ecno = `${generateRandomNumber(3)}-${generateRandomNumber(3)}-${generateRandomNumber(1)}`
+    product.nanonmaterialmultiitemcmr.substance2 = `Test Substance ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemcmr.substance2casno = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
+    product.nanonmaterialmultiitemcmr.substance2ecno = `${generateRandomNumber(3)}-${generateRandomNumber(3)}-${generateRandomNumber(1)}`
     product.nanonmaterialmultiitemcmr.ingredient1CAS = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
     product.nanonmaterialmultiitemcmr.ingredient2CAS = `${generateRandomNumber(4)}-${generateRandomNumber(2)}-${generateRandomNumber(1)}`
     product.nanomaterialnomultiitemcmr.substance1 = `Test Substance ${generateRandomNumber(3)}`
@@ -95,8 +103,15 @@ beforeEach(function () {
     product.nanonmaterialmultiitemnocmr.ingredientname2 = `Ingredient ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemcmr.ingredientname1 = `Ingredient ${generateRandomNumber(3)}`
     product.nanonmaterialmultiitemcmr.ingredientname2 = `Ingredient ${generateRandomNumber(3)}`
+    product.nanonmaterialmultiitemcmr.ingredientweight = `${generateRandomNumber(2)}`
+    product.nanonmaterialmultiitemcmr.ingredientweight1 = `${generateRandomNumber(2)}`
     cy.writeFile('cypress/fixtures/product.json', product);
     this.product = product
+  })
+  cy.readFile('cypress/fixtures/search.json').then(function (search) {
+
+    this.search = search;
+    //console.log(this.search.completeProduct.productname)
   })
 });
 
@@ -109,25 +124,57 @@ afterEach(function () {
     cy.sendOpsGenieAlert(name, sceanrioStatus);
   }
 
-  if(archived){
-    console.log("archived is true: " + storeArchived);
-    cy.fixture('product.json').then(function (product) {
+  if(archived && notified && perfect){
+    console.log("i hope this works")
+    cy.readFile('cypress/fixtures/search.json').then(function (product) {
       product.status.archived = storeArchived
-      //console.log("im storing the store value : " + store + " now")
-      cy.writeFile('cypress/fixtures/product.json', product);
-    })
-  }
-  if(notified){
-    cy.fixture('product.json').then(function (product) {
       product.status.notified = storeNotified
-      cy.writeFile('cypress/fixtures/product.json', product);
-    })
-  }
-
-  if(perfect){
-    cy.fixture('product.json').then(function (product) {
       product.status.completeProduct = completeProduct
-      cy.writeFile('cypress/fixtures/product.json', product);
+      product.completeProduct.cosmeticnumber = cosmeticNumber
+      product.completeProduct.uknotified = dateNotified
+      product.completeProduct.productname = this.product.nanonmaterialmultiitemcmr.productname
+      product.completeProduct.forchildrenunderthree = this.product.nanonmaterialmultiitemcmr.forchildrenunderthree
+      product.completeProduct.numnberofitems = this.product.nanonmaterialmultiitemcmr.numnberofitems
+      product.completeProduct.shades = this.product.nanonmaterialmultiitemcmr.shades
+      product.completeProduct.areitemsmixed = this.product.nanonmaterialmultiitemcmr.areitemsmixed
+      product.completeProduct.containscmrsubstances = this.product.nanonmaterialmultiitemcmr.containscmrsubstances
+      product.completeProduct.nanomaterials = this.product.nanonmaterialmultiitemcmr.nanomaterials
+      product.completeProduct.nanomaterialspurpose = this.product.nanonmaterialmultiitemcmr.nanomaterialspurpose
+      product.completeProduct.nanomaterialnotified = this.product.nanonmaterialmultiitemcmr.nanomaterialnotified
+      product.completeProduct.substance1 = this.product.nanonmaterialmultiitemcmr.substance1
+      product.completeProduct.substance1casno = this.product.nanonmaterialmultiitemcmr.substance1casno
+      product.completeProduct.substance1ecno = this.product.nanonmaterialmultiitemcmr.substance1ecno
+      product.completeProduct.substance2 = this.product.nanonmaterialmultiitemcmr.substance2
+      product.completeProduct.substance2casno = this.product.nanonmaterialmultiitemcmr.substance2casno
+      product.completeProduct.substance2ecno = this.product.nanonmaterialmultiitemcmr.substance2ecno
+      product.completeProduct.ingredient1CAS = this.product.nanonmaterialmultiitemcmr.ingredient1CAS
+      product.completeProduct.ingredient2CAS = this.product.nanonmaterialmultiitemcmr.ingredient2CAS
+      product.completeProduct.notifiednanomaterial = this.product.nanonmaterialmultiitemcmr.notifiednanomaterial
+      product.completeProduct.exposurecondition = this.product.nanonmaterialmultiitemcmr.exposurecondition
+      product.completeProduct.exposurecondition1 = this.product.nanonmaterialmultiitemcmr.exposurecondition1
+      product.completeProduct.exposureroutes  = this.product.nanonmaterialmultiitemcmr.exposureroutes
+      product.completeProduct.exposureroutes1  = this.product.nanonmaterialmultiitemcmr.exposureroutes1
+      product.completeProduct.multiitemmixed = this.product.nanonmaterialmultiitemcmr.multiitemmixed
+      product.completeProduct.itemname1 = this.product.nanonmaterialmultiitemcmr.itemname1
+      product.completeProduct.itemname2 = this.product.nanonmaterialmultiitemcmr.itemname2
+      product.completeProduct.itemcategoryofproduct = this.product.nanonmaterialmultiitemcmr.itemcategoryofproduct
+      product.completeProduct.itemcategoryofproduct1 = this.product.nanonmaterialmultiitemcmr.itemcategoryofproduct1
+      product.completeProduct.itemproductsubcategory = this.product.nanonmaterialmultiitemcmr.itemproductsubcategory
+      product.completeProduct.itemproductsubcategory1 = this.product.nanonmaterialmultiitemcmr.itemproductsubcategory1
+      product.completeProduct.itemproductsubsubcategory = this.product.nanonmaterialmultiitemcmr.itemproductsubsubcategory
+      product.completeProduct.itemproductsubsubcategory1 = this.product.nanonmaterialmultiitemcmr.itemproductsubsubcategory1
+      product.completeProduct.itemphysicalform = this.product.nanonmaterialmultiitemcmr.itemphysicalform
+      product.completeProduct.itemphysicalform1 = this.product.nanonmaterialmultiitemcmr.itemphysicalform1
+      product.completeProduct.itemapplicatortype = this.product.nanonmaterialmultiitemcmr.itemapplicatortype
+      product.completeProduct.itemcontainscmrsubstances = this.product.nanonmaterialmultiitemcmr.itemcontainscmrsubstances
+      product.completeProduct.ingredientname1 = this.product.nanonmaterialmultiitemcmr.ingredientname1
+      product.completeProduct.ingredientname2 = this.product.nanonmaterialmultiitemcmr.ingredientname2
+      product.completeProduct.ingredientweight = this.product.nanonmaterialmultiitemcmr.ingredientweight
+      product.completeProduct.ingredientweight1 = this.product.nanonmaterialmultiitemcmr.ingredientweight1
+      archived = false;
+      notified = false;
+      perfect = false;
+      cy.writeFile('cypress/fixtures/search.json', product)   
     })
   }
 });
@@ -403,6 +450,7 @@ When("the user accepts and submits the product notification", function (this: an
       break
 
     case 'nanonmaterialmultiitemcmr':
+
       taskListPage.goToSummary()
       acceptandsubmitPage.assertPageTitle()
       acceptandsubmitPage.assertProductInfo(this.product.nanonmaterialmultiitemcmr.productname, this.product.nanonmaterialmultiitemcmr.forchildrenunderthree,
@@ -455,6 +503,18 @@ Then("the product notification is successfully created", function (this: any) {
     productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
   }
   if (journeytype === "nanonmaterialmultiitemcmr") {
+    //cosmeticNumber = productPage.getProductNumber()
+    console.log("this is cosmetic number " + cosmeticNumber)
+    cy.get("dt").contains("UK cosmetic product number").siblings().then($word => {
+      cosmeticNumber = $word.text()
+      cosmeticNumber = cosmeticNumber.trim()
+      cosmeticNumber = cosmeticNumber.replace(/\n|\s|\r/, "")
+    })
+    cy.get("dt").contains("UK notified").siblings().then($word => {
+      dateNotified = $word.text()
+      dateNotified = dateNotified.trim()
+      dateNotified = dateNotified.replace(/\n|\r/, "")
+    })
     productPage.assertPageTitle(this.product.nanonmaterialmultiitemcmr.productname)
   }
 });
@@ -543,14 +603,14 @@ When("the user selects the responsible person", function () {
 Then("user searches for Archived product notification", function(){
   notificationsearchPage.assertPageTitle();
 
-  notificationsearchPage.search(this.product.status.archived);
+  notificationsearchPage.search(this.search.status.archived);
   notificationsearchPage.selectNotificationStatus("Archived");
   notificationsearchPage.submit();
 });
 
 Then("user searches for Notified product notification", function(){
   notificationsearchPage.assertPageTitle();
-  notificationsearchPage.search(this.product.status.notified);
+  notificationsearchPage.search(this.search.status.notified);
   notificationsearchPage.selectNotificationStatus("Notified");
   notificationsearchPage.submit();
 });
@@ -568,11 +628,11 @@ When("user sees the results of their ingredient search", function (){
   notificationresultPage.assertIngredientPageTitle();
 })
 Then("user views the details of their archived result", function(){
-  notificationresultPage.select(this.product.status.archived);
+  notificationresultPage.select(this.search.status.archived);
 })
 
 Then("user views the details of their notified result", function(){
-  notificationresultPage.select(this.product.status.notified);
+  notificationresultPage.select(this.search.status.notified);
 })
 
 Then("user views the details of the ingredient", function (){
@@ -890,13 +950,13 @@ When("the user enters the item information for cmr product", function (this: any
   selectnanomaterialPage.assertPageTitle()
   selectnanomaterialPage.choose(this.product.nanonmaterialmultiitemcmr.notifiednanomaterial)
   exposureconditionPage.assertPageTitle()
-  exposureconditionPage.choose(this.product.nanonmaterialmultiitemcmr.exposurecondition)
+  exposureconditionPage.choose(this.product.nanonmaterialmultiitemcmr.exposurecondition1)
   exposureroutesPage.assertPageTitle()
-  exposureroutesPage.choose(this.product.nanonmaterialmultiitemcmr.exposureroutes)
+  exposureroutesPage.choose(this.product.nanonmaterialmultiitemcmr.exposureroutes1)
   numberofshadesPage.assertPageTitle()
   numberofshadesPage.choose('No')
   addphysicalformPage.assertPageTitle()
-  addphysicalformPage.choose(this.product.nanonmaterialmultiitemcmr.itemphysicalform)
+  addphysicalformPage.choose(this.product.nanonmaterialmultiitemcmr.itemphysicalform1)
   specialapplicatorPage.assertPageTitle()
   specialapplicatorPage.choose('pressurised container')
   specialapplicatortypePage.assertPageTitle()
@@ -904,17 +964,17 @@ When("the user enters the item information for cmr product", function (this: any
   containscmrsPage.assertPageTitle()
   containscmrsPage.choose(this.product.nanonmaterialmultiitemcmr.itemcontainscmrsubstances)
   cmrsubstancePage.assertPageTitle()
-  cmrsubstancePage.enterSubstanceDetails(this.product.nanonmaterialmultiitemcmr.substance1, this.product.nanonmaterialmultiitemcmr.substance1casno, this.product.nanonmaterialmultiitemcmr.substance1ecno)
+  cmrsubstancePage.enterSubstanceDetails(this.product.nanonmaterialmultiitemcmr.substance2, this.product.nanonmaterialmultiitemcmr.substance2casno, this.product.nanonmaterialmultiitemcmr.substance2ecno)
   productRootcategoryPage.assertPageTitle()
-  productRootcategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemcategoryofproduct)
+  productRootcategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemcategoryofproduct1)
   productsubcategoryPage.assertPageTitle()
-  productsubcategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemproductsubcategory)
+  productsubcategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemproductsubcategory1)
   ProductSubSubCategoryPage.assertPageTitle()
-  ProductSubSubCategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemproductsubsubcategory)
+  ProductSubSubCategoryPage.choose(this.product.nanonmaterialmultiitemcmr.itemproductsubsubcategory1)
   formulationtypePage.assertPageTitle()
   formulationtypePage.choose('Enter ingredients and their exact concentration manually')
   ingredientexactconcentrationPage.assertPageTitle()
-  ingredientexactconcentrationPage.enterIngredientDetailswithCAS(this.product.nanonmaterialmultiitemcmr.ingredientname1, this.product.nanonmaterialmultiitemcmr.ingredientweight, this.product.nanonmaterialmultiitemcmr.ingredient2CAS, "no")
+  ingredientexactconcentrationPage.enterIngredientDetailswithCAS(this.product.nanonmaterialmultiitemcmr.ingredientname2, this.product.nanonmaterialmultiitemcmr.ingredientweight1, this.product.nanonmaterialmultiitemcmr.ingredient2CAS, "no")
   selectphoptionPage.assertPageTitle()
   selectphoptionPage.choose('The minimum pH is 3 or higher, and the maximum pH is 10 or lower')
   productcompletedPage.assertSuccessfulCreation()
@@ -942,149 +1002,109 @@ Then("the OSU portal user changes the search user role to: {string}", function (
 });
 
 When ("user sees the Search Dashboard", function(){
-  switch (roleType) {
-
-    case 'OPSS General':
-      notificationsearchPage.assertCosmeticSearch()
-      break
-    case 'OPSS Enforcement':
-        notificationsearchPage.assertCosmeticSearch()
-        notificationsearchPage.assertIngredientSearch()
-      break
-    case 'OPSS Science':
-      notificationsearchPage.assertCosmeticSearch()
-      notificationsearchPage.assertIngredientSearch()
-      break
-    case 'Trading Standards':
-      notificationsearchPage.assertCosmeticSearch()
-      notificationsearchPage.assertIngredientSearch()
-      break
-    case 'NPIS':
-      notificationsearchPage.assertCosmeticSearch()
-      notificationsearchPage.assertIngredientSearch()
-      break
+  console.log(this.search.completeProduct.forchildrenunderthree)
+  if(roleType == 'OPSS General'){
+    notificationsearchPage.assertCosmeticSearch()
+  }
+  else{
+    notificationsearchPage.assertCosmeticSearch()
+    notificationsearchPage.assertIngredientSearch()
   }
 })
 
 When("user searches for previously created product notification", function (){
-  notificationsearchPage.search(this.product.status.completeProduct)
+  notificationsearchPage.search(this.search.status.completeProduct)
   notificationsearchPage.selectNotificationStatus("Notified")
   notificationsearchPage.selectSortingOrder("Newest")
   notificationsearchPage.submit()
 
   notificationresultPage.assertPageTitle()
-  notificationresultPage.select(this.product.status.completeProduct)
+  notificationresultPage.select(this.search.status.completeProduct)
 })
 
+let productName: string
+
+
+
+function assertProductDetailInformation(this: any, underThree:string, numItems: string, productNumber: string, notified: string, RP: string, contactName: string, contactEmail: string, contactTelephone: string){
+  searchproductPage.assertPageTitle(productName);
+  searchproductPage.containsCosmeticProductNumber(productNumber)
+  searchproductPage.containsProductNotified(notified)
+  searchproductPage.containsProductName()
+  searchproductPage.containsUnder3(underThree)
+  searchproductPage.containsNumberItems(numItems)
+  searchproductPage.containsLabelImage()
+  searchproductPage.containsMixed()
+  searchproductPage.containsResponsiblePerson(RP)
+  searchproductPage.containsAssignedContact(contactName, contactEmail, contactTelephone)
+}
+
+function assertProductDetailInformation2(this:any, cmr: string, substance1:string, substance2: string, itemname1: string, itemname2: string, notified: string, itemcategory: string, itemcategory1: string, subcategory: string,
+                                         subcategory1: string, subsubcategory: string, subsubcategory1: string, physicalform: string, physicalform1: string, applicatorType:string){
+  searchproductPage.containsShades(3)
+  searchproductPage.containsCMR(2, cmr, [itemname1, itemname2], [substance1, substance2])
+  searchproductPage.containsNanomaterials(2, [itemname1, itemname2], notified)
+  searchproductPage.containsCategoryOfProduct(2, [itemcategory, itemcategory1], [itemname1, itemname2])
+  searchproductPage.containssubCategoryOfProduct(2,[itemcategory.toLowerCase(), itemcategory1.substring(0, itemcategory1.length-1).toLowerCase()], [itemname1, itemname2], [subcategory, subcategory1])
+  searchproductPage.containssubsubCategoryOfProduct(2, [subcategory.toLowerCase(), subcategory1.substring(0, itemcategory1.length-1).toLowerCase()], [itemname1, itemname2], [subsubcategory, subsubcategory1])
+  searchproductPage.containsPhysicalForm(2, [itemname1, itemname2], [physicalform, physicalform1])
+  searchproductPage.containsSpecialApplicator(2, applicatorType)
+  searchproductPage.containsFormulation(2)
+  if(roleType != "NPIS"){
+    searchproductPage.containsPH(2)
+  }
+}
 Then("user is displayed the correct product notification pertaining to the specified search user role", function(){
+  //
+  
+  productName = this.search.status.completeProduct
+  if(roleType == "OPSS General"){
+    assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
+        this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
+          this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
+  }
+  else{
+    assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
+      this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
+        this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
+    
+        assertProductDetailInformation2(this.search.completeProduct.containscmrsubstances,
+        (this.search.completeProduct.substance1 + ', ' + this.search.completeProduct.substance1casno + ', ' + this.search.completeProduct.substance1ecno),
+        (this.search.completeProduct.substance2 + ', ' + this.search.completeProduct.substance2casno + ', ' + this.search.completeProduct.substance2ecno),
+        this.search.completeProduct.itemname1, this.search.completeProduct.itemname2, this.search.completeProduct.notifiednanomaterial,
+        this.search.completeProduct.itemcategoryofproduct, this.search.completeProduct.itemcategoryofproduct1,
+        this.search.completeProduct.itemproductsubcategory, this.search.completeProduct.itemproductsubcategory1,
+        this.search.completeProduct.itemproductsubsubcategory, this.search.completeProduct.itemproductsubsubcategory1,
+        this.search.completeProduct.itemphysicalform, this.search.completeProduct.itemphysicalform1,
+        this.search.completeProduct.itemapplicatortype)
+  }
   switch (roleType) {
 
     case 'OPSS General':
-        searchproductPage.assertPageTitle(this.product.status.completeProduct);
-        searchproductPage.containsCosmeticProductNumber()
-        searchproductPage.containsProductNotified()
-        searchproductPage.containsUnder3()
-        searchproductPage.containsProductName()
-        searchproductPage.containsNumberItems()
-        searchproductPage.containsShades(1)
-        searchproductPage.containsLabelImage()
-        searchproductPage.containsMixed()
-        searchproductPage.containsResponsiblePerson()
-        searchproductPage.containsAssignedContact()
+      searchproductPage.containsShades(1)
       break
     case 'OPSS Enforcement':
-      searchproductPage.assertPageTitle(this.product.status.completeProduct);
-      searchproductPage.containsCosmeticProductNumber()
-      searchproductPage.containsProductNotified()
-      searchproductPage.containsUnder3()
-      searchproductPage.containsProductName()
-      searchproductPage.containsNumberItems()
-      searchproductPage.containsShades(3)
-      searchproductPage.containsLabelImage()
-      searchproductPage.containsMixed()
-      searchproductPage.containsCMR(2)
-      searchproductPage.containsNanomaterials(2)
-      searchproductPage.containsCategoryOfProduct(2)
-      searchproductPage.containsPhysicalForm(2)
-      searchproductPage.containsSpecialApplicator(2)
-      searchproductPage.containsPH(2)
-      searchproductPage.containsFormulation(2)
-      searchproductPage.containsIngredients(2)
-      searchproductPage.containsPercentage()
+      searchproductPage.containsIngredients(2, [this.search.completeProduct.itemname1, this.search.completeProduct.itemname2],  [this.search.completeProduct.ingredientname1, this.search.completeProduct.ingredientname2])
+      searchproductPage.containsPercentage([this.search.completeProduct.itemname1, this.search.completeProduct.itemname2], [this.search.completeProduct.ingredientweight, this.search.completeProduct.ingredientweight1])
       searchproductPage.notifiedNPIS()
-      searchproductPage.containsCAS()
-      searchproductPage.containsResponsiblePerson()
+      searchproductPage.containsCAS(2, [this.search.completeProduct.itemname1, this.search.completeProduct.itemname2], [this.search.completeProduct.ingredient1CAS, this.search.completeProduct.ingredient2CAS])
       searchproductPage.containsAddressHistory()
-      searchproductPage.containsAssignedContact()
       break
     case 'OPSS Science':
-      searchproductPage.assertPageTitle(this.product.status.completeProduct);
-      searchproductPage.containsCosmeticProductNumber()
-      searchproductPage.containsProductNotified()
-      searchproductPage.containsProductName()
-      searchproductPage.containsUnder3()
-      searchproductPage.containsNumberItems()
-      searchproductPage.containsShades(3)
-      searchproductPage.containsLabelImage()
-      searchproductPage.containsMixed()
-      searchproductPage.containsCMR(2)
-      searchproductPage.containsNanomaterials(2)
-      searchproductPage.containsCategoryOfProduct(2)
-      searchproductPage.containsPhysicalForm(2)
-      searchproductPage.containsSpecialApplicator(2)
-      searchproductPage.containsPH(2)
-      searchproductPage.containsFormulation(2)
-      searchproductPage.containsIngredients(1)
-      searchproductPage.containsCAS()
-      searchproductPage.containsResponsiblePerson()
-      searchproductPage.containsAssignedContact()
+      searchproductPage.containsIngredients(1, [this.search.completeProduct.itemname2], [this.search.completeProduct.ingredientname2])
       searchproductPage.containsPDF()
+      searchproductPage.containsCAS(1, [this.search.completeProduct.itemname2], [this.search.completeProduct.ingredient2CAS])
       break
     case 'Trading Standards':
-      searchproductPage.assertPageTitle(this.product.status.completeProduct);
-      searchproductPage.containsCosmeticProductNumber()
-      searchproductPage.containsProductNotified()
-      searchproductPage.containsUnder3()
-      searchproductPage.containsProductName()
-      searchproductPage.containsNumberItems()
-      searchproductPage.containsShades(3)
-      searchproductPage.containsLabelImage()
-      searchproductPage.containsMixed()
-      searchproductPage.containsCMR(2)
-      searchproductPage.containsNanomaterials(2)
-      searchproductPage.containsCategoryOfProduct(2)
-      searchproductPage.containsPhysicalForm(2)
-      searchproductPage.containsSpecialApplicator(2)
-      searchproductPage.containsPH(2)
-      searchproductPage.containsFormulation(2)
-      searchproductPage.containsIngredients(1)
-      searchproductPage.containsCAS()
-      searchproductPage.containsResponsiblePerson()
+      searchproductPage.containsIngredients(1, [this.search.completeProduct.itemname2], [this.search.completeProduct.ingredientname2])
       searchproductPage.containsAddressHistory()
-      searchproductPage.containsAssignedContact()
+      searchproductPage.containsCAS(1, [this.search.completeProduct.itemname2], [this.search.completeProduct.ingredient2CAS])
       break
     case 'NPIS':
-      searchproductPage.assertPageTitle(this.product.status.completeProduct);
-      searchproductPage.containsCosmeticProductNumber()
-      searchproductPage.containsProductNotified()
-      searchproductPage.containsUnder3()
-      searchproductPage.containsProductName()
-      searchproductPage.containsNumberItems()
-      searchproductPage.containsShades(3)
-      searchproductPage.containsLabelImage()
-      searchproductPage.containsMixed()
-      searchproductPage.containsCMR(2)
-      searchproductPage.containsNanomaterials(2)
-      searchproductPage.containsCategoryOfProduct(2)
-      searchproductPage.containsPhysicalForm(2)
-      searchproductPage.containsSpecialApplicator(2)
-      searchproductPage.containsFormulation(2)
-      searchproductPage.containsIngredients(2)
-      searchproductPage.containsPercentage()
+      searchproductPage.containsIngredients(2, [this.search.completeProduct.itemname1, this.search.completeProduct.itemname2],  [this.search.completeProduct.ingredientname1, this.search.completeProduct.ingredientname2])
+      searchproductPage.containsPercentage([this.search.completeProduct.itemname1, this.search.completeProduct.itemname2], [this.search.completeProduct.ingredientweight, this.search.completeProduct.ingredientweight1])
       searchproductPage.notifiedNPIS()
-      searchproductPage.containsCAS()
-      searchproductPage.containsResponsiblePerson()
-      searchproductPage.containsAssignedContact()
+      searchproductPage.containsCAS(2, [this.search.completeProduct.itemname1, this.search.completeProduct.itemname2], [this.search.completeProduct.ingredient1CAS, this.search.completeProduct.ingredient2CAS])
       break
   }
 })
