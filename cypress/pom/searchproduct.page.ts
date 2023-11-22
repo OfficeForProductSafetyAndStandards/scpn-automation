@@ -1,6 +1,6 @@
 import * as cypress from "cypress"
 
-class SearchproductPage{
+class SearchProductPage{
 
     assertPageTitle(productName: string){
         cy.get('h1').contains(productName)
@@ -141,4 +141,4 @@ class SearchproductPage{
 }
 
 // @ts-ignore
-export default new SearchproductPage();
+export default new SearchProductPage();

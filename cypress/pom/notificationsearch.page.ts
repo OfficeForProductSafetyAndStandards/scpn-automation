@@ -1,4 +1,4 @@
-class NotificationsearchPage{
+class NotificationSearchPage{
     assertPageTitle(){
         cy.get('h1').contains("Cosmetic products search");
     }
@@ -32,4 +32,4 @@ class NotificationsearchPage{
     }
 }
 
-export default new NotificationsearchPage;
+export default new NotificationSearchPage;

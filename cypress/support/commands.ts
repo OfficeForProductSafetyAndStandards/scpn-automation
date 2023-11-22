@@ -33,15 +33,11 @@ Cypress.Commands.add('visitUrl', (urlPath: string, options = {}) => {
 });
 
 Cypress.Commands.add('hasKeyValueDetail', (key,listValue , value) => {
-  //cy.get('.govuk-summary-list__row').contains(key).next().contains(value)
   let id = '#' + key.toLowerCase().replaceAll((/\s/g), "-")
   cy.get(id).within(function(){
     cy.get(`.govuk-summary-list__row:contains(${listValue})`).find(`.govuk-summary-list__value:contains("${value}")`)
   });
-  //cy.get("h3").contains(key).siblings(".govuk-summary-list").get(`.govuk-summary-list__row:contains(${listValue})`).find(`.govuk-summary-list__value:contains("${value}")`)
 });
 Cypress.Commands.add('hasKeyValueDetails', (key , value) => {
-  console.log("making regexp");
-  let test = new RegExp('^' + key, 'i')
   cy.get("dt").contains(key).next().contains(value)
 });

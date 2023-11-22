@@ -1,4 +1,4 @@
-class AccesstypePage{
+class AccessTypePage{
     assertPageTitle(){
         cy.get('h1').contains("How do you want to get an access code?")
     }
@@ -10,4 +10,4 @@ class AccesstypePage{
     }
 }
 
-export default new AccesstypePage()
+export default new AccessTypePage()

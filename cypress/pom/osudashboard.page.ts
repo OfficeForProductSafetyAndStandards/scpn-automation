@@ -7,7 +7,7 @@ class OSUDashboardPage{
         cy.get("a").contains("Account administration").click()
     }
 
-    gotoManagecosmetics(){
+    gotoManageCosmetics(){
         cy.get("a").contains("Manage cosmetic notifications").click()
     }
 
