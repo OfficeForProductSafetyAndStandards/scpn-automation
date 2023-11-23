@@ -214,6 +214,13 @@ Then("the notification is successfully archived", function () {
 
 });
 
+When("the user deletes unarchived product notification", function (){
+  cy.get('a').contains('Back').click()
+  cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
+  productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
+  productPage.selectDeleteNotificationLink()
+
+})
 
 When("the user deletes the product notification", function () {
 
@@ -244,8 +251,6 @@ When("the user deletes the product notification", function () {
       productPage.selectDeleteNotificationLink()
       checkCodePage.fillOtpcode("11222")
       break
-    //wdwedwrewe
-          //wedwewe
   }
 
 });
