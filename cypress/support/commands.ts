@@ -1,5 +1,6 @@
 import 'cypress-file-upload';
 import { basicAuthCreds } from '../support/common-helpers'
+import * as cypress from "cypress";
 
 
 Cypress.Commands.add('sendOpsGenieAlert', (title: string, message: string) => {
@@ -31,3 +32,12 @@ Cypress.Commands.add('visitUrl', (urlPath: string, options = {}) => {
   cy.visit(urlPath, { ...basicAuthCreds(), ...options })
 });
 
+Cypress.Commands.add('hasKeyValueDetail', (key,listValue , value) => {
+  let id = '#' + key.toLowerCase().replaceAll((/\s/g), "-")
+  cy.get(id).within(function(){
+    cy.get(`.govuk-summary-list__row:contains(${listValue})`).find(`.govuk-summary-list__value:contains("${value}")`)
+  });
+});
+Cypress.Commands.add('hasKeyValueDetails', (key , value) => {
+  cy.get("dt").contains(key).next().contains(value)
+});

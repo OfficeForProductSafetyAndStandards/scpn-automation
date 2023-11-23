@@ -53,5 +53,6 @@ export default defineConfig({
 
     baseUrl: "https://staging-submit.cosmetic-product-notifications.service.gov.uk",
     setupNodeEvents,
+    experimentalRunAllSpecs: true,
   },
 });

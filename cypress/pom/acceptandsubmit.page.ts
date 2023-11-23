@@ -23,7 +23,11 @@ class AcceptAndSubmitPage {
 
   assertItemDetails(itemname: string, categoryofproduct: string, containscmrsustance: string, shade: string, nano: string, application: string, exposure: string, productsubcategory: string, productsubsubcategory: string, physicalform: string,
     applicatortype: string) {
-    cy.get("h3").contains(itemname).siblings(".govuk-summary-list").get(`.govuk-summary-list__row:contains("Category of product")`).find(`.govuk-summary-list__value:contains("${categoryofproduct}")`)
+
+    //key is itemname
+    cy.hasKeyValueDetail(itemname, "Category of product", categoryofproduct)
+    //cy.get("h3").contains(itemname).siblings(".govuk-summary-list").get(`.govuk-summary-list__row:contains( )`).find(`.govuk-summary-list__value:contains("${categoryofproduct}")`)
+    cy.hasKeyValueDetail(itemname, "Contains CMR substances", containscmrsustance)
     cy.get("h3").contains(itemname).siblings(".govuk-summary-list").get(`.govuk-summary-list__row:contains("Contains CMR substances")`).find(`.govuk-summary-list__value:contains("${containscmrsustance}")`)
     cy.get("h3").contains(itemname).siblings(".govuk-summary-list").get(`.govuk-summary-list__row:contains("Shades")`).find(`.govuk-summary-list__value:contains("${shade}")`)
     cy.get("h3").contains(itemname).siblings(".govuk-summary-list").get(`.govuk-summary-list__row:contains("Nanomaterials")`).find(`.govuk-summary-list__value:contains("${nano}")`)

@@ -2,7 +2,9 @@
   "dependencies": {
     "@badeball/cypress-cucumber-preprocessor": "latest",
     "@cypress/webpack-preprocessor": "latest",
-    "cypress": "^12.14.0",
+    "cypress": "^12.17.4",
+    "cypress-fs": "^0.2.4",
+    "fs": "0.0.1-security",
     "ts-loader": "latest",
     "webpack": "latest"
   },
