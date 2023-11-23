@@ -244,6 +244,7 @@ When("the user deletes the product notification", function () {
       productPage.selectDeleteNotificationLink()
       checkCodePage.fillOtpcode("11222")
       break
+    //wdwedwrewe
   }
 
 });
