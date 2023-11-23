@@ -10,7 +10,11 @@ So the data can be accessed by both search and submit users to ensure they compl
     When the user logs into the service
     Then the user successfully authenticates using their verification code
     When the user selects the responsible person
+<<<<<<< HEAD:cypress/e2e/features/01-submit.feature
   
+=======
+
+>>>>>>> 9912c4ccb7ce58161c19bb84d0d5e0cd46629334:cypress/e2e/features/submit.feature
   Scenario: Verify Cookie Policy (Happy Path)
     Then the user sees the SCPN cookie banner
     When the user accepts the cookies and hides item
@@ -31,6 +35,10 @@ So the data can be accessed by both search and submit users to ensure they compl
     #create the nanomaterial
     Given the user creates a notified nanomaterial
     Then the nanomaterial is successfully created
+<<<<<<< HEAD:cypress/e2e/features/01-submit.feature
+=======
+    
+>>>>>>> 9912c4ccb7ce58161c19bb84d0d5e0cd46629334:cypress/e2e/features/submit.feature
 
   Scenario: Verify Creation of Product Notification (Nanomaterials / multi-items / no CMR substances / Ingredient csv fixed
   - Happy Path - COSBETA-2065, COSBETA-2067, COSBETA-2072, COSBETA-2076)
@@ -68,7 +76,6 @@ So the data can be accessed by both search and submit users to ensure they compl
     #accept and submit the notification
     When the user accepts and submits the product notification
     Then the product notification is successfully created
-
 
   Scenario: Verify Creation of Product Notification (Notified Nanomaterials  / no multi-items / CMR substances / Ingredient csv exact
   - Happy Path - COSBETA-2068, COSBETA-2069)
