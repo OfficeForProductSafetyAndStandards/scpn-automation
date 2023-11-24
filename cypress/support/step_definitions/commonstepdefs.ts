@@ -63,6 +63,8 @@ import accesstypePage from "../../pom/accesstype.page";
 
 import * as fs from 'fs';
 import "cypress-fs";
+import osunotificationsPage from "../../pom/osunotifications.page";
+import osunotificationssearchPage from "../../pom/osunotificationssearch.page";
 
 
 let journeytype: string
@@ -996,6 +998,18 @@ Then("the OSU portal user changes the search user role to: {string}", function (
   roleType = role
 });
 
+When("the OSU portal user searches for previously created product notification", function () {
+  osudashboardPage.assertPageTitle()
+  osudashboardPage.gotoManageCosmetics()
+  osunotificationsPage.assertPageTitle()
+  osunotificationsPage.search(this.search.completeProduct.productname)
+  osunotificationsPage.setStatus("Live")
+  osunotificationsPage.submit()
+  osunotificationssearchPage.assertPageTitle()
+  osunotificationssearchPage.view()
+  roleType = "OSU"
+});
+
 When ("user sees the Search Dashboard", function(){
   console.log(this.search.completeProduct.forchildrenunderthree)
   if(roleType == 'OPSS General'){
@@ -1024,14 +1038,16 @@ let productName: string
 function assertProductDetailInformation(this: any, underThree:string, numItems: string, productNumber: string, notified: string, RP: string, contactName: string, contactEmail: string, contactTelephone: string){
   searchproductPage.assertPageTitle(productName);
   searchproductPage.containsCosmeticProductNumber(productNumber)
-  searchproductPage.containsProductNotified(notified)
+  if(roleType != "OSU") {
+    searchproductPage.containsProductNotified(notified)
+  }
   searchproductPage.containsProductName()
   searchproductPage.containsUnder3(underThree)
   searchproductPage.containsNumberItems(numItems)
   searchproductPage.containsLabelImage()
   searchproductPage.containsMixed()
-  searchproductPage.containsResponsiblePerson(RP)
-  searchproductPage.containsAssignedContact(contactName, contactEmail, contactTelephone)
+  searchproductPage.containsResponsiblePerson(RP ,roleType)
+  searchproductPage.containsAssignedContact(contactName, contactEmail, contactTelephone, roleType)
 }
 
 function assertProductDetailInformation2(this:any, cmr: string, substance1:string, substance2: string, itemname1: string, itemname2: string, notified: string, itemcategory: string, itemcategory1: string, subcategory: string,
@@ -1053,7 +1069,7 @@ Then("user is displayed the correct product notification pertaining to the speci
   //
   
   productName = this.search.status.completeProduct
-  if(roleType == "OPSS General"){
+  if(roleType == "OPSS General" || roleType == "OSU"){
     assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
         this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
           this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
@@ -1103,4 +1119,36 @@ Then("user is displayed the correct product notification pertaining to the speci
       break
   }
 })
+
+Then("the OSU portal user deletes the live product notification", function (){
+  searchproductPage.delete()
+})
+
+When("the user returns to the Dashboard and searches for the deleted product notification", function (){
+  cy.get('a').contains("OSU Support Portal").click()
+  osudashboardPage.assertPageTitle()
+  osudashboardPage.gotoManageCosmetics()
+  osunotificationsPage.assertPageTitle()
+  osunotificationsPage.search(this.search.completeProduct.productname)
+  osunotificationsPage.setStatus("Deleted")
+  osunotificationsPage.submit()
+  osunotificationssearchPage.assertPageTitle()
+  osunotificationssearchPage.view()
+})
+When("the user returns to the Dashboard and searches for the recovered product notification", function (){
+  cy.get('a').contains("OSU Support Portal").click()
+  osudashboardPage.assertPageTitle()
+  osudashboardPage.gotoManageCosmetics()
+  osunotificationsPage.assertPageTitle()
+  osunotificationsPage.search(this.search.completeProduct.productname)
+  osunotificationsPage.setStatus("Live")
+  osunotificationsPage.submit()
+  osunotificationssearchPage.assertPageTitle()
+  osunotificationssearchPage.view()
+})
+
+Then("the OSU portal user recovers the live product notification", function (){
+  searchproductPage.recover()
+})
+
 
