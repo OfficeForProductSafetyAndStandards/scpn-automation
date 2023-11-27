@@ -65,6 +65,9 @@ import * as fs from 'fs';
 import "cypress-fs";
 import osunotificationsPage from "../../pom/osunotifications.page";
 import osunotificationssearchPage from "../../pom/osunotificationssearch.page";
+import osuresponsiblepersonsearchPage from "../../pom/osuresponsiblepersonsearch.page";
+import osuresponsiblepersonsearchresultPage from "../../pom/osuresponsiblepersonsearchresult.page";
+import osuresponsiblepersonPage from "../../pom/osuresponsibleperson.page";
 
 
 let journeytype: string
@@ -998,7 +1001,8 @@ Then("the OSU portal user changes the search user role to: {string}", function (
   roleType = role
 });
 
-When("the OSU portal user searches for previously created product notification", function () {
+
+When("the OSU user searches for previously created product notification", function () {
   osudashboardPage.assertPageTitle()
   osudashboardPage.gotoManageCosmetics()
   osunotificationsPage.assertPageTitle()
@@ -1007,7 +1011,6 @@ When("the OSU portal user searches for previously created product notification",
   osunotificationsPage.submit()
   osunotificationssearchPage.assertPageTitle()
   osunotificationssearchPage.view()
-  roleType = "OSU"
 });
 
 When ("user sees the Search Dashboard", function(){
@@ -1120,7 +1123,7 @@ Then("user is displayed the correct product notification pertaining to the speci
   }
 })
 
-Then("the OSU portal user deletes the live product notification", function (){
+Then("the OSU user deletes the live product notification", function (){
   searchproductPage.delete()
 })
 
@@ -1147,8 +1150,33 @@ When("the user returns to the Dashboard and searches for the recovered product n
   osunotificationssearchPage.view()
 })
 
-Then("the OSU portal user recovers the live product notification", function (){
+Then("the OSU user recovers the live product notification", function (){
   searchproductPage.recover()
 })
 
+Then("OSU user is displayed the correct product notification information", function (){
+  assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
+      this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
+      this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
+})
 
+When("the OSU user looks for a Responsible Person", function(){
+  osudashboardPage.assertPageTitle()
+  osudashboardPage.gotoResponsiblePerson()
+  osuresponsiblepersonsearchPage.assertPageTitle()
+  osuresponsiblepersonsearchPage.search(this.product.assignedContacts.Name)
+  osuresponsiblepersonsearchPage.submit()
+  osuresponsiblepersonsearchresultPage.assertPageTitle()
+  osuresponsiblepersonsearchresultPage.view()
+})
+
+let previous = ""
+Then("the OSU user changes the RP name", function (){
+  cy.get("dt").contains("Name").siblings().then($word => {
+    previous = $word.text()
+    previous = previous.trim()
+    previous = previous.replace(/\n|\s|\r/, "")
+  })
+  osuresponsiblepersonPage.assertPageTitle()
+  osuresponsiblepersonPage.changeName(this.search.completeProduct.productname)
+})

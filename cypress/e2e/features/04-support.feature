@@ -9,15 +9,18 @@ Feature: Verify Search Role type is only able to see permitted product notificat
     Then the user recieves text message and successfully authenticates using their verification code
 
   Scenario: Verify search for live product notification
-    When the OSU portal user searches for previously created product notification
-    Then user is displayed the correct product notification pertaining to the specified search user role
+    When the OSU user searches for previously created product notification
+    Then OSU user is displayed the correct product notification information
 
   Scenario: Verify Deletion and Recovery for live product notification
-    When the OSU portal user searches for previously created product notification
-    Then the OSU portal user deletes the live product notification
+    When the OSU user searches for previously created product notification
+    Then the OSU user deletes the live product notification
     When the user returns to the Dashboard and searches for the deleted product notification
-    Then user is displayed the correct product notification pertaining to the specified search user role
-    And the OSU portal user recovers the live product notification
+    Then OSU user is displayed the correct product notification information
+    And the OSU user recovers the live product notification
     When the user returns to the Dashboard and searches for the recovered product notification
-    Then user is displayed the correct product notification pertaining to the specified search user role
+    Then OSU user is displayed the correct product notification information
 
+  Scenario: Verify update of RP account
+    When the OSU user looks for a Responsible Person
+    Then the OSU user changes the RP name
