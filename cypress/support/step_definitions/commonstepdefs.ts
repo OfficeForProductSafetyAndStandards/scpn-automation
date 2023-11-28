@@ -1227,7 +1227,7 @@ Then("the OSU user changes the Search account Name and Role Type", function (){
   accountadminviewPage.changeRole("OPSS General")
 })
 
-When("the OSU user verifies the change in Search account name and role type", function (){
+When("the OSU user verifies the change in Search account name and roletype", function (){
   accountadminviewPage.assertSuccess()
   accountadminviewPage.assertName("Name Changed")
   accountadminviewPage.assertRoleType("OPSS General")
