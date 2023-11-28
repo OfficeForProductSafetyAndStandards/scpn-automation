@@ -68,6 +68,7 @@ import osunotificationssearchPage from "../../pom/osunotificationssearch.page";
 import osuresponsiblepersonsearchPage from "../../pom/osuresponsiblepersonsearch.page";
 import osuresponsiblepersonsearchresultPage from "../../pom/osuresponsiblepersonsearchresult.page";
 import osuresponsiblepersonPage from "../../pom/osuresponsibleperson.page";
+import accountadminviewPage from "../../pom/accountadminview.page";
 
 
 let journeytype: string
@@ -995,7 +996,7 @@ Then("the OSU portal user changes the search user role to: {string}", function (
   osudashboardPage.gotoAccountAdmin()
   accountadminPage.assertPageTitle()
   accountadminPage.gotoSearch()
-  accountadminsearchPage.search()
+  accountadminsearchPage.search('search')
   accountadminsearchPage.view()
   searchaccountPage.changeRole(role)
   roleType = role
@@ -1155,6 +1156,8 @@ Then("the OSU user recovers the live product notification", function (){
 })
 
 Then("OSU user is displayed the correct product notification information", function (){
+  productName = this.search.completeProduct.productname
+  roleType = "OSU"
   assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
       this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
       this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
@@ -1164,19 +1167,93 @@ When("the OSU user looks for a Responsible Person", function(){
   osudashboardPage.assertPageTitle()
   osudashboardPage.gotoResponsiblePerson()
   osuresponsiblepersonsearchPage.assertPageTitle()
-  osuresponsiblepersonsearchPage.search(this.product.assignedContacts.Name)
+  osuresponsiblepersonsearchPage.search(this.product.assignedContacts.Email)
   osuresponsiblepersonsearchPage.submit()
   osuresponsiblepersonsearchresultPage.assertPageTitle()
   osuresponsiblepersonsearchresultPage.view()
 })
 
-let previous = ""
-Then("the OSU user changes the RP name", function (){
-  cy.get("dt").contains("Name").siblings().then($word => {
-    previous = $word.text()
-    previous = previous.trim()
-    previous = previous.replace(/\n|\s|\r/, "")
+let previousName = ""
+let previousBusiness = ""
+Then("the OSU user changes the RP name and business type", function (){
+  cy.get("dt").contains("Name").next().then($word => {
+    previousName = $word.text()
+    previousName = previousName.trim()
+    previousName = previousName.replace(/\n|\s|\r/, "")
+  })
+  cy.get("dt").contains("Business type").next().then($word => {
+    previousBusiness = $word.text()
+    previousBusiness = previousBusiness.trim()
   })
   osuresponsiblepersonPage.assertPageTitle()
-  osuresponsiblepersonPage.changeName(this.search.completeProduct.productname)
+  osuresponsiblepersonPage.changeName("Nashtech12")
+  osuresponsiblepersonPage.changeBusinessType("Individual")
+})
+
+When("the OSU user verifies the change in RP name and address", function(){
+  osuresponsiblepersonPage.assertSuccess()
+  osuresponsiblepersonPage.assertName("Nashtech12")
+  osuresponsiblepersonPage.assertBusinessType("Individual")
+})
+
+Then("the OSU user reverts the changes and verifies the information is correct", function (){
+  osuresponsiblepersonPage.assertPageTitle()
+  osuresponsiblepersonPage.changeName(previousName)
+  osuresponsiblepersonPage.changeBusinessType(previousBusiness)
+  osuresponsiblepersonPage.assertView(this.product.rpAddress.Name, this.product.rpAddress.Address, this.product.rpAddress.BusinessType, this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
+})
+
+When("the OSU user looks for a {string} account", function (accountType: string) {
+  osudashboardPage.gotoAccountAdmin()
+  accountadminPage.gotoSearch()
+  accountadminsearchPage.search(accountType.toLowerCase())
+  accountadminsearchPage.view()
+})
+
+
+let previousRole = ""
+Then("the OSU user changes the Search account Name and Role Type", function (){
+  cy.get("dt").contains("Name").next().then($word => {
+    previousName = $word.text()
+    previousName = previousName.trim()
+  })
+  cy.get("dt").contains("Role type").next().then($word => {
+    previousRole = $word.text()
+    previousRole = previousRole.trim()
+  })
+  accountadminviewPage.assertEmail()
+  accountadminviewPage.changeNameSearch("Name Changed")
+
+  accountadminviewPage.changeRole("OPSS General")
+})
+
+When("the OSU user verifies the change in Search account name and role type", function (){
+  accountadminviewPage.assertSuccess()
+  accountadminviewPage.assertName("Name Changed")
+  accountadminviewPage.assertRoleType("OPSS General")
+})
+
+Then("the OSU user reverts the changes to the Search account", function (){
+  accountadminviewPage.changeNameSearch(previousName)
+  accountadminviewPage.changeRole(previousRole)
+})
+
+Then("the OSU user changes the Submit account Name and email address", function (){
+  cy.get("dt").contains("Name").next().then($word => {
+    previousName = $word.text()
+    previousName = previousName.trim()
+  })
+  accountadminviewPage.changeNameSubmit("Name Changed")
+  accountadminviewPage.changeEmailSubmit("123@gmail.com")
+})
+
+When("the OSU user verifies the change in Submit account name and address", function (){
+  accountadminviewPage.assertSuccess()
+  accountadminviewPage.assertName("Name Changed")
+  accountadminviewPage.assertEmailChanged("123@gmail.com")
+})
+
+Then("the OSU user reverts the changes to the Submit account", function (){
+  accountadminviewPage.changeNameSubmit(previousName)
+  accountadminviewPage.changeEmailSubmit(Cypress.env('SUBMIT_USER_EMAIL'))
 })

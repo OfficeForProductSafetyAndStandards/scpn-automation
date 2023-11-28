@@ -21,6 +21,20 @@ Feature: Verify Search Role type is only able to see permitted product notificat
     When the user returns to the Dashboard and searches for the recovered product notification
     Then OSU user is displayed the correct product notification information
 
-  Scenario: Verify update of RP account
+  Scenario: Verify search/view and update of RP account
     When the OSU user looks for a Responsible Person
-    Then the OSU user changes the RP name
+    Then the OSU user changes the RP name and business type
+    When the OSU user verifies the change in RP name and address
+    Then the OSU user reverts the changes and verifies the information is correct
+
+  Scenario: Verify view/update of Search account
+    When the OSU user looks for a "Search" account
+    Then the OSU user changes the Search account Name and Role Type
+    When the OSU user verifies the change in Search account name and roletype
+    Then the OSU user reverts the changes to the Search account
+
+  Scenario: Verify view/update of Submit account
+    When the OSU user looks for a "Submit" account
+    Then the OSU user changes the Submit account Name and email address
+    When the OSU user verifies the change in Submit account name and address
+    Then the OSU user reverts the changes to the Submit account
