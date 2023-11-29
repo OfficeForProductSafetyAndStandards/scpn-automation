@@ -259,7 +259,7 @@ When("the user deletes the product notification", function () {
       cy.url().then($link =>{
         const http = $link
         console.log("this is http " + http)
-        if(http == "https://staging-support.cosmetic-product-notifications.service.gov.uk/two-factor/sms"){
+        if(http == "https://staging-submit.cosmetic-product-notifications.service.gov.uk/two-factor/sms"){
           checkCodePage.fillOtpcode('11222')
           console.log("auth asked")
         }
