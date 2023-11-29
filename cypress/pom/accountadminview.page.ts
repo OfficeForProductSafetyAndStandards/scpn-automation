@@ -23,7 +23,7 @@ class AccountAdminViewPage{
     }
 
     changeEmailSubmit(email:string){
-        cy.get('dt').contains("Email").next().next().click()
+        cy.get('a:contains("Change")').eq(1).click()
         cy.get('#submit-user-email-field').clear().type(email)
         cy.get('button[class="govuk-button"]').last().click()
     }
