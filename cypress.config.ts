@@ -47,6 +47,7 @@ async function setupNodeEvents(
 }
 
 export default defineConfig({
+  projectId: 'tm1ev4',
   e2e: {
     specPattern: "**/*.feature",
     defaultCommandTimeout: 10000,
