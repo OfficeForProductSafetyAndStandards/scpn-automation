@@ -256,7 +256,12 @@ When("the user deletes the product notification", function () {
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
       productPage.selectDeleteNotificationLink()
-      checkCodePage.fillOtpcode("11222")
+      cy.url().then($link =>{
+        const http = $link
+        if(http == "https://staging-support.cosmetic-product-notifications.service.gov.uk/two-factor/sms"){
+          checkCodePage.fillOtpcode('11222')
+        }
+      })
       break
   }
 
