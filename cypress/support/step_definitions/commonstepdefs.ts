@@ -69,6 +69,7 @@ import osuresponsiblepersonsearchPage from "../../pom/osuresponsiblepersonsearch
 import osuresponsiblepersonsearchresultPage from "../../pom/osuresponsiblepersonsearchresult.page";
 import osuresponsiblepersonPage from "../../pom/osuresponsibleperson.page";
 import accountadminviewPage from "../../pom/accountadminview.page";
+import {link} from "fs";
 
 
 let journeytype: string
@@ -1244,7 +1245,23 @@ Then("the OSU user changes the Submit account Name and email address", function 
     previousName = previousName.trim()
   })
   accountadminviewPage.changeNameSubmit("Name Changed")
-  accountadminviewPage.changeEmailSubmit("123@gmail.com")
+  let http = ""
+  cy.url().then($link =>{
+    http = $link
+    console.log("this is link " + http)
+    if(http == "https://staging-support.cosmetic-product-notifications.service.gov.uk/two-factor/sms"){
+      console.log("auth page")
+      checkCodePage.fillOtpcode('11222')
+      accountadminviewPage.changeEmailSubmit("123@gmail.com")
+    }
+    else{
+      console.log("not auth page")
+      accountadminviewPage.changeEmailSubmit("123@gmail.com")
+    }
+  })
+  cy.log(http)
+  console.log("this is link " + http)
+
 })
 
 When("the OSU user verifies the change in Submit account name and address", function (){
