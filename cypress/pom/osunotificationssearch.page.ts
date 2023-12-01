@@ -1,4 +1,4 @@
-class OsuNotificationsSearchPage{
+class OSUNotificationsSearchPage{
     assertPageTitle(){
         cy.get("h1").contains('Search for cosmetic product notifications')
     }
@@ -10,4 +10,4 @@ class OsuNotificationsSearchPage{
 
 }
 
-export default new OsuNotificationsSearchPage();
+export default new OSUNotificationsSearchPage();

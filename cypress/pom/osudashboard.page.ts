@@ -17,6 +17,9 @@ class OSUDashboardPage{
     gotoChangeHistory(){
         cy.get("a").contains("Change history log").click()
     }
+    goToAccountSettings(){
+        cy.get('.govuk-header__link:contains("Your account")').click()
+    }
 }
 
 export default new OSUDashboardPage();

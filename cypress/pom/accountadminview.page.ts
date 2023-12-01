@@ -45,6 +45,13 @@ class AccountAdminViewPage{
         cy.get('dt').contains("Role type").siblings().contains(role)
     }
 
+    deactivate(){
+        cy.get('a[class="govuk-button govuk-button--warning"]').contains("Deactivate account").click()
+
+    }
+    reactivate(){
+        cy.get('button[class="govuk-button govuk-button--secondary"]').contains("Reactivate account").click()
+    }
 }
 
 export default new AccountAdminViewPage()

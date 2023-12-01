@@ -1,4 +1,4 @@
-class OsuResponsiblePersonPage {
+class OSUResponsiblePersonPage {
     assertPageTitle(){
         cy.get('h1').contains('Responsible Person account')
     }
@@ -43,4 +43,4 @@ class OsuResponsiblePersonPage {
     }
 }
 
-export default new OsuResponsiblePersonPage();
+export default new OSUResponsiblePersonPage();
