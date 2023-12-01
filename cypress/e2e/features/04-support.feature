@@ -13,6 +13,7 @@ Feature: Verify Search Role type is only able to see permitted product notificat
     Then the OSU user changes their name
     When the OSU checks the changes to their account name
     Then the OSU user reverts the changes
+
   Scenario: Verify search for live product notification
     When the OSU user searches for previously created product notification
     Then OSU user is displayed the correct product notification information

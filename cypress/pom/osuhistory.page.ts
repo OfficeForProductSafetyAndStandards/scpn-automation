@@ -4,29 +4,42 @@ class OSUHistoryPage{
         let date = new Date()
         cy.log(date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear())
     }
-    checkRPChanges(Name:string, Type:string, OSUName: string){
+    checkRPChanges(Name:string, Type:string, OSUName: string, RPAddress: string []){
         cy.get(".govuk-table__row").eq(1).within(function (){
+            cy.get('td').eq(0).contains(OSUName)
+            let date = new Date()
+            cy.get('td').eq(1).contains(date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear())
+            cy.get('td').eq(2).contains("RP (" + Cypress.env("RP") +") Address change")
+            cy.get('td').eq(3).should('contain', RPAddress[0]).should('contain', RPAddress[1]).should('contain', RPAddress[2]).should('contain', RPAddress[3]).should('contain', RPAddress[4])
+        })
+        cy.get(".govuk-table__row").eq(2).within(function (){
             cy.get('td').eq(0).contains(OSUName)
             let date = new Date()
             cy.get('td').eq(1).contains(date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear())
             cy.get('td').eq(2).contains("RP (" + Cypress.env("RP") +") Business type change")
             cy.get('td').eq(3).should('contain', 'Change from: Individual or sole trader').should("contain", "To: " + Type)
         })
-        cy.get(".govuk-table__row").eq(2).within(function (){
+        cy.get(".govuk-table__row").eq(3).within(function (){
             cy.get('td').eq(0).contains(OSUName)
             let date = new Date()
             cy.get('td').eq(1).contains(date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear())
             cy.get('td').eq(2).contains("RP (" + Cypress.env("RP") +") Name change")
             cy.get('td').eq(3).should('contain', 'Change from: Nashtech12').should("contain", "To: " + Name)
         })
-        cy.get(".govuk-table__row").eq(3).within(function (){
+        cy.get(".govuk-table__row").eq(4).within(function (){
+            cy.get('td').eq(0).contains(OSUName)
+            let date = new Date()
+            cy.get('td').eq(1).contains(date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear())
+            cy.get('td').eq(2).contains("RP (" + Cypress.env("RP") +") Address change")
+        })
+        cy.get(".govuk-table__row").eq(5).within(function (){
             cy.get('td').eq(0).contains(OSUName)
             let date = new Date()
             cy.get('td').eq(1).contains(date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear())
             cy.get('td').eq(2).contains("RP (" + Cypress.env("RP") +") Business type change")
             cy.get('td').eq(3).should('contain', 'Change from: ' + Type).should("contain", "To: Individual or sole trader")
         })
-        cy.get(".govuk-table__row").eq(4).within(function (){
+        cy.get(".govuk-table__row").eq(6).within(function (){
             cy.get('td').eq(0).contains(OSUName)
             let date = new Date()
             cy.get('td').eq(1).contains(date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear())

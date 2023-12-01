@@ -86,6 +86,7 @@ let cosmeticNumber: string
 let dateNotified: string
 let OSUUserName: string
 // OSUName: string
+let RPAddress: string [] = []
 beforeEach(function () {
   cy.fixture('product.json').then(function (product) {
     product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
@@ -123,6 +124,7 @@ beforeEach(function () {
     //console.log(this.search.completeProduct.productname)
   })
   console.log(OSUUserName)
+  console.log(RPAddress)
 });
 
 
@@ -1199,21 +1201,28 @@ Then("the OSU user changes the RP name and business type", function (){
     previousBusiness = $word.text()
     previousBusiness = previousBusiness.trim()
   })
+  cy.get("dt").contains("Address").next().then($word => {
+    RPAddress = $word.text().split(',')
+    RPAddress = RPAddress.map(x => x.trim())
+  })
   osuresponsiblepersonPage.assertPageTitle()
   osuresponsiblepersonPage.changeName("Nashtech12")
   osuresponsiblepersonPage.changeBusinessType("Individual")
+  osuresponsiblepersonPage.changeAddress("123 road road", "update", 'city', "county", "B446DU")
 })
 
 When("the OSU user verifies the change in RP name and business type", function(){
   osuresponsiblepersonPage.assertSuccess()
   osuresponsiblepersonPage.assertName("Nashtech12")
   osuresponsiblepersonPage.assertBusinessType("Individual")
+  osuresponsiblepersonPage.assertAddress("123 road road, update, city, county, B446DU")
 })
 
 Then("the OSU user reverts the changes and verifies the information is correct", function (){
   osuresponsiblepersonPage.assertPageTitle()
   osuresponsiblepersonPage.changeName(previousName)
   osuresponsiblepersonPage.changeBusinessType(previousBusiness)
+  osuresponsiblepersonPage.changeAddress(RPAddress[0], RPAddress[1], RPAddress[2], RPAddress[3], RPAddress[4])
   osuresponsiblepersonPage.assertView(this.product.rpAddress.Name, this.product.rpAddress.Address, this.product.rpAddress.BusinessType, this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
 })
 
@@ -1310,7 +1319,7 @@ When("the OSU user views the history log", function (){
 Then("the OSU user checks the changes they made to the {string} account", function (type: string){
   osuhistoryPage.showDate()
   if(type == "Responsible Person") {
-    osuhistoryPage.checkRPChanges(previousName, previousBusiness, OSUUserName)
+    osuhistoryPage.checkRPChanges(previousName, previousBusiness, OSUUserName, RPAddress)
   }
   else if(type == "Search"){
     osuhistoryPage.checkSearchChanges(previousRole, OSUUserName)
