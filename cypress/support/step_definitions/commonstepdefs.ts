@@ -63,6 +63,13 @@ import accesstypePage from "../../pom/accesstype.page";
 
 import * as fs from 'fs';
 import "cypress-fs";
+import osunotificationsPage from "../../pom/osunotifications.page";
+import osunotificationssearchPage from "../../pom/osunotificationssearch.page";
+import osuresponsiblepersonsearchPage from "../../pom/osuresponsiblepersonsearch.page";
+import osuresponsiblepersonsearchresultPage from "../../pom/osuresponsiblepersonsearchresult.page";
+import osuresponsiblepersonPage from "../../pom/osuresponsibleperson.page";
+import accountadminviewPage from "../../pom/accountadminview.page";
+import {link} from "fs";
 
 
 let journeytype: string
@@ -214,6 +221,13 @@ Then("the notification is successfully archived", function () {
 
 });
 
+When("the user deletes unarchived product notification", function (){
+  cy.get('a').contains('Back').click()
+  cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
+  productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
+  productPage.selectDeleteNotificationLink()
+
+})
 
 When("the user deletes the product notification", function () {
 
@@ -242,9 +256,18 @@ When("the user deletes the product notification", function () {
       cosmeticProductsPage.selectLastCreatedProduct(this.product.nonanonomultiitemnocmr.productname)
       productPage.assertPageTitle(this.product.nonanonomultiitemnocmr.productname)
       productPage.selectDeleteNotificationLink()
-      checkCodePage.fillOtpcode("11222")
+      cy.url().then($link =>{
+        const http = $link
+        console.log("this is http " + http)
+        if(http == "https://staging-submit.cosmetic-product-notifications.service.gov.uk/two-factor/sms"){
+          checkCodePage.fillOtpcode('11222')
+          console.log("auth asked")
+        }
+        else{
+          console.log("auth not asked")
+        }
+      })
       break
-    //wdwedwrewe
   }
 
 });
@@ -984,10 +1007,22 @@ Then("the OSU portal user changes the search user role to: {string}", function (
   osudashboardPage.gotoAccountAdmin()
   accountadminPage.assertPageTitle()
   accountadminPage.gotoSearch()
-  accountadminsearchPage.search()
+  accountadminsearchPage.search('search')
   accountadminsearchPage.view()
   searchaccountPage.changeRole(role)
   roleType = role
+});
+
+
+When("the OSU user searches for previously created product notification", function () {
+  osudashboardPage.assertPageTitle()
+  osudashboardPage.gotoManageCosmetics()
+  osunotificationsPage.assertPageTitle()
+  osunotificationsPage.search(this.search.completeProduct.productname)
+  osunotificationsPage.setStatus("Live")
+  osunotificationsPage.submit()
+  osunotificationssearchPage.assertPageTitle()
+  osunotificationssearchPage.view()
 });
 
 When ("user sees the Search Dashboard", function(){
@@ -1018,14 +1053,16 @@ let productName: string
 function assertProductDetailInformation(this: any, underThree:string, numItems: string, productNumber: string, notified: string, RP: string, contactName: string, contactEmail: string, contactTelephone: string){
   searchproductPage.assertPageTitle(productName);
   searchproductPage.containsCosmeticProductNumber(productNumber)
-  searchproductPage.containsProductNotified(notified)
+  if(roleType != "OSU") {
+    searchproductPage.containsProductNotified(notified)
+  }
   searchproductPage.containsProductName()
   searchproductPage.containsUnder3(underThree)
   searchproductPage.containsNumberItems(numItems)
   searchproductPage.containsLabelImage()
   searchproductPage.containsMixed()
-  searchproductPage.containsResponsiblePerson(RP)
-  searchproductPage.containsAssignedContact(contactName, contactEmail, contactTelephone)
+  searchproductPage.containsResponsiblePerson(RP ,roleType)
+  searchproductPage.containsAssignedContact(contactName, contactEmail, contactTelephone, roleType)
 }
 
 function assertProductDetailInformation2(this:any, cmr: string, substance1:string, substance2: string, itemname1: string, itemname2: string, notified: string, itemcategory: string, itemcategory1: string, subcategory: string,
@@ -1047,7 +1084,7 @@ Then("user is displayed the correct product notification pertaining to the speci
   //
   
   productName = this.search.status.completeProduct
-  if(roleType == "OPSS General"){
+  if(roleType == "OPSS General" || roleType == "OSU"){
     assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
         this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
           this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
@@ -1098,3 +1135,152 @@ Then("user is displayed the correct product notification pertaining to the speci
   }
 })
 
+Then("the OSU user deletes the live product notification", function (){
+  searchproductPage.delete()
+})
+
+When("the user returns to the Dashboard and searches for the deleted product notification", function (){
+  cy.get('a').contains("OSU Support Portal").click()
+  osudashboardPage.assertPageTitle()
+  osudashboardPage.gotoManageCosmetics()
+  osunotificationsPage.assertPageTitle()
+  osunotificationsPage.search(this.search.completeProduct.productname)
+  osunotificationsPage.setStatus("Deleted")
+  osunotificationsPage.submit()
+  osunotificationssearchPage.assertPageTitle()
+  osunotificationssearchPage.view()
+})
+When("the user returns to the Dashboard and searches for the recovered product notification", function (){
+  cy.get('a').contains("OSU Support Portal").click()
+  osudashboardPage.assertPageTitle()
+  osudashboardPage.gotoManageCosmetics()
+  osunotificationsPage.assertPageTitle()
+  osunotificationsPage.search(this.search.completeProduct.productname)
+  osunotificationsPage.setStatus("Live")
+  osunotificationsPage.submit()
+  osunotificationssearchPage.assertPageTitle()
+  osunotificationssearchPage.view()
+})
+
+Then("the OSU user recovers the live product notification", function (){
+  searchproductPage.recover()
+})
+
+Then("OSU user is displayed the correct product notification information", function (){
+  productName = this.search.completeProduct.productname
+  roleType = "OSU"
+  assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
+      this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
+      this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
+})
+
+When("the OSU user looks for a Responsible Person", function(){
+  osudashboardPage.assertPageTitle()
+  osudashboardPage.gotoResponsiblePerson()
+  osuresponsiblepersonsearchPage.assertPageTitle()
+  osuresponsiblepersonsearchPage.search(this.product.assignedContacts.Email)
+  osuresponsiblepersonsearchPage.submit()
+  osuresponsiblepersonsearchresultPage.assertPageTitle()
+  osuresponsiblepersonsearchresultPage.view()
+})
+
+let previousName = ""
+let previousBusiness = ""
+Then("the OSU user changes the RP name and business type", function (){
+  cy.get("dt").contains("Name").next().then($word => {
+    previousName = $word.text()
+    previousName = previousName.trim()
+    previousName = previousName.replace(/\n|\s|\r/, "")
+  })
+  cy.get("dt").contains("Business type").next().then($word => {
+    previousBusiness = $word.text()
+    previousBusiness = previousBusiness.trim()
+  })
+  osuresponsiblepersonPage.assertPageTitle()
+  osuresponsiblepersonPage.changeName("Nashtech12")
+  osuresponsiblepersonPage.changeBusinessType("Individual")
+})
+
+When("the OSU user verifies the change in RP name and address", function(){
+  osuresponsiblepersonPage.assertSuccess()
+  osuresponsiblepersonPage.assertName("Nashtech12")
+  osuresponsiblepersonPage.assertBusinessType("Individual")
+})
+
+Then("the OSU user reverts the changes and verifies the information is correct", function (){
+  osuresponsiblepersonPage.assertPageTitle()
+  osuresponsiblepersonPage.changeName(previousName)
+  osuresponsiblepersonPage.changeBusinessType(previousBusiness)
+  osuresponsiblepersonPage.assertView(this.product.rpAddress.Name, this.product.rpAddress.Address, this.product.rpAddress.BusinessType, this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
+})
+
+When("the OSU user looks for a {string} account", function (accountType: string) {
+  osudashboardPage.gotoAccountAdmin()
+  accountadminPage.gotoSearch()
+  accountadminsearchPage.search(accountType.toLowerCase())
+  accountadminsearchPage.view()
+})
+
+
+let previousRole = ""
+Then("the OSU user changes the Search account Name and Role Type", function (){
+  cy.get("dt").contains("Name").next().then($word => {
+    previousName = $word.text()
+    previousName = previousName.trim()
+  })
+  cy.get("dt").contains("Role type").next().then($word => {
+    previousRole = $word.text()
+    previousRole = previousRole.trim()
+  })
+  accountadminviewPage.assertEmail()
+  accountadminviewPage.changeNameSearch("Name Changed")
+
+  accountadminviewPage.changeRole("OPSS General")
+})
+
+When("the OSU user verifies the change in Search account name and roletype", function (){
+  accountadminviewPage.assertSuccess()
+  accountadminviewPage.assertName("Name Changed")
+  accountadminviewPage.assertRoleType("OPSS General")
+})
+
+Then("the OSU user reverts the changes to the Search account", function (){
+  accountadminviewPage.changeNameSearch(previousName)
+  accountadminviewPage.changeRole(previousRole)
+})
+
+Then("the OSU user changes the Submit account Name and email address", function (){
+  cy.get("dt").contains("Name").next().then($word => {
+    previousName = $word.text()
+    previousName = previousName.trim()
+  })
+  accountadminviewPage.changeNameSubmit("Name Changed")
+  let http = ""
+  cy.url().then($link =>{
+    http = $link
+    console.log("this is link " + http)
+    if(http == "https://staging-support.cosmetic-product-notifications.service.gov.uk/two-factor/sms"){
+      console.log("auth page")
+      checkCodePage.fillOtpcode('11222')
+      accountadminviewPage.changeEmailSubmit("123@gmail.com")
+    }
+    else{
+      console.log("not auth page")
+      accountadminviewPage.changeEmailSubmit("123@gmail.com")
+    }
+  })
+  cy.log(http)
+  console.log("this is link " + http)
+
+})
+
+When("the OSU user verifies the change in Submit account name and address", function (){
+  accountadminviewPage.assertSuccess()
+  accountadminviewPage.assertName("Name Changed")
+  accountadminviewPage.assertEmailChanged("123@gmail.com")
+})
+
+Then("the OSU user reverts the changes to the Submit account", function (){
+  accountadminviewPage.changeNameSubmit(previousName)
+  accountadminviewPage.changeEmailSubmit(Cypress.env('SUBMIT_USER_EMAIL'))
+})

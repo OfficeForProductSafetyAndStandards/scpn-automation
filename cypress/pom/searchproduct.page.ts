@@ -25,27 +25,49 @@ class SearchProductPage{
         cy.get('dt:contains("Shades")').should("have.length", amount)
     }
     containsLabelImage(){
-        cy.get('dt').contains("Label image")
+        cy.get('dt').contains("Label")
     }
     containsMixed(){
         cy.get('dt').contains("Are the items mixed")
     }
-    containsResponsiblePerson(name: string){
-        cy.get(`.opss-border-all`).filter(':contains("Responsible Person")').within(function (){
-            cy.get('dt').contains("Name")
-            cy.get('dt').contains("Name").next().contains(name)
-            cy.get('dt').contains("Address")
-        })
+    containsResponsiblePerson(name: string, role:string){
+        if(role == "OSU"){
+            //opss-info-panel
+            cy.get(`.opss-info-panel`).filter(':contains("Responsible Person")').within(function (){
+                cy.get('h3').contains("Name")
+                cy.get('h3').contains("Name").next().contains(name)
+                cy.get('h3').contains("Address")
+            })
+        }
+        else {
+            cy.get(`.opss-border-all`).filter(':contains("Responsible Person")').within(function () {
+                cy.get('dt').contains("Name")
+                cy.get('dt').contains("Name").next().contains(name)
+                cy.get('dt').contains("Address")
+            })
+        }
     }
-    containsAssignedContact(name: string, email: string, telephone: string){
-        cy.get(`.opss-border-all`).filter(':contains("Assigned contact")').within(function (){
-            cy.get('dt').contains("Name")
-            cy.get('dt').contains("Name").next().contains(name)
-            cy.get('dt').contains("Email")
-            cy.get('dt').contains("Email").next().contains(email)
-            cy.get('dt').contains("Telephone")
-            cy.get('dt').contains("Telephone").next().contains(telephone)
-        })
+    containsAssignedContact(name: string, email: string, telephone: string, role: string){
+        if(role == 'OSU'){
+            cy.get(`.opss-info-panel`).filter(':contains("Assigned contact")').within(function () {
+                cy.get('h3').contains("Name")
+                cy.get('h3').contains("Name").next().contains(name)
+                cy.get('h3').contains("Email")
+                cy.get('h3').contains("Email").next().contains(email)
+                cy.get('h3').contains("Telephone")
+                cy.get('h3').contains("Telephone").next().contains(telephone)
+            })
+        }
+        else {
+            cy.get(`.opss-border-all`).filter(':contains("Assigned contact")').within(function () {
+                cy.get('dt').contains("Name")
+                cy.get('dt').contains("Name").next().contains(name)
+                cy.get('dt').contains("Email")
+                cy.get('dt').contains("Email").next().contains(email)
+                cy.get('dt').contains("Telephone")
+                cy.get('dt').contains("Telephone").next().contains(telephone)
+            })
+        }
     }
     containsAddressHistory(){
         cy.get(`.opss-border-all`).filter(':contains("Address history")')
@@ -137,6 +159,12 @@ class SearchProductPage{
 
     containsPDF(){
         cy.get('a:contains(".pdf")').should("have.length", 2)
+    }
+    delete(){
+        cy.get("button").contains("Delete this notification").click()
+    }
+    recover(){
+        cy.get("button").contains("Recover this notification").click()
     }
 }
 

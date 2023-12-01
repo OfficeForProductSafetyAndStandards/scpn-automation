@@ -17,13 +17,15 @@ env:
   CYPRESS_RP: "${{ secrets.RP }}"
   CYPRESS_BASIC_AUTH_USERNAME: "${{ secrets.BASIC_AUTH_USERNAME }}"
   CYPRESS_BASIC_AUTH_PASSWORD: "${{ secrets.BASIC_AUTH_PASSWORD }}"
+  CYPRESS_RECORD_KEY: "${{ secrets.CYPRESS_RECORD_KEY }}"
 jobs:
   deploy-env:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           browser: electron
+          record: true

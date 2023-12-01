@@ -88,7 +88,7 @@ So the data can be accessed by both search and submit users to ensure they compl
     When the user accepts and submits the product notification
     Then the product notification is successfully created
   
-  Scenario: Verify Archival and Deletion of Product Notification (Happy Path - COSBETA-2094, COSBETA-2093)
+  Scenario: Verify Archival of Product Notification (Happy Path - COSBETA-2094, COSBETA-2093)
     #create the product - 1st stage
     And the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances
     Then the details of the cosmetic product are successfully added to SCPN
@@ -128,6 +128,27 @@ So the data can be accessed by both search and submit users to ensure they compl
     When the user accepts and submits the product notification
     Then the product notification is successfully created
 
+  Scenario: Verify Deletion of Product Notification (Happy Path - COSBETA-2094, COSBETA-2093)
+    #create the product - 1st stage
+    And the user completes the first stage of creating a new product notification with no nanomaterials, no multi-items and no CMR substances
+    Then the details of the cosmetic product are successfully added to SCPN
+
+    #complete second stage of product notification creation and upload fixed range ingredients csv file
+    When the user creates the product notification details
+    And the user uploads an ingredient csv with concentration range
+    Then the product details section is completed successfully
+
+    #accept and submit the notification
+    When the user accepts and submits the product notification
+    Then the product notification is successfully created
+
+    #archive the product notification
+    When the user archives the last created product notification
+    Then the notification is successfully archived
+
+    #delete the notification
+    When the user deletes the product notification
+    Then the notification is successfully deleted
 
   
 
