@@ -576,24 +576,24 @@ When("the user logs into the service", function () {
   loginPage.submit()
 });
 
-Then("the user sees the header information", function(){
-  headerPage.assertHeaderLoggedIn()
+Then("the {string} user sees the header information", function(accountType:string){
+  headerPage.assertHeaderLoggedIn(accountType)
 })
 
 
 
-Then("the user sees the correct header information after signing out", function(){
+Then("the {string} user sees the correct header information after signing out", function(accountType:string){
   headerPage.signOut()
-  headerPage.assertHeaderLoggedOut()
+  headerPage.assertHeaderLoggedOut(accountType)
 })
 
-Then("the user sees the footer information", function(){
-  footerPage.assertHrefs()
+Then("the {string} user sees the footer information", function(accountType: string){
+  footerPage.assertHrefs(accountType)
 })
 
-Then("the user sees the correct footer information after signing out", function(){
+Then("the {string} user sees the correct footer information after signing out", function(accountType: string){
   headerPage.signOut()
-  footerPage.assertHrefs()
+  footerPage.assertHrefs(accountType)
 })
 
 // When("the user logs into SCPN", function () {

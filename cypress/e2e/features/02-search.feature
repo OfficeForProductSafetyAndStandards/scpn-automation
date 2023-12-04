@@ -10,6 +10,15 @@ Feature: Search for Products as a Search User
     When the user logs into the service
     Then the user successfully authenticates using their verification code
 
+   Scenario: Verify Header
+    Then the "Search" user sees the header information
+    And the "Search" user sees the correct header information after signing out
+
+
+   Scenario: Verify Footer
+    Then the "Search" user sees the footer information
+    And the "Search" user sees the correct footer information after signing out
+
    Scenario: Verify Search of Cosmetic Product (Archived) (COSBETA-2306)
      Then user searches for Archived product notification
      When user sees the results of their search

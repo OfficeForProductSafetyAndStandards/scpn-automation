@@ -18,13 +18,13 @@ So the data can be accessed by both search and submit users to ensure they compl
 
 
   Scenario: Verify Header
-    Then the user sees the header information
-    And the user sees the correct header information after signing out
+    Then the "Submit" user sees the header information
+    And the "Submit" user sees the correct header information after signing out
 
 
   Scenario: Verify Footer
-    Then the user sees the footer information
-    And the user sees the correct footer information after signing out
+    Then the "Submit" user sees the footer information
+    And the "Submit" user sees the correct footer information after signing out
 
 
   Scenario: Verify Creation of Notified Nanomaterial (COSBETA-2097)
