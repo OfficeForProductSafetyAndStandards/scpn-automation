@@ -1260,6 +1260,7 @@ Then("the OSU user changes the Search account Name and Role Type", function (){
   accountadminviewPage.changeNameSearch("Name Changed")
 
   accountadminviewPage.changeRole("OPSS General")
+  //test
 })
 
 When("the OSU user verifies the change in Search account name and roletype", function (){
