@@ -4,6 +4,9 @@
     "notified": "TestProduct 305",
     "completeProduct": "TestProduct 263"
   },
+  "account":{
+      "email": "gileadbempah+search@gmail.com"
+  },
   "completeProduct": {
     "productname": "TestProduct 263",
     "forchildrenunderthree": "No",
