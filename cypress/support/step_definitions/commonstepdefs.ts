@@ -1236,11 +1236,11 @@ When("the OSU user looks for a {string} account", function (accountType: string)
 When("the OSU user looks for a search account", function (){
   osudashboardPage.gotoAccountAdmin()
   accountadminPage.gotoSearch()
-  accountadminsearchPage.search("gileadbempah+search@gmail.com")
+  accountadminsearchPage.search(this.search.account.email)
   accountadminsearchPage.view()
 })
 
-Then("the OSU user deactivates and reactivates an account", function (){
+Then("the OSU user deactivates and reactivates the account", function (){
   accountadminviewPage.deactivate();
   cy.get('button[class="govuk-button"]').contains("Confirm deactivate account").click()
   accountadminviewPage.reactivate()
@@ -1260,7 +1260,6 @@ Then("the OSU user changes the Search account Name and Role Type", function (){
   accountadminviewPage.changeNameSearch("Name Changed")
 
   accountadminviewPage.changeRole("OPSS General")
-  //test
 })
 
 When("the OSU user verifies the change in Search account name and roletype", function (){
@@ -1318,7 +1317,6 @@ When("the OSU user views the history log", function (){
 })
 
 Then("the OSU user checks the changes they made to the {string} account", function (type: string){
-  osuhistoryPage.showDate()
   if(type == "Responsible Person") {
     osuhistoryPage.checkRPChanges(previousName, previousBusiness, OSUUserName, RPAddress)
   }
