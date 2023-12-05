@@ -1054,9 +1054,17 @@ let productName: string
 
 
 
-function assertProductDetailInformation(this: any, underThree:string, numItems: string, productNumber: string, notified: string, RP: string, contactName: string, contactEmail: string, contactTelephone: string){
+function assertProductDetailInformation(this: any, underThree:string, numItems: string, productNumber: string, notified: string, RP: string, contactName: string, contactEmail: string, contactTelephone: string, accountType: string){
   searchproductPage.assertPageTitle(productName);
-  searchproductPage.containsCosmeticProductNumber(productNumber)
+  if(accountType == "OSU") {
+    if(productNumber.charAt(5) == '0'){
+      productNumber = productNumber.substring(0,5) + productNumber.substring(6, productNumber.length)
+    }
+    searchproductPage.containsCosmeticProductNumber(productNumber)
+  }
+  else{
+    searchproductPage.containsCosmeticProductNumber(productNumber)
+  }
   if(roleType != "OSU") {
     searchproductPage.containsProductNotified(notified)
   }
@@ -1091,12 +1099,12 @@ Then("user is displayed the correct product notification pertaining to the speci
   if(roleType == "OPSS General" || roleType == "OSU"){
     assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
         this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
-          this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
+          this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone, "")
   }
   else{
     assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
       this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
-        this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
+        this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone, "")
     
         assertProductDetailInformation2(this.search.completeProduct.containscmrsubstances,
         (this.search.completeProduct.substance1 + ', ' + this.search.completeProduct.substance1casno + ', ' + this.search.completeProduct.substance1ecno),
@@ -1175,7 +1183,7 @@ Then("OSU user is displayed the correct product notification information", funct
   roleType = "OSU"
   assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
       this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
-      this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
+      this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone, "OSU")
 })
 
 When("the OSU user looks for a Responsible Person", function(){
