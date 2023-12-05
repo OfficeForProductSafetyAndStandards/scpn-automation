@@ -59,6 +59,9 @@ class OSUHistoryPage{
         })
     }
     checkNotification(notificationNo:string, OSUName: string){
+        if(notificationNo.charAt(5) == '0'){
+            notificationNo = notificationNo.substring(0,5) + notificationNo.substring(6, notificationNo.length)
+        }
         cy.get(".govuk-table__row").eq(1).within(function (){
             cy.get('td').eq(0).contains(OSUName)
             let date = new Date()
