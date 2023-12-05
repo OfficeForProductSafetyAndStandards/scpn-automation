@@ -576,22 +576,21 @@ When("the user logs into the service", function () {
   loginPage.submit()
 });
 
-Then("the {string} user sees the header information", function(accountType:string){
+Then("the {string} user is shown header information", function(accountType:string){
   headerPage.assertHeaderLoggedIn(accountType)
 })
 
 
 
-Then("the {string} user sees the correct header information after signing out", function(accountType:string){
+Then("the {string} user is shown correct header information after signing out", function(accountType:string){
   headerPage.signOut()
   headerPage.assertHeaderLoggedOut(accountType)
 })
 
-Then("the {string} user sees the footer information", function(accountType: string){
+Then("the {string} user is shown footer information", function(accountType: string){
   footerPage.assertHrefs(accountType)
 })
-
-Then("the {string} user sees the correct footer information after signing out", function(accountType: string){
+Then("the {string} user is shown correct footer information after signing out", function(accountType: string){
   headerPage.signOut()
   footerPage.assertHrefs(accountType)
 })

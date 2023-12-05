@@ -9,13 +9,13 @@ Feature: Verify Search Role type is only able to see permitted product notificat
     Then the user recieves text message and successfully authenticates using their verification code
 
   Scenario: Verify Header
-    Then the "OSU" user sees the header information
-    And the "OSU" user sees the correct header information after signing out
+    Then the "OSU" user is shown header information
+    And the "OSU" user is shown correct header information after signing out
 
 
   Scenario: Verify Footer
-    Then the "OSU" user sees the footer information
-    And the "OSU" user sees the correct footer information after signing out
+    Then the "OSU" user is shown footer information
+    And the "OSU" user is shown correct footer information after signing out
 
   Scenario: Verify name change for OSU user
     When the OSU user views their account details
