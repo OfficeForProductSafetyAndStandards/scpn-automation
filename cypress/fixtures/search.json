@@ -1,11 +1,14 @@
 {
   "status": {
-    "archived": "TestProduct 723",
-    "notified": "TestProduct 612",
-    "completeProduct": "TestProduct 689"
+    "archived": "TestProduct 537",
+    "notified": "TestProduct 507",
+    "completeProduct": "TestProduct 809"
+  },
+  "account": {
+    "email": "gileadbempah+search@gmail.com"
   },
   "completeProduct": {
-    "productname": "TestProduct 689",
+    "productname": "TestProduct 809",
     "forchildrenunderthree": "No",
     "numnberofitems": "2",
     "shades": "None",
@@ -28,8 +31,8 @@
     "exposureroutes": "Inhalation",
     "exposureroutes1": "Oral",
     "multiitemmixed": "No",
-    "itemname1": "Item Name 775",
-    "itemname2": "Item Name 907",
+    "itemname1": "Item Name 310",
+    "itemname2": "Item Name 398",
     "itemcategoryofproduct": "Skin product",
     "itemcategoryofproduct1": "Hair and scalp products",
     "itemproductsubcategory": "Skin care product",

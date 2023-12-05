@@ -60,8 +60,8 @@ Feature: Verify Search Role type is only able to see permitted product notificat
     When the OSU user verifies the change in Submit account name and address
     Then the OSU user reverts the changes to the Submit account
 
-  Scenario: History Log, verify reactivation and deactivation of search account
+  Scenario: Verify History Log - Activation and Deactivation of Search account
     When the OSU user looks for a search account
-    Then the OSU user deactivates and reactivates an account
+    Then the OSU user deactivates and reactivates the account
     When the OSU user views the history log
     Then the OSU user checks the changes they made to the product notification
