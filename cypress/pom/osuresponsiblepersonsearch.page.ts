@@ -1,4 +1,4 @@
-class OsuResponsiblePersonSearchPage {
+class OSUResponsiblePersonSearchPage {
     assertPageTitle(){
         cy.get('h1').contains('Search for a Responsible Person account')
     }
@@ -10,4 +10,4 @@ class OsuResponsiblePersonSearchPage {
     }
 }
 
-export default new OsuResponsiblePersonSearchPage();
+export default new OSUResponsiblePersonSearchPage();

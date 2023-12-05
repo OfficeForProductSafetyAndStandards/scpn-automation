@@ -1,4 +1,4 @@
-class OsuNotificationsPage{
+class OSUNotificationsPage{
     assertPageTitle(){
         cy.get("h1").contains('Search for cosmetic product notifications')
     }
@@ -12,4 +12,4 @@ class OsuNotificationsPage{
         cy.get('.govuk-button').last().click()
     }
 }
-export default new OsuNotificationsPage()
+export default new OSUNotificationsPage()

@@ -1,4 +1,4 @@
-class OsuResponsiblePersonPage {
+class OSUResponsiblePersonPage {
     assertPageTitle(){
         cy.get('h1').contains('Responsible Person account')
     }
@@ -13,11 +13,6 @@ class OsuResponsiblePersonPage {
     changeName(name: string){
         cy.get('a:contains("Change")').eq(0).click()
         cy.get('#responsible-person-name-field').clear().type(name);
-        cy.get('.govuk-button').last().click()
-    }
-    changeAddress(name: string){
-        cy.get('a:contains("Change")').eq(0).click()
-        cy.get('#responsible-person-address-line-1-field').type(name);
         cy.get('.govuk-button').last().click()
     }
     changeContactName(name: string){
@@ -36,11 +31,23 @@ class OsuResponsiblePersonPage {
     assertBusinessType(type: string){
         cy.get('dt').contains("Business type").siblings().contains(type)
     }
+    assertAddress(address:string){
+        cy.get('dt').contains("Address").siblings().contains(address)
+    }
     changeBusinessType(type: string){
         cy.get('a:contains("Change")').eq(2).click()
         cy.get('label').contains(type).click()
         cy.get('.govuk-button').last().click()
     }
+    changeAddress(address: string, sndAddress: string, city: string, county: string, postcode: string){
+        cy.get('a:contains("Change")').eq(1).click()
+        cy.get('#responsible-person-address-line-1-field').clear().type(address);
+        cy.get('#responsible-person-address-line-2-field').clear().type(sndAddress);
+        cy.get('#responsible-person-city-field').clear().type(city);
+        cy.get('#responsible-person-county-field').clear().type(county);
+        cy.get('#responsible-person-postal-code-field').clear().type(postcode);
+        cy.get('.govuk-button').last().click()
+    }
 }
 
-export default new OsuResponsiblePersonPage();
+export default new OSUResponsiblePersonPage();

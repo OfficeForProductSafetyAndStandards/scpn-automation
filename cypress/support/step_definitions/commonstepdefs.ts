@@ -70,6 +70,8 @@ import osuresponsiblepersonsearchresultPage from "../../pom/osuresponsibleperson
 import osuresponsiblepersonPage from "../../pom/osuresponsibleperson.page";
 import accountadminviewPage from "../../pom/accountadminview.page";
 import {link} from "fs";
+import osuhistoryPage from "../../pom/osuhistory.page";
+import osuaccountsettingsPage from "../../pom/osuaccountsettings.page";
 
 
 let journeytype: string
@@ -82,8 +84,9 @@ let storeNotified:string
 let completeProduct: string
 let cosmeticNumber: string
 let dateNotified: string
-
-
+let OSUUserName: string
+// OSUName: string
+let RPAddress: string [] = []
 beforeEach(function () {
   cy.fixture('product.json').then(function (product) {
     product.nanomaterial.name = `Test Nano ${generateRandomNumber(2)}`
@@ -120,6 +123,8 @@ beforeEach(function () {
     this.search = search;
     //console.log(this.search.completeProduct.productname)
   })
+  console.log(OSUUserName)
+  console.log(RPAddress)
 });
 
 
@@ -1196,21 +1201,28 @@ Then("the OSU user changes the RP name and business type", function (){
     previousBusiness = $word.text()
     previousBusiness = previousBusiness.trim()
   })
+  cy.get("dt").contains("Address").next().then($word => {
+    RPAddress = $word.text().split(',')
+    RPAddress = RPAddress.map(x => x.trim())
+  })
   osuresponsiblepersonPage.assertPageTitle()
   osuresponsiblepersonPage.changeName("Nashtech12")
   osuresponsiblepersonPage.changeBusinessType("Individual")
+  osuresponsiblepersonPage.changeAddress("123 road road", "update", 'city', "county", "B446DU")
 })
 
-When("the OSU user verifies the change in RP name and address", function(){
+When("the OSU user verifies the change in RP name and business type", function(){
   osuresponsiblepersonPage.assertSuccess()
   osuresponsiblepersonPage.assertName("Nashtech12")
   osuresponsiblepersonPage.assertBusinessType("Individual")
+  osuresponsiblepersonPage.assertAddress("123 road road, update, city, county, B446DU")
 })
 
 Then("the OSU user reverts the changes and verifies the information is correct", function (){
   osuresponsiblepersonPage.assertPageTitle()
   osuresponsiblepersonPage.changeName(previousName)
   osuresponsiblepersonPage.changeBusinessType(previousBusiness)
+  osuresponsiblepersonPage.changeAddress(RPAddress[0], RPAddress[1], RPAddress[2], RPAddress[3], RPAddress[4])
   osuresponsiblepersonPage.assertView(this.product.rpAddress.Name, this.product.rpAddress.Address, this.product.rpAddress.BusinessType, this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone)
 })
 
@@ -1221,6 +1233,18 @@ When("the OSU user looks for a {string} account", function (accountType: string)
   accountadminsearchPage.view()
 })
 
+When("the OSU user looks for a search account", function (){
+  osudashboardPage.gotoAccountAdmin()
+  accountadminPage.gotoSearch()
+  accountadminsearchPage.search(this.search.account.email)
+  accountadminsearchPage.view()
+})
+
+Then("the OSU user deactivates and reactivates the account", function (){
+  accountadminviewPage.deactivate();
+  cy.get('button[class="govuk-button"]').contains("Confirm deactivate account").click()
+  accountadminviewPage.reactivate()
+})
 
 let previousRole = ""
 Then("the OSU user changes the Search account Name and Role Type", function (){
@@ -1283,4 +1307,48 @@ When("the OSU user verifies the change in Submit account name and address", func
 Then("the OSU user reverts the changes to the Submit account", function (){
   accountadminviewPage.changeNameSubmit(previousName)
   accountadminviewPage.changeEmailSubmit(Cypress.env('SUBMIT_USER_EMAIL'))
+})
+
+When("the OSU user views the history log", function (){
+  cy.get(".govuk-header").within(function (){
+    cy.get("a").contains("OSU Support Portal").click()
+  })
+  osudashboardPage.gotoChangeHistory()
+})
+
+Then("the OSU user checks the changes they made to the {string} account", function (type: string){
+  if(type == "Responsible Person") {
+    osuhistoryPage.checkRPChanges(previousName, previousBusiness, OSUUserName, RPAddress)
+  }
+  else if(type == "Search"){
+    osuhistoryPage.checkSearchChanges(previousRole, OSUUserName)
+  }
+})
+
+Then("the OSU user checks the changes they made to the product notification", function (){
+  osuhistoryPage.checkAccountStatus(OSUUserName)
+})
+Then("the OSU user checks changes to product notification", function (){
+  osuhistoryPage.checkNotification(this.search.completeProduct.cosmeticnumber, OSUUserName);
+})
+
+When("the OSU user views their account details", function (){
+  osudashboardPage.goToAccountSettings()
+})
+
+Then("the OSU user changes their name", function(){
+  cy.get("dt").contains("Full name").next().then($word => {
+    OSUUserName = $word.text()
+    OSUUserName = OSUUserName.trim()
+  })
+  osuaccountsettingsPage.changeName("Name Changed")
+})
+
+When("the OSU checks the changes to their account name", function (){
+  osuaccountsettingsPage.verifyNameChange("Name Changed")
+})
+
+Then("the OSU user reverts the changes", function (){
+  osudashboardPage.goToAccountSettings()
+  osuaccountsettingsPage.changeName(OSUUserName)
 })
