@@ -1,9 +1,4 @@
 class OSUHistoryPage{
-
-    showDate(){
-        let date = new Date()
-        cy.log(date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear())
-    }
     checkRPChanges(Name:string, Type:string, OSUName: string, RPAddress: string []){
         cy.get(".govuk-table__row").eq(1).within(function (){
             cy.get('td').eq(0).contains(OSUName)
