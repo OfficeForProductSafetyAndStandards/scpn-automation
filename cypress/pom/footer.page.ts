@@ -28,7 +28,6 @@ class FooterPage {
             let loggedIn = false
             cy.get('header').within(function () {
                 cy.get("button").then($word => {
-                    console.log($word.text())
                     if ($word.text() == "MenuSign out") {
                         loggedIn = true
                     }
