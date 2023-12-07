@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class NanomaterialPlacedOnMarketPage {
 
@@ -7,7 +7,7 @@ class NanomaterialPlacedOnMarketPage {
     }
   
     submit() {
-        submit()
+        submitButton()
      }
 
 }

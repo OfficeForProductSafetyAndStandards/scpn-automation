@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class NotifiedNanomaterialPage {
 
@@ -8,7 +8,7 @@ class NotifiedNanomaterialPage {
 
     choose(answer: string) {
         cy.get("#nanomaterial_notification").select(answer)
-        submit()
+        submitButton()
     }
 
 }

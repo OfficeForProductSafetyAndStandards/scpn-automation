@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class AccessTypePage{
     assertPageTitle(){
@@ -6,9 +6,9 @@ class AccessTypePage{
     }
     choose(){
         cy.get("label").contains("Text message").click()
-        submit()
+        submitButton()
         cy.get('#otp_code').type("11222")
-        submit()
+        submitButton()
     }
 }
 

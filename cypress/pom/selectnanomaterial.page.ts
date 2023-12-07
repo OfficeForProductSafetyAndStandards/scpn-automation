@@ -1,4 +1,4 @@
-import {select, submit, verifyPageTitle} from "../support/common-helpers";
+import {select, submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class SelectNanomaterialPage {
 
@@ -8,14 +8,14 @@ class SelectNanomaterialPage {
 
     choose(answer: string) {
         select(answer)
-        submit()
+        submitButton()
     }
 
     chooseMulti(list: string[]) {
         for (let i = 0; i < list.length; i++) {
             select(list[i])
         }
-        submit()
+        submitButton()
     }
 }
 

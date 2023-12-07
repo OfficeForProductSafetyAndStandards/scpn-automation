@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class ContainsSpecialApplicator {
 
@@ -8,7 +8,7 @@ class ContainsSpecialApplicator {
   
     choose(answer: string) {
         cy.get(".govuk-radios__item").contains(answer).click()
-        submit()
+        submitButton()
      }
 }
   

@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class OSUNotificationsPage{
     assertPageTitle(){
@@ -11,7 +11,7 @@ class OSUNotificationsPage{
         cy.get('.govuk-fieldset').contains(status).click()
     }
     submit() {
-        submit()
+        submitButton()
     }
 }
 export default new OSUNotificationsPage()

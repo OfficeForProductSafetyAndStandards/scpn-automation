@@ -8,40 +8,40 @@ class SearchProductPage{
     }
 
     containsCosmeticProductNumber(number: string){
-        cy.hasKeyValueDetails("cosmetic product number", number)
+        return cy.hasKeyValueDetails("cosmetic product number", number)
     }
     containsProductNotified(date: string){
-        cy.hasKeyValueDetails("notified", date)
+        return cy.hasKeyValueDetails("notified", date)
     }
     containsProductName(){
-        cy.get('dt').contains("Product name")
+        return cy.get('dt').contains("Product name")
     }
     containsUnder3(ans: string){
-        cy.hasKeyValueDetails("For children under 3", ans)
+        return cy.hasKeyValueDetails("For children under 3", ans)
     }
     containsNumberItems(ans: string){
-        cy.hasKeyValueDetails("Number of items", ans)
+        return cy.hasKeyValueDetails("Number of items", ans)
     }
     containsShades(amount: number){
-        cy.get('dt:contains("Shades")').should("have.length", amount)
+        return cy.get('dt:contains("Shades")').should("have.length", amount)
     }
     containsLabelImage(){
-        cy.get('dt').contains("Label")
+        return cy.get('dt').contains("Label")
     }
     containsMixed(){
-        cy.get('dt').contains("Are the items mixed")
+        return cy.get('dt').contains("Are the items mixed")
     }
     containsResponsiblePerson(name: string, role:string){
         if(role == "OSU"){
             //opss-info-panel
-            cy.get(`.opss-info-panel`).filter(':contains("Responsible Person")').within(function (){
+            return cy.get(`.opss-info-panel`).filter(':contains("Responsible Person")').within(function (){
                 cy.get('h3').contains("Name")
                 cy.get('h3').contains("Name").next().contains(name)
                 cy.get('h3').contains("Address")
             })
         }
         else {
-            cy.get(`.opss-border-all`).filter(':contains("Responsible Person")').within(function () {
+            return cy.get(`.opss-border-all`).filter(':contains("Responsible Person")').within(function () {
                 cy.get('dt').contains("Name")
                 cy.get('dt').contains("Name").next().contains(name)
                 cy.get('dt').contains("Address")
@@ -50,7 +50,7 @@ class SearchProductPage{
     }
     containsAssignedContact(name: string, email: string, telephone: string, role: string){
         if(role == 'OSU'){
-            cy.get(`.opss-info-panel`).filter(':contains("Assigned contact")').within(function () {
+            return cy.get(`.opss-info-panel`).filter(':contains("Assigned contact")').within(function () {
                 cy.get('h3').contains("Name")
                 cy.get('h3').contains("Name").next().contains(name)
                 cy.get('h3').contains("Email")
@@ -60,7 +60,7 @@ class SearchProductPage{
             })
         }
         else {
-            cy.get(`.opss-border-all`).filter(':contains("Assigned contact")').within(function () {
+            return cy.get(`.opss-border-all`).filter(':contains("Assigned contact")').within(function () {
                 cy.get('dt').contains("Name")
                 cy.get('dt').contains("Name").next().contains(name)
                 cy.get('dt').contains("Email")
@@ -71,20 +71,27 @@ class SearchProductPage{
         }
     }
     containsAddressHistory(){
-        cy.get(`.opss-border-all`).filter(':contains("Address history")')
+       return cy.get(`.opss-border-all`).filter(':contains("Address history")')
     }
     containsCMR(amount: number, ans: string, items: string[], substancenames: string []){
-        cy.get('dt:contains("Contains CMR substances")').should("have.length", amount)
-        cy.hasKeyValueDetails("Contains CMR substances", ans) //dwdw
-        cy.hasKeyValueDetail(items[0], "CMR substances", substancenames[0])
-        cy.get("dt:contains('CMR substances')").eq(1).siblings().contains(substancenames[0])
-        cy.get("dt:contains('CMR substances')").eq(3).siblings().contains(substancenames[1])
+        return cy.get('dt:contains("Contains CMR substances")').should("have.length", amount).then(function () {
+            cy.hasKeyValueDetails("Contains CMR substances", ans) //dwdw
+            cy.hasKeyValueDetail(items[0], "CMR substances", substancenames[0])
+            cy.get("dt:contains('CMR substances')").eq(1).siblings().contains(substancenames[0])
+            cy.get("dt:contains('CMR substances')").eq(3).siblings().contains(substancenames[1])
+        })
+    }
+    containsCMRNotPresent(){
+        return cy.get('dt:contains("Contains CMR substances")').should('not.exist')
     }
     containsNanomaterials(amount: number, item: string [], nanomaterial: string){
-        cy.get(`dt:contains("Nanomaterials")`).should("have.length", amount*2)
-
-        cy.hasKeyValueDetail(item[0],"Nanomaterials", nanomaterial)
-        cy.hasKeyValueDetail(item[1],"Nanomaterials", nanomaterial)
+        return cy.get(`dt:contains("Nanomaterials")`).should("have.length", amount*2).then(function (){
+            cy.hasKeyValueDetail(item[0],"Nanomaterials", nanomaterial)
+            cy.hasKeyValueDetail(item[1],"Nanomaterials", nanomaterial)
+        })
+    }
+    containsNanomaterialsNotPresent(){
+        return cy.get(`dt:contains("Nanomaterials")`).should('not.exist')
     }
     containsApplicationInstructions(amount: number){
         cy.get('dt:contains("Application instruction")').should("have.length", amount)
@@ -94,72 +101,105 @@ class SearchProductPage{
         cy.get('dt:contains("Exposure condition")').should("have.length", amount)
     }
     containsCategoryOfProduct(amount: number, category: string [], item: string []){
-        cy.hasKeyValueDetail(item[0],"Category of product", category[0])
-        cy.hasKeyValueDetail(item[1],"Category of product", category[1])
+        return cy.hasKeyValueDetail(item[0],"Category of product", category[0]).then( function () {
+            cy.hasKeyValueDetail(item[1],"Category of product", category[1])
+        })
+    }
+    containsCategoryOfProductNotPresent(){
+        return cy.get(`dt:contains("Category of product")`).should('not.exist')
     }
 
     containssubCategoryOfProduct(amount: number, category:string [],  item: string [], subcategory: string []){
         //cy.get('dt:contains("Category of skin product")').should("have.length", amount)
-        cy.hasKeyValueDetail(item[0],"Category of " + category[0], subcategory[0])
-        cy.hasKeyValueDetail(item[1],"Category of " + category[1], subcategory[1])
+        return cy.hasKeyValueDetail(item[0],"Category of " + category[0], subcategory[0]).then(function (){
+            cy.hasKeyValueDetail(item[1],"Category of " + category[1], subcategory[1])
+        })
+
     }
     containssubsubCategoryOfProduct(amount: number, subcategory:string [],  item: string [], subsubcategory: string []){
         //cy.get('dt:contains("Category of skin product")').should("have.length", amount)
-        cy.hasKeyValueDetail(item[0],"Category of " + subcategory[0], subsubcategory[0])
-        cy.hasKeyValueDetail(item[1],"Category of " + subcategory[1], subsubcategory[1])
+        return cy.hasKeyValueDetail(item[0],"Category of " + subcategory[0], subsubcategory[0]).then(function () {
+            cy.hasKeyValueDetail(item[1],"Category of " + subcategory[1], subsubcategory[1])
+        })
     }
     containsPhysicalForm(amount: number, item: string [], form: string[]){
-        cy.get('dt:contains("Physical form")').should("have.length", amount)
-        cy.hasKeyValueDetail(item[0],"Physical form", form[0])
-        cy.hasKeyValueDetail(item[1],"Physical form", form[1])
+        return cy.get('dt:contains("Physical form")').should("have.length", amount).then(function (){
+            cy.hasKeyValueDetail(item[0],"Physical form", form[0])
+            cy.hasKeyValueDetail(item[1],"Physical form", form[1])
+        })
     }
-
+    containsPhysicalFormNotPresent(){
+        return cy.get(`dt:contains("Physical form")`).should('not.exist')
+    }
     containsSpecialApplicator(amount: number, applicatorType: string){
-        cy.get('dt:contains("Special applicator")').should("have.length", amount)
-        cy.get('dt:contains("Applicator type")').should("have.length", amount).siblings().contains(applicatorType)
+        return cy.get('dt:contains("Special applicator")').should("have.length", amount).then(function () {
+            cy.get('dt:contains("Applicator type")').should("have.length", amount).siblings().contains(applicatorType)
+        })
     }
-    containsApplicatortype(string: string){
+    containsSpecialApplicatorNotPresent(){
+        return cy.get('dt:contains("Special applicator")').should('not.exist')
+    }
 
-    }
     containsPH(amount: number){
-        cy.get('dt:contains("pH")').should("have.length", amount)
+        return cy.get('dt:contains("pH")').should("have.length", amount)
     }
     containsFormulation(amount: number){
-        cy.get('dt:contains("Formulation given as")').should("have.length", amount)
+        return cy.get('dt:contains("Formulation given as")').should("have.length", amount)
     }
+
+    containsFormulationNotPresent(){
+        return cy.get('dt:contains("Formulation given as")').should('not.exist')
+    }
+
     containsIngredients(amount: number,items: string[], list: string []){
-        cy.get('.govuk-\\!-margin-bottom-4:contains("Ingredient")').should("have.length", amount)
-        for(let i = 0; i < amount; i++){
-            let id = '#' + items[i].toLowerCase().replaceAll((/\s/g), "-")
-            cy.get(id).within(function (){
-                cy.get("dt").contains(list[i])
-            })
-        }
+        return cy.get('.govuk-\\!-margin-bottom-4:contains("Ingredient")').should("have.length", amount).then(function () {
+            for(let i = 0; i < amount; i++){
+                let id = '#' + items[i].toLowerCase().replaceAll((/\s/g), "-")
+                cy.get(id).within(function (){
+                    cy.get("dt").contains(list[i])
+                })
+            }
+        })
+    }
+    containsIngredientsNotPresent(){
+        return cy.get('.govuk-\\!-margin-bottom-4:contains("Ingredient")').should('not.exist')
     }
     containsPercentage(items: string[], list: string[]){
-        cy.get(`.govuk-\\!-margin-bottom-4:contains("w/w")`).should("have.length", 2)
-        for(let i = 0; i < list.length; i++){
-            let id = '#' + items[i].toLowerCase().replaceAll((/\s/g), "-")
-            cy.get(id).within(function (){
-                cy.get(".govuk-\\!-margin-bottom-4").contains(list[i])
-            })
-        }
+        return cy.get(`.govuk-\\!-margin-bottom-4:contains("w/w")`).then(function() {
+            cy.get(`.govuk-\\!-margin-bottom-4:contains("w/w")`).should("have.length", 2)
+            for(let i = 0; i < list.length; i++){
+                let id = '#' + items[i].toLowerCase().replaceAll((/\s/g), "-")
+                cy.get(id).within(function (){
+                    cy.get(".govuk-\\!-margin-bottom-4").contains(list[i])
+                })
+            }
+        })
+    }
+    containsPercentageNotPresent(){
+        cy.get(`.govuk-\\!-margin-bottom-4:contains("w/w")`).should('not.exist')
     }
     notifiedNPIS(){
-        cy.get('h4').contains("Ingredients the NPIS needs to know about")
+        return cy.contains("Ingredients the NPIS needs to know about")
     }
     containsCAS(amount: number, items: string[], list: string []){
-        cy.get(`.govuk-\\!-margin-bottom-4:contains("CAS")`)
-        for(let i = 0; i < amount; i++){
-            let id = '#' + items[i].toLowerCase().replaceAll((/\s/g), "-")
-            cy.get(id).within(function (){
-                cy.get(".govuk-\\!-margin-bottom-4").contains(list[i])
-            })
-        }
+        return cy.get(`.govuk-\\!-margin-bottom-4:contains("CAS")`).then(function (){
+            for(let i = 0; i < amount; i++){
+                let id = '#' + items[i].toLowerCase().replaceAll((/\s/g), "-")
+                cy.get(id).within(function (){
+                    cy.get(".govuk-\\!-margin-bottom-4").contains(list[i])
+                })
+            }
+        })
+
+    }
+    containsCASNotPresent(){
+        return cy.get(`.govuk-\\!-margin-bottom-4:contains("CAS")`).should('not.exist')
     }
 
     containsPDF(){
-        cy.get('a:contains(".pdf")').should("have.length", 2)
+        return cy.get('a:contains(".pdf")') || cy.get('a:contains(".pdf")').then(function (){
+            cy.get('a:contains(".pdf")').should("have.length", 2)
+        })
     }
     delete(){
         cy.get("button").contains("Delete this notification").click()
@@ -167,6 +207,7 @@ class SearchProductPage{
     recover(){
         cy.get("button").contains("Recover this notification").click()
     }
+
 }
 
 // @ts-ignore

@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class CMRSubstancePage {
 
@@ -10,7 +10,7 @@ class CMRSubstancePage {
         cy.get("#component_cmrs_attributes_0_name").type(name)
         cy.get("#component_cmrs_attributes_0_cas_number").type(cas)
         cy.get("#component_cmrs_attributes_0_ec_number").type(ec)
-        submit()
+        submitButton()
     }
 
 }

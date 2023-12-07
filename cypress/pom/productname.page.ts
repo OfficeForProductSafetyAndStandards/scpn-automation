@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class ProductNamePage {
 
@@ -11,7 +11,7 @@ class ProductNamePage {
     }
 
     submit() {
-        submit()
+        submitButton()
   }
 
 }

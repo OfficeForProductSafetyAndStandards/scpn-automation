@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class OSUResponsiblePersonPage {
     assertPageTitle(){
@@ -15,12 +15,12 @@ class OSUResponsiblePersonPage {
     changeName(name: string){
         cy.get('a:contains("Change")').eq(0).click()
         cy.get('#responsible-person-name-field').clear().type(name);
-        submit()
+        submitButton()
     }
     changeContactName(name: string){
         cy.get('a:contains("Change")').eq(0).click()
         cy.get('#contact-person-name-field').clear().type(name);
-        submit()
+        submitButton()
     }
 
     assertSuccess(){
@@ -39,7 +39,7 @@ class OSUResponsiblePersonPage {
     changeBusinessType(type: string){
         cy.get('a:contains("Change")').eq(2).click()
         cy.get('label').contains(type).click()
-        submit()
+        submitButton()
     }
     changeAddress(address: string, sndAddress: string, city: string, county: string, postcode: string){
         cy.get('a:contains("Change")').eq(1).click()
@@ -48,7 +48,7 @@ class OSUResponsiblePersonPage {
         cy.get('#responsible-person-city-field').clear().type(city);
         cy.get('#responsible-person-county-field').clear().type(county);
         cy.get('#responsible-person-postal-code-field').clear().type(postcode);
-        submit()
+        submitButton()
     }
 }
 
