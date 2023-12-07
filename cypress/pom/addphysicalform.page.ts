@@ -1,12 +1,14 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class AddPhysicalFormPage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "What is the physical form of")
+        verifyPageTitle("What is the physical form of")
     }
   
     choose(answer: string) {
         cy.get(".govuk-radios__item").contains(answer).click()
-        cy.get('.govuk-button').last().click()
+        submit()
       }
 }
   

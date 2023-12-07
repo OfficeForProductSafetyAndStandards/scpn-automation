@@ -1,8 +1,10 @@
+import {submit} from "../support/common-helpers";
+
 class OSUAccountSettingsPage{
     changeName(Name: string){
         cy.get('a:contains("Change")').eq(0).click()
         cy.get('.govuk-input').clear().type(Name)
-        cy.get("button[class='govuk-button']").last().click()
+        submit()
     }
     verifyNameChange(Name: string){
         cy.get(".govuk-header").within(function (){

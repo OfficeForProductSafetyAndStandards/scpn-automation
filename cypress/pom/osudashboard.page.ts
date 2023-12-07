@@ -1,6 +1,8 @@
+import {verifyPageTitle} from "../support/common-helpers";
+
 class OSUDashboardPage{
     assertPageTitle(){
-        cy.get("h1").contains("Dashboard")
+        verifyPageTitle("Dashboard")
     }
 
     gotoAccountAdmin(){

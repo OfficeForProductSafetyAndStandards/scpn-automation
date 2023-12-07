@@ -1,6 +1,8 @@
+import {verifyPageTitle} from "../support/common-helpers";
+
 class AccountAdminPage{
     assertPageTitle(){
-        cy.get("h1").contains("Account administration")
+        verifyPageTitle("Account administration")
     }
     gotoSearch(){
         cy.get("a").contains("Search for an account").click()

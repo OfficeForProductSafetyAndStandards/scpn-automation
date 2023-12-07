@@ -1,12 +1,14 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class CheckCodePage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "Check your phone")
+        verifyPageTitle("Check your phone")
     }
   
     fillOtpcode(code:string) {
       cy.get("#otp_code").type(code)
-      cy.get('.govuk-button').last().click()
+        submit()
     }
 }
   

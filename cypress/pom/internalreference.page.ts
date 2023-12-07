@@ -1,15 +1,17 @@
+import {select, submit, verifyPageTitle} from "../support/common-helpers";
+
 class InternalReferencePage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "Internal reference")
+        verifyPageTitle("Internal reference")
     }
 
     choose(answer: string) {
-      cy.get(".govuk-label").contains(answer).click()
+        select(answer)
     }
 
     submit() {
-        cy.get('button[class="govuk-button"]').last().click()
+        submit()
       }
   
   }

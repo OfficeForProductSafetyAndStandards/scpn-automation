@@ -1,6 +1,8 @@
+import {verifyPageTitle} from "../support/common-helpers";
+
 class OSUNotificationsSearchPage{
     assertPageTitle(){
-        cy.get("h1").contains('Search for cosmetic product notifications')
+        verifyPageTitle('Search for cosmetic product notifications')
     }
 
     view(){

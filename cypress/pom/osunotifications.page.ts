@@ -1,6 +1,8 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class OSUNotificationsPage{
     assertPageTitle(){
-        cy.get("h1").contains('Search for cosmetic product notifications')
+        verifyPageTitle('Search for cosmetic product notifications')
     }
     search(product: string){
         cy.get('#q-field').type(product)
@@ -9,7 +11,7 @@ class OSUNotificationsPage{
         cy.get('.govuk-fieldset').contains(status).click()
     }
     submit() {
-        cy.get('.govuk-button').last().click()
+        submit()
     }
 }
 export default new OSUNotificationsPage()

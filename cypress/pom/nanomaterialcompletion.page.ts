@@ -1,3 +1,5 @@
+import {gotoTaskList} from "../support/common-helpers";
+
 class NanomaterialCompletionPage {
 
     assertPageTitle() {
@@ -5,7 +7,8 @@ class NanomaterialCompletionPage {
     }
 
     submit() {
-        cy.get('a').contains('Go to the task list page').click()
+        gotoTaskList()
+        //cy.get('a').contains('Go to the task list page').click()
     }
 }
 

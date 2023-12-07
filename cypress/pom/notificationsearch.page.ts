@@ -1,6 +1,8 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class NotificationSearchPage{
     assertPageTitle(){
-        cy.get('h1').contains("Cosmetic products search");
+        verifyPageTitle("Cosmetic products search")
     }
 
     search(text: string){
@@ -20,7 +22,7 @@ class NotificationSearchPage{
         cy.get('a').contains('Ingredients search').click()
     }
     submit() {
-        cy.get('button[class="govuk-button"]').last().click()
+        submit()
     }
 
     assertCosmeticSearch(){

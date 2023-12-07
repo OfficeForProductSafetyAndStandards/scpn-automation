@@ -1,12 +1,14 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class ProductRootCategoryPage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "What category of cosmetic product is it?")
+        verifyPageTitle("What category of cosmetic product is it?")
     }
   
     choose(answer: string) {
         cy.get(".govuk-radios__item").contains(answer).click()
-        cy.get('.govuk-button').last().click()
+        submit()
     }
   
 }

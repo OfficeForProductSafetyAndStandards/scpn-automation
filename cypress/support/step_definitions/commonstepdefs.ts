@@ -85,7 +85,6 @@ let completeProduct: string
 let cosmeticNumber: string
 let dateNotified: string
 let OSUUserName: string
-// OSUName: string
 let RPAddress: string [] = []
 beforeEach(function () {
   cy.fixture('product.json').then(function (product) {
@@ -119,12 +118,8 @@ beforeEach(function () {
     this.product = product
   })
   cy.readFile('cypress/fixtures/search.json').then(function (search) {
-
     this.search = search;
-    //console.log(this.search.completeProduct.productname)
   })
-  console.log(OSUUserName)
-  console.log(RPAddress)
 });
 
 
@@ -137,7 +132,6 @@ afterEach(function () {
   }
 
   if(archived && notified && perfect){
-    console.log("i hope this works")
     cy.readFile('cypress/fixtures/search.json').then(function (product) {
       product.status.archived = storeArchived
       product.status.notified = storeNotified
@@ -263,13 +257,8 @@ When("the user deletes the product notification", function () {
       productPage.selectDeleteNotificationLink()
       cy.url().then($link =>{
         const http = $link
-        console.log("this is http " + http)
         if(http == "https://staging-submit.cosmetic-product-notifications.service.gov.uk/two-factor/sms"){
           checkCodePage.fillOtpcode('11222')
-          console.log("auth asked")
-        }
-        else{
-          console.log("auth not asked")
         }
       })
       break
@@ -520,8 +509,6 @@ Then("the product notification is successfully created", function (this: any) {
     productPage.assertPageTitle(this.product.nanonmaterialmultiitemnocmr.productname)
   }
   if (journeytype === "nanonmaterialmultiitemcmr") {
-    //cosmeticNumber = productPage.getProductNumber()
-    console.log("this is cosmetic number " + cosmeticNumber)
     cy.get("dt").contains("UK cosmetic product number").siblings().then($word => {
       cosmeticNumber = $word.text()
       cosmeticNumber = cosmeticNumber.trim()
@@ -667,7 +654,6 @@ When("the user completes the first stage of creating a new product notification 
   cosmeticProductsPage.selectCreateNewProduct()
 
   taskListPage.assertPageTitle()
-  //checks if number of questions is one
   taskListPage.numberOfQuestionsOne()
   taskListPage.selectCreateProduct()
 
@@ -703,7 +689,6 @@ When("the user completes the first stage of creating a new product notification 
   cosmeticProductsPage.selectCreateNewProduct()
 
   taskListPage.assertPageTitle()
-  //checks if number of questions is one
   taskListPage.numberOfQuestionsOne()
   taskListPage.selectCreateProduct()
 
@@ -1030,7 +1015,6 @@ When("the OSU user searches for previously created product notification", functi
 });
 
 When ("user sees the Search Dashboard", function(){
-  console.log(this.search.completeProduct.forchildrenunderthree)
   if(roleType == 'OPSS General'){
     notificationsearchPage.assertCosmeticSearch()
   }
@@ -1093,7 +1077,6 @@ function assertProductDetailInformation2(this:any, cmr: string, substance1:strin
   }
 }
 Then("user is displayed the correct product notification pertaining to the specified search user role", function(){
-  //
   
   productName = this.search.status.completeProduct
   if(roleType == "OPSS General" || roleType == "OSU"){
@@ -1289,20 +1272,14 @@ Then("the OSU user changes the Submit account Name and email address", function 
   let http = ""
   cy.url().then($link =>{
     http = $link
-    console.log("this is link " + http)
     if(http == "https://staging-support.cosmetic-product-notifications.service.gov.uk/two-factor/sms"){
-      console.log("auth page")
       checkCodePage.fillOtpcode('11222')
       accountadminviewPage.changeEmailSubmit("123@gmail.com")
     }
     else{
-      console.log("not auth page")
       accountadminviewPage.changeEmailSubmit("123@gmail.com")
     }
   })
-  cy.log(http)
-  console.log("this is link " + http)
-
 })
 
 When("the OSU user verifies the change in Submit account name and address", function (){

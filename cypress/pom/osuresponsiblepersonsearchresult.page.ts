@@ -1,6 +1,8 @@
+import {verifyPageTitle} from "../support/common-helpers";
+
 class OSUResponsiblePersonSearchResultPage {
     assertPageTitle(){
-        cy.get('h1').contains('Search for a Responsible Person account')
+        verifyPageTitle('Search for a Responsible Person account')
     }
     view(){
         cy.get('a').contains("View").click()

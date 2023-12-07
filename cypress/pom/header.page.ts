@@ -1,52 +1,43 @@
+import {checkLink} from "../support/common-helpers";
+
 class HeaderPage {
     assertHeaderLoggedIn(type: string) {
+        checkLink("GOV.UK", '/')
+        cy.get("button").contains("Sign out")
+        checkLink("Your account", '/my_account')
         if(type == "Submit") {
             cy.get('header').within(function () {
-                cy.get("a:contains(GOV.UK)").invoke('attr', 'href').then((href) => expect(href).eq('/'))
-                cy.get("a:contains(Submit cosmetic product notifications)").invoke('attr', 'href').then((href) => expect(href).eq('/responsible_persons/products-redirect'))
-                cy.get("a:contains(Your account)").invoke('attr', 'href').then((href) => expect(href).eq('/my_account'))
-                cy.get("button").contains("Sign out")
+                checkLink("Submit cosmetic product notifications", '/responsible_persons/products-redirect')
             })
         }
         else if(type == "Search"){
             cy.get('header').within(function () {
-                cy.get("a:contains(GOV.UK)").invoke('attr', 'href').then((href) => expect(href).eq('/'))
-                cy.get("a:contains(Search cosmetic product notifications)").invoke('attr', 'href').then((href) => expect(href).eq('/notifications'))
-                cy.get("a:contains(Your account)").invoke('attr', 'href').then((href) => expect(href).eq('/my_account'))
-                cy.get("button").contains("Sign out")
+                checkLink("Search cosmetic product notifications", '/notifications')
             })
         }
         else if(type == "OSU"){
             cy.get('header').within(function () {
-                cy.get("a:contains(GOV.UK)").invoke('attr', 'href').then((href) => expect(href).eq('/'))
-                cy.get("a:contains(OSU Support Portal)").invoke('attr', 'href').then((href) => expect(href).eq('/'))
-                cy.get("a:contains(Your account)").invoke('attr', 'href').then((href) => expect(href).eq('/my_account'))
-                cy.get("button").contains("Sign out")
+                checkLink("OSU Support Portal", '/')
             })
         }
     }
 
     assertHeaderLoggedOut(accountType: string) {
         cy.get('header').contains('GOV.UK')
+        checkLink("Sign in", '/sign-in')
         if(accountType == "Submit") {
             cy.get('header').within(function () {
-
-                cy.get("a:contains(Submit cosmetic product notifications)").invoke('attr', 'href').then((href) => expect(href).eq('#'))
-                cy.get("a:contains(Sign in)").invoke('attr', 'href').then((href) => expect(href).eq('/sign-in'))
+                checkLink("Submit cosmetic product notifications", '#')
             })
         }
         else if(accountType == "Search") {
             cy.get('header').within(function () {
-
-                cy.get("a:contains(Search cosmetic product notifications)").invoke('attr', 'href').then((href) => expect(href).eq('#'))
-                cy.get("a:contains(Sign in)").invoke('attr', 'href').then((href) => expect(href).eq('/sign-in'))
+                checkLink("Search cosmetic product notifications", '#')
             })
         }
         else if(accountType == "OSU") {
             cy.get('header').within(function () {
-
-                cy.get("a:contains(OSU Support Portal)").invoke('attr', 'href').then((href) => expect(href).eq('/'))
-                cy.get("a:contains(Sign in)").invoke('attr', 'href').then((href) => expect(href).eq('/sign-in'))
+                checkLink("OSU Support Portal", '/')
             })
         }
     }
