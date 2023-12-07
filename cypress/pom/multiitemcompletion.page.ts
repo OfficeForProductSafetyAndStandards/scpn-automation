@@ -1,3 +1,5 @@
+import {gotoTaskList, verifyPageTitle} from "../support/common-helpers";
+
 class MultiItemCompletionPage {
 
     assertPageTitle() {
@@ -5,7 +7,8 @@ class MultiItemCompletionPage {
     }
 
     submit() {
-        cy.get('a').contains('Go to the task list page').click()
+        //cy.get('a').contains('Go to the task list page').click()
+        gotoTaskList()
     }
 }
 

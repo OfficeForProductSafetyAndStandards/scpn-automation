@@ -1,7 +1,9 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class ProductNamePage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "What is the product name")
+        verifyPageTitle("What is the product name")
     }
   
     enterProductName(name: string) {
@@ -9,7 +11,7 @@ class ProductNamePage {
     }
 
     submit() {
-      cy.get('.govuk-button').last().click()
+        submit()
   }
 
 }

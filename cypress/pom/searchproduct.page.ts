@@ -1,9 +1,10 @@
 import * as cypress from "cypress"
+import {verifyPageTitle} from "../support/common-helpers";
 
 class SearchProductPage{
 
     assertPageTitle(productName: string){
-        cy.get('h1').contains(productName)
+        verifyPageTitle(productName)
     }
 
     containsCosmeticProductNumber(number: string){

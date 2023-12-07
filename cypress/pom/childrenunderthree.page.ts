@@ -1,12 +1,14 @@
+import {select, submit, verifyPageTitle} from "../support/common-helpers";
+
 class ChildrenUnderThreePage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "children under 3 years old")
+        verifyPageTitle("children under 3 years old")
     }
   
     choose(answer: string) {
-      cy.get(".govuk-label").contains(answer).click()
-      cy.get('button[class="govuk-button"]').last().click()
+        select(answer)
+        submit()
     }
 
   }

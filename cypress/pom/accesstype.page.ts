@@ -1,12 +1,14 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class AccessTypePage{
     assertPageTitle(){
-        cy.get('h1').contains("How do you want to get an access code?")
+        verifyPageTitle("How do you want to get an access code?")
     }
     choose(){
         cy.get("label").contains("Text message").click()
-        cy.get('button[class="govuk-button"]').last().click()
+        submit()
         cy.get('#otp_code').type("11222")
-        cy.get('button[class="govuk-button"]').last().click()
+        submit()
     }
 }
 

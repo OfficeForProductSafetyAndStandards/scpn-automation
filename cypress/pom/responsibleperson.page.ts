@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import {verifyPageTitle} from "../support/common-helpers";
+
 class ResponsiblePersonPage {
 
 
@@ -12,7 +14,7 @@ class ResponsiblePersonPage {
   }
 
   assertPageTitle() {
-    cy.get("h1").should("contain", "Responsible Person")
+        verifyPageTitle("Responsible Person")
   }
 
   selectCosmeticProducts() {

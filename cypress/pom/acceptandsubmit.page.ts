@@ -1,7 +1,9 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class AcceptAndSubmitPage {
 
   assertPageTitle() {
-    cy.get("h1").should("contain", "Accept and submit - review")
+    verifyPageTitle("Accept and submit - review")
   }
 
   assertProductInfo(product: string, childrenunderthree: string, numofitems: string, shades: string, image: string, mixed: string) {
@@ -46,7 +48,7 @@ class AcceptAndSubmitPage {
   }
 
   submit() {
-    cy.get('.govuk-button').last().click()
+    cy.get("a[class='govuk-button']").last().click()
   }
 
 

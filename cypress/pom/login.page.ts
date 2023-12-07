@@ -1,3 +1,5 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class LoginPage {
 
 
@@ -6,7 +8,7 @@ class LoginPage {
   }
 
   assertPageTitle() {
-    cy.get("h1").should("contain", "Sign in")
+    verifyPageTitle("Sign in")
   }
 
   loginAsOpss() {
@@ -33,7 +35,7 @@ class LoginPage {
   }
 
   submit() {
-    cy.get('button[class="govuk-button"]').last().click()
+    submit()
   }
 }
 

@@ -1,6 +1,8 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class OSUResponsiblePersonPage {
     assertPageTitle(){
-        cy.get('h1').contains('Responsible Person account')
+        verifyPageTitle('Responsible Person account')
     }
     assertView(name: string, address: string, businessType: string, contactName:string, email: string, contactNumber: string){
         cy.get('dt:contains("Name")').eq(0).siblings().contains(name)
@@ -13,12 +15,12 @@ class OSUResponsiblePersonPage {
     changeName(name: string){
         cy.get('a:contains("Change")').eq(0).click()
         cy.get('#responsible-person-name-field').clear().type(name);
-        cy.get('.govuk-button').last().click()
+        submit()
     }
     changeContactName(name: string){
         cy.get('a:contains("Change")').eq(0).click()
         cy.get('#contact-person-name-field').clear().type(name);
-        cy.get('.govuk-button').last().click()
+        submit()
     }
 
     assertSuccess(){
@@ -37,7 +39,7 @@ class OSUResponsiblePersonPage {
     changeBusinessType(type: string){
         cy.get('a:contains("Change")').eq(2).click()
         cy.get('label').contains(type).click()
-        cy.get('.govuk-button').last().click()
+        submit()
     }
     changeAddress(address: string, sndAddress: string, city: string, county: string, postcode: string){
         cy.get('a:contains("Change")').eq(1).click()
@@ -46,7 +48,7 @@ class OSUResponsiblePersonPage {
         cy.get('#responsible-person-city-field').clear().type(city);
         cy.get('#responsible-person-county-field').clear().type(county);
         cy.get('#responsible-person-postal-code-field').clear().type(postcode);
-        cy.get('.govuk-button').last().click()
+        submit()
     }
 }
 

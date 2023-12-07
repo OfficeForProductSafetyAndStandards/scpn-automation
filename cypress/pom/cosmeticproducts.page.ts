@@ -1,7 +1,9 @@
+import {verifyPageTitle} from "../support/common-helpers";
+
 class CosmeticProductsPage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "Product notifications")
+        verifyPageTitle("Product notifications")
     }
 
     assertArchiveSuccess() {

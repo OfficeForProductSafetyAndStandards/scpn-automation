@@ -1,12 +1,14 @@
+import {select, submit, verifyPageTitle} from "../support/common-helpers";
+
 class MultiItemMixedPage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "Does the kit contain items that need to be mixed?")
+        verifyPageTitle("Does the kit contain items that need to be mixed?")
     }
   
     choose(answer: string) {
-        cy.get(".govuk-label").contains(answer).click()
-        cy.get('button[class="govuk-button"]').last().click()
+        select(answer)
+        submit()
      }
 
 }

@@ -1,7 +1,9 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class NotifiedToEUPage {
 
     assertPageTitle() {
-        cy.get("h1").should("contain", "Was the EU notified")
+        verifyPageTitle("Was the EU notified")
     }
 
     choose(answer: string) {
@@ -15,7 +17,7 @@ class NotifiedToEUPage {
         cy.get("label").contains("Year")
             .next()
             .type("2019")
-        cy.get('button[class="govuk-button"]').last().click()
+        submit()
     }
 
 }

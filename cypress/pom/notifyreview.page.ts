@@ -1,7 +1,9 @@
+import {verifyPageTitle} from "../support/common-helpers";
+
 class NotifyReviewPage {
 
     assertPageTitle() {
-        cy.get("h1").should("contain", "Check your answers")
+        verifyPageTitle("Check your answers")
     }
 
     assertInfo(name: string) {

@@ -1,7 +1,9 @@
+import {verifyPageTitle} from "../support/common-helpers";
+
 class NanomaterialPage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "Nanomaterials")
+        verifyPageTitle("Nanomaterials")
     }
   
     selectAddNanomaterial() {

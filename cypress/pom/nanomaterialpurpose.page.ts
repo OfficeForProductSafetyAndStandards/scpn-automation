@@ -1,12 +1,14 @@
+import {select, submit, verifyPageTitle} from "../support/common-helpers";
+
 class NanomaterialPurposePage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "What is the purpose of this nanomaterial?")
+        verifyPageTitle("What is the purpose of this nanomaterial?")
     }
   
     choose(answer: string) {
-        cy.get(".govuk-label").contains(answer).click()
-        cy.get('button[class="govuk-button"]').last().click()
+        select(answer)
+        submit()
      }
 
 }

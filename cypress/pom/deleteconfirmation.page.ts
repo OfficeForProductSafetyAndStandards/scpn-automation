@@ -1,12 +1,14 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class DeleteConfirmationPage {
 
     assertPageTitle() {
-        cy.get("h1").should("contain", "Do you want to delete this notification?")
+        verifyPageTitle("Do you want to delete this notification?")
     }
 
     deleteNotificaiton() {
         cy.get("#yes").click()
-        cy.get('.govuk-button').last().click()
+        submit()
     }
 
 }

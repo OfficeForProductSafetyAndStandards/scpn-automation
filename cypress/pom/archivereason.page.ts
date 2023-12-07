@@ -1,12 +1,14 @@
+import {select, submit, verifyPageTitle} from "../support/common-helpers";
+
 class ArchiveReasonPage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "Reason for archiving")
+        verifyPageTitle("Reason for archiving")
     }
   
     choose(answer: string) {
-      cy.get(".govuk-label").contains(answer).click()
-      cy.get('button[class="govuk-button"]').last().click()
+        select(answer)
+        submit()
     }
 
   }

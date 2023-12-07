@@ -1,12 +1,14 @@
+import {select, submit, verifyPageTitle} from "../support/common-helpers";
+
 class FormulationTypePage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "How will you provide")
+        verifyPageTitle("How will you provide")
     }
   
     choose(answer: string) {
-        cy.get(".govuk-label").contains(answer).click()
-        cy.get('button[class="govuk-button"]').last().click()
+        select(answer)
+        submit()
      }
   
 }

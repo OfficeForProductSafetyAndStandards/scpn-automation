@@ -1,11 +1,13 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class ProductPage {
 
     assertPageTitle(name:string) {
-      cy.get("h1").should("contain", name)
+        verifyPageTitle(name)
     }
 
     submit() {
-        cy.get('.govuk-button').last().click()
+        submit()
     }
 
     selectNotifiedProductsLink(){
@@ -28,26 +30,6 @@ class ProductPage {
         return (cy.get('a').contains("Copy this notification") && cy.get('a').contains("Archive this notification") && cy.get('a').contains("Delete this notification"))
     }
 
-    getProductNumber():string{
-        let ans = ""
-        cy.get("dt").contains("UK cosmetic product number").siblings().then($word => {
-            ans = $word.text()
-        
-            console.log("this is ans " + ans)
-            return ans
-        })
-        
-        cy.wait(2000)
-        return ans
-    }
-    getUKNotified():string{
-        let ans = ""
-        cy.get("dt").contains("UK notified").siblings().then($word => {
-            ans = $word.text()
-        })
-        cy.wait(2000)
-        return ans
-    }
 }
   
 export default new ProductPage;

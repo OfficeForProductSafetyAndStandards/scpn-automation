@@ -1,13 +1,15 @@
+import {submit, verifyPageTitle} from "../support/common-helpers";
+
 class AddProductImagePage {
 
     assertPageTitle() {
-      cy.get("h1").should("contain", "Upload")
+        verifyPageTitle("Upload")
     }
   
     chooseFile() {
         const filepath = '../images/testjpeg.jpg'
         cy.get('input[type="file"]').attachFile(filepath)   
-        cy.get('button[class="govuk-button"]').last().click()
+        submit()
     }
   
   }
