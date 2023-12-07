@@ -1,4 +1,4 @@
-import {select, submit, verifyPageTitle} from "../support/common-helpers";
+import {select, submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class NumberOfShadesPage {
 
@@ -8,7 +8,7 @@ class NumberOfShadesPage {
   
     choose(answer: string) {
         select(answer)
-        submit()
+        submitButton()
       }
   
 }

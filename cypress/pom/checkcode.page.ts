@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class CheckCodePage {
 
@@ -8,7 +8,7 @@ class CheckCodePage {
   
     fillOtpcode(code:string) {
       cy.get("#otp_code").type(code)
-        submit()
+        submitButton()
     }
 }
   

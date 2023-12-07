@@ -1,4 +1,4 @@
-import {select, submit, verifyPageTitle} from "../support/common-helpers";
+import {select, submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class InternalReferencePage {
 
@@ -11,7 +11,7 @@ class InternalReferencePage {
     }
 
     submit() {
-        submit()
+        submitButton()
       }
   
   }

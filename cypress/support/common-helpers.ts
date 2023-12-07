@@ -6,7 +6,7 @@ export const basicAuthCreds = () => {
       }
     }
   }
-export const submit = () => {
+export const submitButton = () => {
     cy.get("button[class='govuk-button']").last().click()
 }
 

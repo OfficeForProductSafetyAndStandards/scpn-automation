@@ -1017,6 +1017,7 @@ When("the OSU user searches for previously created product notification", functi
 When ("user sees the Search Dashboard", function(){
   if(roleType == 'OPSS General'){
     notificationsearchPage.assertCosmeticSearch()
+    notificationsearchPage.assertIngredientSearch().should('not.exist')
   }
   else{
     notificationsearchPage.assertCosmeticSearch()
@@ -1075,6 +1076,18 @@ function assertProductDetailInformation2(this:any, cmr: string, substance1:strin
   if(roleType != "NPIS"){
     searchproductPage.containsPH(2)
   }
+  else{
+    searchproductPage.containsPH(0)
+  }
+}
+
+function assertProductDetailInformation2NotPresent(){
+  searchproductPage.containsCMRNotPresent()
+  searchproductPage.containsNanomaterialsNotPresent()
+  searchproductPage.containsCategoryOfProductNotPresent()
+  searchproductPage.containsPhysicalFormNotPresent()
+  searchproductPage.containsSpecialApplicatorNotPresent()
+  searchproductPage.containsFormulationNotPresent()
 }
 Then("user is displayed the correct product notification pertaining to the specified search user role", function(){
   
@@ -1083,6 +1096,8 @@ Then("user is displayed the correct product notification pertaining to the speci
     assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
         this.search.completeProduct.cosmeticnumber, this.search.completeProduct.uknotified, this.product.rpAddress.Name,
           this.product.assignedContacts.Name, this.product.assignedContacts.Email, this.product.assignedContacts.Telephone, "")
+
+    assertProductDetailInformation2NotPresent()
   }
   else{
     assertProductDetailInformation(this.search.completeProduct.forchildrenunderthree, this.search.completeProduct.numnberofitems,
@@ -1103,6 +1118,12 @@ Then("user is displayed the correct product notification pertaining to the speci
 
     case 'OPSS General':
       searchproductPage.containsShades(1)
+      searchproductPage.containsAddressHistory().should("not.exist")
+      searchproductPage.containsIngredientsNotPresent()
+      searchproductPage.containsPercentageNotPresent()
+      searchproductPage.notifiedNPIS().should('not.exist')
+      searchproductPage.containsCASNotPresent()
+
       break
     case 'OPSS Enforcement':
       searchproductPage.containsIngredients(2, [this.search.completeProduct.itemname1, this.search.completeProduct.itemname2],  [this.search.completeProduct.ingredientname1, this.search.completeProduct.ingredientname2])
@@ -1110,19 +1131,26 @@ Then("user is displayed the correct product notification pertaining to the speci
       searchproductPage.notifiedNPIS()
       searchproductPage.containsCAS(2, [this.search.completeProduct.itemname1, this.search.completeProduct.itemname2], [this.search.completeProduct.ingredient1CAS, this.search.completeProduct.ingredient2CAS])
       searchproductPage.containsAddressHistory()
+      searchproductPage.containsPDF().should('not.exist')
       break
     case 'OPSS Science':
       searchproductPage.containsIngredients(1, [this.search.completeProduct.itemname2], [this.search.completeProduct.ingredientname2])
+      searchproductPage.containsPercentageNotPresent()
       searchproductPage.containsPDF()
       searchproductPage.containsCAS(1, [this.search.completeProduct.itemname2], [this.search.completeProduct.ingredient2CAS])
+      searchproductPage.notifiedNPIS().should('not.exist')
+      searchproductPage.containsAddressHistory().should('not.exist')
       break
     case 'Trading Standards':
       searchproductPage.containsIngredients(1, [this.search.completeProduct.itemname2], [this.search.completeProduct.ingredientname2])
       searchproductPage.containsAddressHistory()
       searchproductPage.containsCAS(1, [this.search.completeProduct.itemname2], [this.search.completeProduct.ingredient2CAS])
+      searchproductPage.containsPercentageNotPresent()
+      searchproductPage.containsPDF().should('not.exist')
       break
     case 'NPIS':
       searchproductPage.containsIngredients(2, [this.search.completeProduct.itemname1, this.search.completeProduct.itemname2],  [this.search.completeProduct.ingredientname1, this.search.completeProduct.ingredientname2])
+      searchproductPage.containsAddressHistory().should('not.exist')
       searchproductPage.containsPercentage([this.search.completeProduct.itemname1, this.search.completeProduct.itemname2], [this.search.completeProduct.ingredientweight, this.search.completeProduct.ingredientweight1])
       searchproductPage.notifiedNPIS()
       searchproductPage.containsCAS(2, [this.search.completeProduct.itemname1, this.search.completeProduct.itemname2], [this.search.completeProduct.ingredient1CAS, this.search.completeProduct.ingredient2CAS])

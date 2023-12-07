@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class IngredientExactConcentrationPage {
 
@@ -9,7 +9,7 @@ class IngredientExactConcentrationPage {
     enterIngredientDetails(name: string, concentration: string) {
         cy.get("#component_ingredients_attributes_0_inci_name").type(name)
         cy.get("#component_ingredients_attributes_0_exact_concentration").type(concentration)
-        submit()
+        submitButton()
     }
     enterIngredientDetailswithCAS(name: string, concentration: string, CAS: string, notified:string) {
         cy.get("#component_ingredients_attributes_0_inci_name").type(name)
@@ -19,7 +19,7 @@ class IngredientExactConcentrationPage {
             cy.get('label').contains("The NPIS must be notified about this ingredient").click()
         }
         //#component_ingredients_attributes_0_cas_number
-        submit()
+        submitButton()
     }
 
 }

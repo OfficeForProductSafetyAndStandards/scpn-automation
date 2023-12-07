@@ -1,4 +1,4 @@
-import {submit} from "../support/common-helpers";
+import {submitButton} from "../support/common-helpers";
 
 class SearchAccountPage{
     changeRole(role: string){
@@ -9,7 +9,7 @@ class SearchAccountPage{
     changeName(name: string){
         cy.get('a:contains("Change")').eq(0).click()
         cy.get("#search-user-name-field").type(name)
-        submit()
+        submitButton()
     }
 }
 

@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class AddProductImagePage {
 
@@ -9,7 +9,7 @@ class AddProductImagePage {
     chooseFile() {
         const filepath = '../images/testjpeg.jpg'
         cy.get('input[type="file"]').attachFile(filepath)   
-        submit()
+        submitButton()
     }
   
   }

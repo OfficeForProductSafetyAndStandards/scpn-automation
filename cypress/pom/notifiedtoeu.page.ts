@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class NotifiedToEUPage {
 
@@ -17,7 +17,7 @@ class NotifiedToEUPage {
         cy.get("label").contains("Year")
             .next()
             .type("2019")
-        submit()
+        submitButton()
     }
 
 }

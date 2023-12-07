@@ -1,4 +1,4 @@
-import {submit, verifyPageTitle} from "../support/common-helpers";
+import {submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class NanomaterialUploadPage {
 
@@ -9,7 +9,7 @@ class NanomaterialUploadPage {
     chooseFile(filename: string) {
         const filepath = `../images/${filename}`
         cy.get('input[type="file"]').attachFile(filepath)
-        submit()
+        submitButton()
     }
 
 }

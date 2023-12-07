@@ -1,4 +1,4 @@
-import {select, submit, verifyPageTitle} from "../support/common-helpers";
+import {select, submitButton, verifyPageTitle} from "../support/common-helpers";
 
 class ContainsNanomaterialsPage {
 
@@ -13,12 +13,12 @@ class ContainsNanomaterialsPage {
       } else {
           select(answer)
       }
-      submit()
+      submitButton()
     }
     chooseMulti(value: string){
       cy.get(".govuk-label").contains("Yes").click()
       cy.get("#nanomaterials_count").clear().type(value)
-      submit()
+      submitButton()
     }
   
   }
