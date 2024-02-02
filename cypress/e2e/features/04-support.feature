@@ -1,17 +1,17 @@
 Feature: Verify Search Role type is only able to see permitted product notification information
   As a OSU portal Admin
   I want to verify that search users are only viewing what they are permitted to view on product notifications
- 
   Background:
-  #authenticate the support user
-  Given the user visits the url: "https://staging-support.cosmetic-product-notifications.service.gov.uk"
-  When the user logs into the service
-  Then the user recieves text message and successfully authenticates using their verification code
 
+    #authenticate the support user
+    Given the user visits the url: "https://staging-support.cosmetic-product-notifications.service.gov.uk"
+    When the user logs into the service
+    Then the user recieves text message and successfully authenticates using their verification code
 
   Scenario: Verify Header
     Then the "OSU" user is shown header information
     And the "OSU" user is shown correct header information after signing out
+
 
   Scenario: Verify Footer
     Then the "OSU" user is shown footer information
