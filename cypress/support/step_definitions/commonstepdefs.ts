@@ -1260,6 +1260,12 @@ When("the OSU user looks for a search account", function (){
 
 Then("the OSU user deactivates and reactivates the account", function (){
   accountadminviewPage.deactivate();
+  cy.url().then($link =>{
+    const http = $link
+    if(http == "https://staging-submit.cosmetic-product-notifications.service.gov.uk/two-factor/sms"){
+      checkCodePage.fillOtpcode('11222')
+    }
+  })
   cy.get('button[class="govuk-button"]').contains("Confirm deactivate account").click()
   accountadminviewPage.reactivate()
 })
