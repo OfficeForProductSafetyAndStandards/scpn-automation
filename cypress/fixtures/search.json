@@ -1,14 +1,14 @@
 {
   "status": {
-    "archived": "TestProduct 829",
-    "notified": "TestProduct 173",
-    "completeProduct": "TestProduct 542"
+    "archived": "TestProduct 856",
+    "notified": "TestProduct 818",
+    "completeProduct": "TestProduct 705"
   },
   "account": {
     "email": "gileadbempah+search@gmail.com"
   },
   "completeProduct": {
-    "productname": "TestProduct 542",
+    "productname": "TestProduct 705",
     "forchildrenunderthree": "No",
     "numnberofitems": "2",
     "shades": "None",
@@ -17,22 +17,22 @@
     "nanomaterials": "Yes",
     "nanomaterialspurpose": "Another purpose",
     "nanomaterialnotified": "Yes",
-    "substance1": "Test Substance 544",
-    "substance1casno": "7238-71-9",
-    "substance1ecno": "421-360-7",
-    "substance2": "Test Substance 166",
-    "substance2casno": "2944-30-6",
-    "substance2ecno": "289-849-3",
-    "ingredient1CAS": "6326-56-4",
-    "ingredient2CAS": "5882-84-8",
+    "substance1": "Test Substance 311",
+    "substance1casno": "3359-23-8",
+    "substance1ecno": "501-454-3",
+    "substance2": "Test Substance 227",
+    "substance2casno": "5457-66-7",
+    "substance2ecno": "335-272-8",
+    "ingredient1CAS": "6556-62-1",
+    "ingredient2CAS": "1683-36-2",
     "notifiednanomaterial": "test nano",
     "exposurecondition": "Rinsed off",
     "exposurecondition1": "Left on",
     "exposureroutes": "Inhalation",
     "exposureroutes1": "Oral",
     "multiitemmixed": "No",
-    "itemname1": "Item Name 184",
-    "itemname2": "Item Name 351",
+    "itemname1": "Item Name 878",
+    "itemname2": "Item Name 620",
     "itemcategoryofproduct": "Skin product",
     "itemcategoryofproduct1": "Hair and scalp products",
     "itemproductsubcategory": "Skin care product",
@@ -43,11 +43,11 @@
     "itemphysicalform1": "Cream or paste",
     "itemapplicatortype": "Encapsulated",
     "itemcontainscmrsubstances": "Yes",
-    "ingredientname1": "Ingredient 432",
-    "ingredientname2": "Ingredient 746",
-    "ingredientweight": "29",
-    "ingredientweight1": "12",
-    "cosmeticnumber": "UKCP-04831244",
-    "uknotified": "7 December 2023"
+    "ingredientname1": "Ingredient 331",
+    "ingredientname2": "Ingredient 937",
+    "ingredientweight": "65",
+    "ingredientweight1": "56",
+    "cosmeticnumber": "UKCP-39854387",
+    "uknotified": "1 February 2024"
   }
 }
