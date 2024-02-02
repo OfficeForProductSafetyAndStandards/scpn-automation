@@ -4,6 +4,7 @@
     "@cypress/webpack-preprocessor": "latest",
     "cypress": "^12.17.4",
     "cypress-fs": "^0.2.4",
+    "date-fns": "^3.3.1",
     "fs": "0.0.1-security",
     "ts-loader": "latest",
     "webpack": "latest"
