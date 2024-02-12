@@ -8,9 +8,9 @@ class FooterPage {
                 checkLink("How to notify nanomaterials", "/guidance/how-to-notify-nanomaterials")
                 checkLink("How to prepare images for notification",  "/guidance/how-to-prepare-images-for-notification")
                 checkLink("Set up your authenticator app", "/guidance/how-to-set-up-authenticator-app")
-                checkLink("opss.enquiries@beis.gov.uk", "mailto:OPSS.enquiries@beis.gov.uk")
+                checkLink("opss.enquiries@beis.gov.uk", "mailto:opss.enquiries@beis.gov.uk?subject=Help requested on Submit Cosmetic Product Notifications")
                 if (accountType == "Submit") {
-                    checkLink("Accessibility Statement", "/help/accessibility-statement")
+                    checkLink("Accessibility statement", "/help/accessibility-statement")
                 }
                 checkLink("Privacy policy", '/help/privacy-notice')
                 checkLink("Terms and conditions", '/help/terms-and-conditions')
@@ -39,8 +39,8 @@ class FooterPage {
                         checkLink("How to notify nanomaterials", "/guidance/how-to-notify-nanomaterials")
                         checkLink("How to prepare images for notification",  "/guidance/how-to-prepare-images-for-notification")
                         checkLink("Set up your authenticator app", "/guidance/how-to-set-up-authenticator-app")
-                        checkLink("opss.enquiries@beis.gov.uk", "mailto:OPSS.enquiries@beis.gov.uk")
-                        checkLink("Accessibility Statement", "/help/accessibility-statement")
+                        checkLink("opss.enquiries@beis.gov.uk", "mailto:opss.enquiries@beis.gov.uk?subject=Help requested on Submit Cosmetic Product Notifications")
+                        checkLink("Accessibility statement", "/help/accessibility-statement")
                         checkLink("Privacy policy", '/help/privacy-notice')
                         checkLink("Terms and conditions", '/help/terms-and-conditions')
                         checkLink("Cookies", '/help/cookies')
