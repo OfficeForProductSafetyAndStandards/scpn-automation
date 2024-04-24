@@ -8,7 +8,7 @@ class FooterPage {
                 checkLink("How to notify nanomaterials", "/guidance/how-to-notify-nanomaterials")
                 checkLink("How to prepare images for notification", "/guidance/how-to-prepare-images-for-notification")
                 checkLink("Set up your authenticator app", "/guidance/how-to-set-up-authenticator-app")
-                checkLink("opss.enquiries@beis.gov.uk", "mailto:opss.enquiries@beis.gov.uk?subject=Help requested on Submit Cosmetic Product Notifications")
+                checkLink("opss.enquiries@businessandtrade.gov.uk", "mailto:opss.enquiries@businessandtrade.gov.uk?subject=Help requested on Submit Cosmetic Product Notifications")
                 if (accountType == "Submit") {
                     checkLink("Accessibility statement", "/help/accessibility-statement")
                 }
@@ -39,7 +39,7 @@ class FooterPage {
                         checkLink("How to notify nanomaterials", "/guidance/how-to-notify-nanomaterials")
                         checkLink("How to prepare images for notification", "/guidance/how-to-prepare-images-for-notification")
                         checkLink("Set up your authenticator app", "/guidance/how-to-set-up-authenticator-app")
-                        checkLink("opss.enquiries@beis.gov.uk", "mailto:opss.enquiries@beis.gov.uk?subject=Help requested on Submit Cosmetic Product Notifications")
+                        checkLink("opss.enquiries@businessandtrade.gov.uk", "mailto:opss.enquiries@businessandtrade.gov.uk?subject=Help requested on Submit Cosmetic Product Notifications")
                         checkLink("Accessibility statement", "/help/accessibility-statement")
                         checkLink("Privacy policy", '/help/privacy-notice')
                         checkLink("Terms and conditions", '/help/terms-and-conditions')
